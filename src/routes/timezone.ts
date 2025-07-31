@@ -134,21 +134,8 @@ export async function timezoneRoutes(fastify: FastifyInstance) {
   fastify.get<{ Params: RegionParams }>('/timezone/:area/:location/:region.txt', async (request: FastifyRequest<{ Params: RegionParams }>, reply: FastifyReply) => {
     try {
       const { area, location, region } = request.params;
-      const clientIp = request.ip;
       
-      // TODO: Implement actual time calculation logic
-      const response: DateTimeTextResponse = `abbreviation: EST
-client_ip: ${clientIp}
-datetime: ${new Date().toISOString()}
-day_of_week: ${new Date().getDay()}
-day_of_year: ${Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24))}
-dst: false
-dst_offset: 0
-timezone: ${area}/${location}/${region}
-unixtime: ${Math.floor(Date.now() / 1000)}
-utc_datetime: ${new Date().toISOString()}
-utc_offset: +00:00
-week_number: ${Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1}`;
+      const response: DateTimeTextResponse = formatAsText(getTime([area, location, region]));
       
       reply.type('text/plain');
       return response;
