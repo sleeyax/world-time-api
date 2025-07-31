@@ -1,11 +1,10 @@
-import TzData from "tzdata";
+import * as tc from "timezonecomplete";
 
 export function getTimeZones() {
-  return Object.keys(TzData.zones).sort();
+  return tc.TzDatabase.instance().zoneNames();
 }
 
 export function getTimeZonesByArea(area: string) {
-  return Object.keys(TzData.zones)
-    .filter(tz => tz.startsWith(area + '/'))
-    .sort();
+  return getTimeZones()
+    .filter(tz => tz.startsWith(area + '/'));
 }
