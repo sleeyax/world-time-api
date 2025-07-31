@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-06:00",
+  "timezone": "America/Chihuahua",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T10:05:04.735081-06:00",
+  "utc_datetime": "2025-07-31T16:05:04.735081+00:00",
+  "unixtime": 1753977904,
+  "raw_offset": -21600,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "CST",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

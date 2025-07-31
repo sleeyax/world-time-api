@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+09:00",
+  "timezone": "Asia/Khandyga",
+  "day_of_week": 5,
+  "day_of_year": 213,
+  "datetime": "2025-08-01T01:06:58.336465+09:00",
+  "utc_datetime": "2025-07-31T16:06:58.336465+00:00",
+  "unixtime": 1753978018,
+  "raw_offset": 32400,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+09",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

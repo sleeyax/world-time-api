@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+03:00",
+  "timezone": "Europe/Mariehamn",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T19:09:21.940418+03:00",
+  "utc_datetime": "2025-07-31T16:09:21.940418+00:00",
+  "unixtime": 1753978161,
+  "raw_offset": 7200,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "EEST",
+  "dst_offset": 3600,
+  "dst_from": "2025-03-30T01:00:00+00:00",
+  "dst_until": "2025-10-26T01:00:00+00:00"
+}

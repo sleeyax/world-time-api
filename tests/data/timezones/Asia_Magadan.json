@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+11:00",
+  "timezone": "Asia/Magadan",
+  "day_of_week": 5,
+  "day_of_year": 213,
+  "datetime": "2025-08-01T03:07:02.723803+11:00",
+  "utc_datetime": "2025-07-31T16:07:02.723803+00:00",
+  "unixtime": 1753978022,
+  "raw_offset": 39600,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+11",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

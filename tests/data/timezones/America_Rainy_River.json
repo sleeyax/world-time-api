@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-05:00",
+  "timezone": "America/Rainy_River",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T11:06:13.876904-05:00",
+  "utc_datetime": "2025-07-31T16:06:13.876904+00:00",
+  "unixtime": 1753977973,
+  "raw_offset": -21600,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "CDT",
+  "dst_offset": 3600,
+  "dst_from": "2025-03-09T08:00:00+00:00",
+  "dst_until": "2025-11-02T07:00:00+00:00"
+}

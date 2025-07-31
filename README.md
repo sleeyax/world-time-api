@@ -1,6 +1,8 @@
 # World Time API
 
-A [World Time API](http://worldtimeapi.org/) clone built with Fastify and TypeScript.
+A [World Time API](http://worldtimeapi.org/) clone built with Fastify and TypeScript. It's a drop-in replacement except for the following minor difference:
+
+- ISO 8601 date strings are formatted with 3 decimal places (milliseconds) instead of 6 (microseconds).
 
 ## Why?
 I got tired of the original World Time API being down frequently, so I challenged myself to a freestyle coding challenge to build a reliable clone within 24 hours. Turns out it wasn't that hard.

@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-12:00",
+  "timezone": "Etc/GMT+12",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T04:09:10.124320-12:00",
+  "utc_datetime": "2025-07-31T16:09:10.124320+00:00",
+  "unixtime": 1753978150,
+  "raw_offset": -43200,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "-12",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+03:00",
+  "timezone": "Asia/Gaza",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T19:06:45.396297+03:00",
+  "utc_datetime": "2025-07-31T16:06:45.396297+00:00",
+  "unixtime": 1753978005,
+  "raw_offset": 7200,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "EEST",
+  "dst_offset": 3600,
+  "dst_from": "2025-04-12T00:00:00+00:00",
+  "dst_until": "2025-10-24T23:00:00+00:00"
+}

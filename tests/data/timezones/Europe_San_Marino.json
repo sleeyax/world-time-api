@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+02:00",
+  "timezone": "Europe/San_Marino",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T18:09:24.146418+02:00",
+  "utc_datetime": "2025-07-31T16:09:24.146418+00:00",
+  "unixtime": 1753978164,
+  "raw_offset": 3600,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "CEST",
+  "dst_offset": 3600,
+  "dst_from": "2025-03-30T01:00:00+00:00",
+  "dst_until": "2025-10-26T01:00:00+00:00"
+}

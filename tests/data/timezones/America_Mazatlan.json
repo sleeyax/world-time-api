@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-07:00",
+  "timezone": "America/Mazatlan",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T09:05:51.160831-07:00",
+  "utc_datetime": "2025-07-31T16:05:51.160831+00:00",
+  "unixtime": 1753977951,
+  "raw_offset": -25200,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "MST",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

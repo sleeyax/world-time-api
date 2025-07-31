@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+09:00",
+  "timezone": "Pacific/Palau",
+  "day_of_week": 5,
+  "day_of_year": 213,
+  "datetime": "2025-08-01T01:10:24.825933+09:00",
+  "utc_datetime": "2025-07-31T16:10:24.825933+00:00",
+  "unixtime": 1753978224,
+  "raw_offset": 32400,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+09",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

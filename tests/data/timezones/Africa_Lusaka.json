@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+02:00",
+  "timezone": "Africa/Lusaka",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T18:04:32.371538+02:00",
+  "utc_datetime": "2025-07-31T16:04:32.371538+00:00",
+  "unixtime": 1753977872,
+  "raw_offset": 7200,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "CAT",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

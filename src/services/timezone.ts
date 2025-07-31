@@ -1,5 +1,6 @@
 import * as tc from "timezonecomplete";
 import { DateTimeJsonResponse } from "../types/api";
+import { toHmString, toISOWithoutFractionalZeros } from "../utils/world-time-compatibility";
 
 export function getTimeZones() {
   return tc.TzDatabase.instance().zoneNames();
@@ -13,7 +14,8 @@ export function getTimeZonesByArea(area: string) {
 export function getTime(zone: string[] | string, utcDateTime: tc.DateTime = tc.DateTime.nowUtc()): DateTimeJsonResponse {
   const timezone = tc.TimeZone.zone(Array.isArray(zone) ? zone.join('/') : zone);
   const dateTime = utcDateTime.toZone(timezone);
-  const unixTime = dateTime.unixUtcMillis();
+  const unixTimeMillis = dateTime.unixUtcMillis();
+  const unizTimeSeconds = Math.floor(unixTimeMillis / 1000);
   const utcOffset = dateTime.offsetDuration();
   const utcOffsetRaw = dateTime.standardOffsetDuration();
   const dayOfWeek = dateTime.weekDay();
@@ -23,22 +25,24 @@ export function getTime(zone: string[] | string, utcDateTime: tc.DateTime = tc.D
   const dst = timezone.dst();
   const dstOffset = dst ? utcOffset.seconds() - utcOffsetRaw.seconds() : 0;
   const dstTransitions = getDstTransitions(timezone.name(), dateTime.year());
+  const dstFrom = dstTransitions.dstStart ? toISOWithoutFractionalZeros(dstTransitions.dstStart.toIsoString()) : null;
+  const dstUntil = dstTransitions.dstEnd ? toISOWithoutFractionalZeros(dstTransitions.dstEnd.toIsoString()) : null;
 
   return {
-    utc_datetime: utcDateTime.toIsoString(),
+    abbreviation,
     datetime: dateTime.toIsoString(),
-    utc_offset: toHmString(utcOffset),
-    timezone: timezone.name(),
     day_of_week: dayOfWeek,
     day_of_year: dayOfYear,
-    unixtime: unixTime,
-    raw_offset: utcOffsetRaw.seconds(),
-    week_number: weekNumber,
     dst: dst,
-    abbreviation,
+    dst_from: dstFrom,
     dst_offset: dstOffset,
-    dst_from: dstTransitions.dstStart?.toIsoString() ?? null,
-    dst_until: dstTransitions.dstEnd?.toIsoString() ?? null,
+    dst_until: dstUntil,
+    raw_offset: utcOffsetRaw.seconds(),
+    timezone: timezone.name(),
+    unixtime: unizTimeSeconds,
+    utc_datetime: utcDateTime.toIsoString(),
+    utc_offset: toHmString(utcOffset),
+    week_number: weekNumber,
   }
 }
 
@@ -60,8 +64,4 @@ function getDstTransitions(zoneName: string, year: number): { dstStart: tc.DateT
     dstStart: firstChange ? new tc.DateTime(firstChange, tc.utc()) : null,
     dstEnd: secondChange ? new tc.DateTime(secondChange, tc.utc()) : null
   };
-}
-
-function toHmString(duration: tc.Duration): string {
-  return duration.toFullString().split(":").slice(0, 2).join(":");
 }

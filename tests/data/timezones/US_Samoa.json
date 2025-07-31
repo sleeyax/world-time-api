@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-11:00",
+  "timezone": "US/Samoa",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T05:10:31.812872-11:00",
+  "utc_datetime": "2025-07-31T16:10:31.812872+00:00",
+  "unixtime": 1753978231,
+  "raw_offset": -39600,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "SST",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

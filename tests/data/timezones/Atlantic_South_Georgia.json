@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-02:00",
+  "timezone": "Atlantic/South_Georgia",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T14:08:59.545354-02:00",
+  "utc_datetime": "2025-07-31T16:08:59.545354+00:00",
+  "unixtime": 1753978139,
+  "raw_offset": -7200,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "-02",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

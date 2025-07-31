@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+03:00",
+  "timezone": "Africa/Mogadishu",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T19:04:35.935698+03:00",
+  "utc_datetime": "2025-07-31T16:04:35.935698+00:00",
+  "unixtime": 1753977875,
+  "raw_offset": 10800,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "EAT",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

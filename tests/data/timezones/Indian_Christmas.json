@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+07:00",
+  "timezone": "Indian/Christmas",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T23:10:11.852027+07:00",
+  "utc_datetime": "2025-07-31T16:10:11.852027+00:00",
+  "unixtime": 1753978211,
+  "raw_offset": 25200,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+07",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

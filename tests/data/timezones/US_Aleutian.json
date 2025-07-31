@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-09:00",
+  "timezone": "US/Aleutian",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T07:10:29.403846-09:00",
+  "utc_datetime": "2025-07-31T16:10:29.403846+00:00",
+  "unixtime": 1753978229,
+  "raw_offset": -36000,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "HDT",
+  "dst_offset": 3600,
+  "dst_from": "2025-03-09T12:00:00+00:00",
+  "dst_until": "2025-11-02T11:00:00+00:00"
+}

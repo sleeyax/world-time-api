@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+08:00",
+  "timezone": "Asia/Harbin",
+  "day_of_week": 5,
+  "day_of_year": 213,
+  "datetime": "2025-08-01T00:06:45.662165+08:00",
+  "utc_datetime": "2025-07-31T16:06:45.662165+00:00",
+  "unixtime": 1753978005,
+  "raw_offset": 28800,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "CST",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

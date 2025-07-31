@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-03:00",
+  "timezone": "America/Punta_Arenas",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T13:06:13.552708-03:00",
+  "utc_datetime": "2025-07-31T16:06:13.552708+00:00",
+  "unixtime": 1753977973,
+  "raw_offset": -10800,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "-03",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

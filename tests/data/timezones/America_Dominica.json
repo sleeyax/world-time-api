@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-04:00",
+  "timezone": "America/Dominica",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T12:05:16.110738-04:00",
+  "utc_datetime": "2025-07-31T16:05:16.110738+00:00",
+  "unixtime": 1753977916,
+  "raw_offset": -14400,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "AST",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

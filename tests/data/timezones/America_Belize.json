@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-06:00",
+  "timezone": "America/Belize",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T10:04:54.378148-06:00",
+  "utc_datetime": "2025-07-31T16:04:54.378148+00:00",
+  "unixtime": 1753977894,
+  "raw_offset": -21600,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "CST",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

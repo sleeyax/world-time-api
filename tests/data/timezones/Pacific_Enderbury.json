@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+13:00",
+  "timezone": "Pacific/Enderbury",
+  "day_of_week": 5,
+  "day_of_year": 213,
+  "datetime": "2025-08-01T05:10:19.239195+13:00",
+  "utc_datetime": "2025-07-31T16:10:19.239195+00:00",
+  "unixtime": 1753978219,
+  "raw_offset": 46800,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+13",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

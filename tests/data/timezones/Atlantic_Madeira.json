@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+01:00",
+  "timezone": "Atlantic/Madeira",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T17:08:59.252985+01:00",
+  "utc_datetime": "2025-07-31T16:08:59.252985+00:00",
+  "unixtime": 1753978139,
+  "raw_offset": 0,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "WEST",
+  "dst_offset": 3600,
+  "dst_from": "2025-03-30T01:00:00+00:00",
+  "dst_until": "2025-10-26T01:00:00+00:00"
+}

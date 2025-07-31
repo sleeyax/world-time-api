@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+05:00",
+  "timezone": "Asia/Qyzylorda",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T21:08:53.205431+05:00",
+  "utc_datetime": "2025-07-31T16:08:53.205431+00:00",
+  "unixtime": 1753978133,
+  "raw_offset": 18000,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+05",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

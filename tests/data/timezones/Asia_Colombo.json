@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+05:30",
+  "timezone": "Asia/Colombo",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T21:36:42.007911+05:30",
+  "utc_datetime": "2025-07-31T16:06:42.007911+00:00",
+  "unixtime": 1753978002,
+  "raw_offset": 19800,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+0530",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

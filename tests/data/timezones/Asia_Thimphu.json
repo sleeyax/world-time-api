@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+06:00",
+  "timezone": "Asia/Thimphu",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T22:08:55.905039+06:00",
+  "utc_datetime": "2025-07-31T16:08:55.905039+00:00",
+  "unixtime": 1753978135,
+  "raw_offset": 21600,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+06",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-08:00",
+  "timezone": "Pacific/Pitcairn",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T08:10:24.947698-08:00",
+  "utc_datetime": "2025-07-31T16:10:24.947698+00:00",
+  "unixtime": 1753978224,
+  "raw_offset": -28800,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "-08",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

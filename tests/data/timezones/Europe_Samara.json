@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+04:00",
+  "timezone": "Europe/Samara",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T20:09:23.956302+04:00",
+  "utc_datetime": "2025-07-31T16:09:23.956302+00:00",
+  "unixtime": 1753978163,
+  "raw_offset": 14400,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+04",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

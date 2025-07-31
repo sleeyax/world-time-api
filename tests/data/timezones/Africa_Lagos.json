@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+01:00",
+  "timezone": "Africa/Lagos",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T17:04:28.882464+01:00",
+  "utc_datetime": "2025-07-31T16:04:28.882464+00:00",
+  "unixtime": 1753977868,
+  "raw_offset": 3600,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "WAT",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

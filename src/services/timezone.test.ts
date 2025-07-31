@@ -1,6 +1,9 @@
 import { DateTime } from 'timezonecomplete';
 import { getTime, getTimeZones, getTimeZonesByArea } from './timezone';
-import * as tc from "timezonecomplete";
+import { readFileSync, readdirSync } from 'fs';
+import { join } from 'path';
+import { DateTimeJsonResponse } from '../types/api';
+import { toISOWithMilliseconds } from '../utils/world-time-compatibility';
 
 describe('Timezone Service', () => {
   describe('getTimeZones', () => {
@@ -56,27 +59,40 @@ describe('Timezone Service', () => {
   });
 
   describe('getTime', () => {
-    it('should get time of America/Chicago', () => {
-      const area = 'America';
-      const location = 'Chicago';
-      // 2025-07-31 13:00:00
-      var utcDate = new DateTime(2025, 7, 31, 13, 0, 0, 0, tc.utc());
-      const time = getTime([area, location], utcDate);
-      
-      expect(time.utc_datetime).toMatch("2025-07-31T13:00:00.000+00:00");
-      expect(time.datetime).toMatch("2025-07-31T08:00:00.000-05:00");
-      expect(time.utc_offset).toMatch("-05:00");
-      expect(time.timezone).toBe('America/Chicago');
-      expect(time.day_of_week).toBe(4);
-      expect(time.day_of_year).toBe(212);
-      expect(time.unixtime).toBe(1753966800000);
-      expect(time.raw_offset).toBe(-21600);
-      expect(time.week_number).toBe(31);
-      expect(time.dst).toBe(true);
-      expect(time.abbreviation).toBe('CDT');
-      expect(time.dst_offset).toBe(3600);
-      expect(time.dst_from).toBe("2025-03-09T08:00:00.000+00:00");
-      expect(time.dst_until).toBe("2025-11-02T07:00:00.000+00:00");
+    const testDataDir = join(process.cwd(), 'tests', 'data', 'timezones');
+    // Jest doesn't support async data passed into test.each so we must uses sync APIs here.
+    const files = readdirSync(testDataDir);
+    const timezones = files
+      .filter(file => file.endsWith('.json'))
+      .map(file => [file.replace('.json', '').replaceAll('_', '/')]);
+
+    describe('world time api compatibility', () => {
+      const getTestData = (timezone: string) => {
+        const testFilePath = `${testDataDir}/${timezone.replaceAll("/", "_")}.json`;
+        const testFile = readFileSync(testFilePath, 'utf-8');
+        return JSON.parse(testFile) as DateTimeJsonResponse;
+      }
+
+      test.each(timezones)('should match time of %s', (timezone) => {
+        const expected = getTestData(timezone);
+        const utcDate = new DateTime(expected.utc_datetime);
+        const actual = getTime(timezone, utcDate);
+  
+        expect(actual.utc_datetime).toBe(toISOWithMilliseconds(expected.utc_datetime));
+        expect(actual.datetime).toBe(toISOWithMilliseconds(expected.datetime));
+        expect(actual.utc_offset).toBe(expected.utc_offset);
+        expect(actual.timezone).toBe(expected.timezone);
+        expect(actual.day_of_week).toBe(expected.day_of_week);
+        expect(actual.day_of_year).toBe(expected.day_of_year);
+        expect(actual.unixtime).toBe(expected.unixtime);
+        expect(actual.raw_offset).toBe(expected.raw_offset);
+        expect(actual.week_number).toBe(expected.week_number);
+        expect(actual.dst).toBe(expected.dst);
+        expect(actual.abbreviation).toBe(expected.abbreviation);
+        expect(actual.dst_offset).toBe(expected.dst_offset);
+        expect(actual.dst_from).toBe(expected.dst_from);
+        expect(actual.dst_until).toBe(expected.dst_until);
+      });
     });
   });
 });

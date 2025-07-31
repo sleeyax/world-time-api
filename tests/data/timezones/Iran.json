@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+03:30",
+  "timezone": "Iran",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T19:40:14.012288+03:30",
+  "utc_datetime": "2025-07-31T16:10:14.012288+00:00",
+  "unixtime": 1753978214,
+  "raw_offset": 12600,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+0330",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

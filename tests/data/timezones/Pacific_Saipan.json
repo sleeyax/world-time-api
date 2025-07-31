@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+10:00",
+  "timezone": "Pacific/Saipan",
+  "day_of_week": 5,
+  "day_of_year": 213,
+  "datetime": "2025-08-01T02:10:25.995309+10:00",
+  "utc_datetime": "2025-07-31T16:10:25.995309+00:00",
+  "unixtime": 1753978225,
+  "raw_offset": 36000,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "ChST",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

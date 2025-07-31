@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-02:00",
+  "timezone": "America/Miquelon",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T14:05:56.321516-02:00",
+  "utc_datetime": "2025-07-31T16:05:56.321516+00:00",
+  "unixtime": 1753977956,
+  "raw_offset": -10800,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "-02",
+  "dst_offset": 3600,
+  "dst_from": "2025-03-09T05:00:00+00:00",
+  "dst_until": "2025-11-02T04:00:00+00:00"
+}

@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+06:30",
+  "timezone": "Asia/Rangoon",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T22:38:53.316502+06:30",
+  "utc_datetime": "2025-07-31T16:08:53.316502+00:00",
+  "unixtime": 1753978133,
+  "raw_offset": 23400,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+0630",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

@@ -1,0 +1,16 @@
+{
+  "utc_offset": "-05:00",
+  "timezone": "Canada/Central",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T11:09:06.167479-05:00",
+  "utc_datetime": "2025-07-31T16:09:06.167479+00:00",
+  "unixtime": 1753978146,
+  "raw_offset": -21600,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "CDT",
+  "dst_offset": 3600,
+  "dst_from": "2025-03-09T08:00:00+00:00",
+  "dst_until": "2025-11-02T07:00:00+00:00"
+}

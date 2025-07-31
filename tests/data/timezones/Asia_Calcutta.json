@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+05:30",
+  "timezone": "Asia/Calcutta",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T21:36:39.029831+05:30",
+  "utc_datetime": "2025-07-31T16:06:39.029831+00:00",
+  "unixtime": 1753977999,
+  "raw_offset": 19800,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "IST",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}

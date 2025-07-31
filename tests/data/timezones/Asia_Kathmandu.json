@@ -1,0 +1,16 @@
+{
+  "utc_offset": "+05:45",
+  "timezone": "Asia/Kathmandu",
+  "day_of_week": 4,
+  "day_of_year": 212,
+  "datetime": "2025-07-31T21:51:57.646236+05:45",
+  "utc_datetime": "2025-07-31T16:06:57.646236+00:00",
+  "unixtime": 1753978017,
+  "raw_offset": 20700,
+  "week_number": 31,
+  "dst": false,
+  "abbreviation": "+0545",
+  "dst_offset": 0,
+  "dst_from": null,
+  "dst_until": null
+}
