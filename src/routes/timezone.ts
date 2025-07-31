@@ -66,8 +66,7 @@ export async function timezoneRoutes(fastify: FastifyInstance) {
     try {
       const { area } = request.params;
       
-      // TODO: Implement area-specific timezone listing logic
-      const timezones: ListTextResponse = `${area}/City1\n${area}/City2`;
+      const timezones: ListTextResponse = getTimeZonesByArea(area).join('\n');
       
       reply.type('text/plain');
       return timezones;
