@@ -10,7 +10,7 @@ import {
   ErrorJsonResponse,
   ErrorTextResponse
 } from '../types/api';
-import { getTimeZones, getTimeZonesByArea } from '../services/timezone';
+import { getTime, getTimeZones, getTimeZonesByArea } from '../services/timezone';
 
 export async function timezoneRoutes(fastify: FastifyInstance) {
   // GET /timezone - List all timezones (JSON)
@@ -81,23 +81,8 @@ export async function timezoneRoutes(fastify: FastifyInstance) {
   fastify.get<{ Params: LocationParams }>('/timezone/:area/:location', async (request: FastifyRequest<{ Params: LocationParams }>, reply: FastifyReply) => {
     try {
       const { area, location } = request.params;
-      const clientIp = request.ip;
       
-      // TODO: Implement actual time calculation logic
-      const response: DateTimeJsonResponse = {
-        abbreviation: 'EST',
-        client_ip: clientIp,
-        datetime: new Date().toISOString(),
-        day_of_week: new Date().getDay(),
-        day_of_year: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)),
-        dst: false,
-        dst_offset: 0,
-        timezone: `${area}/${location}`,
-        unixtime: Math.floor(Date.now() / 1000),
-        utc_datetime: new Date().toISOString(),
-        utc_offset: '+00:00',
-        week_number: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1
-      };
+      const response: DateTimeJsonResponse = getTime(area, location);
       
       reply.type('application/json');
       return response;
@@ -148,7 +133,6 @@ week_number: ${Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1)
       // TODO: Implement actual time calculation logic
       const response: DateTimeJsonResponse = {
         abbreviation: 'EST',
-        client_ip: clientIp,
         datetime: new Date().toISOString(),
         day_of_week: new Date().getDay(),
         day_of_year: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)),
