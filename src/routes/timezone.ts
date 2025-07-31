@@ -16,7 +16,7 @@ export async function timezoneRoutes(fastify: FastifyInstance) {
   // GET /timezone - List all timezones (JSON)
   fastify.get('/timezone', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const timezones: ListJsonResponse = Object.keys(TzData.zones);
+      const timezones: ListJsonResponse = Object.keys(TzData.zones).sort();
       reply.type('application/json');
       return timezones;
     } catch (error) {
