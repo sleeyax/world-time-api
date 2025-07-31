@@ -12,6 +12,18 @@ describe('Integration Tests', () => {
     await app.close();
   });
 
+  it('should have health endpoint', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/health',
+    });
+
+    expect(response.statusCode).toBe(200);
+    const body = JSON.parse(response.body);
+    expect(body.status).toBe('ok');
+    expect(body.timestamp).toBeDefined();
+  });
+
   describe('API Workflow', () => {
     it('should handle complete timezone workflow', async () => {
       // 1. Get all timezones
