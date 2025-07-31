@@ -6,30 +6,35 @@ import {
   ErrorJsonResponse,
   ErrorTextResponse
 } from '../types/api';
+import { lookupIP } from '../services/ip';
+import { getTime } from '../services/timezone';
 
 export async function ipRoutes(fastify: FastifyInstance) {
   // GET /ip - Get time based on client IP (JSON)
   fastify.get('/ip', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const clientIp = request.ip;
+      const geo = await lookupIP(clientIp);
+
+      if (!geo) {
+        reply.code(404);
+        const errorResponse: ErrorJsonResponse = {
+          error: `Couldn't find geo data for IP`
+        };
+        return errorResponse;
+      }
+
+      const timezone = geo.location?.time_zone;
       
-      // TODO: Implement IP-based timezone detection and time calculation logic
-      const response: DateTimeJsonResponse = {
-        abbreviation: 'UTC',
-        datetime: new Date().toISOString(),
-        day_of_week: new Date().getDay(),
-        day_of_year: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)),
-        dst: false,
-        dst_offset: 0,
-        timezone: 'UTC',
-        unixtime: Math.floor(Date.now() / 1000),
-        utc_datetime: new Date().toISOString(),
-        utc_offset: '+00:00',
-        week_number: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1,
-        dst_from: null,
-        dst_until: null,
-        raw_offset: null,
-      };
+      if (!timezone) {
+        reply.code(404);
+        const errorResponse: ErrorJsonResponse = {
+          error: `Couldn't find timezone for IP`
+        };
+        return errorResponse;
+      }
+      
+      const response: DateTimeJsonResponse = getTime(timezone)
       
       reply.type('application/json');
       return response;
