@@ -10,13 +10,14 @@ import {
   ErrorJsonResponse,
   ErrorTextResponse
 } from '../types/api';
-import TzData from "tzdata"
+import { getTimeZones } from '../services/timezone';
 
 export async function timezoneRoutes(fastify: FastifyInstance) {
   // GET /timezone - List all timezones (JSON)
   fastify.get('/timezone', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const timezones: ListJsonResponse = Object.keys(TzData.zones).sort();
+      const timezones: ListJsonResponse = getTimeZones();
+
       reply.type('application/json');
       return timezones;
     } catch (error) {
@@ -32,7 +33,7 @@ export async function timezoneRoutes(fastify: FastifyInstance) {
   fastify.get('/timezone.txt', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       // TODO: Implement timezone listing logic
-      const timezones: ListTextResponse = 'America/New_York\nEurope/London\nAsia/Tokyo\nAustralia/Sydney';
+      const timezones: ListTextResponse = getTimeZones().join('\n');
       
       reply.type('text/plain');
       return timezones;
