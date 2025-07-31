@@ -1,5 +1,6 @@
 function objectToString(obj: any): string {
   return Object.entries(obj)
+    .filter(([_, value]) => value != null)
     .map(([key, value]) => `${key}: ${value}`)
     .join('\n');
 }
