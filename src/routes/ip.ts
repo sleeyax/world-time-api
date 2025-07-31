@@ -16,7 +16,6 @@ export async function ipRoutes(fastify: FastifyInstance) {
       // TODO: Implement IP-based timezone detection and time calculation logic
       const response: DateTimeJsonResponse = {
         abbreviation: 'UTC',
-        client_ip: clientIp,
         datetime: new Date().toISOString(),
         day_of_week: new Date().getDay(),
         day_of_year: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)),
@@ -77,7 +76,6 @@ week_number: ${Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1)
       // TODO: Implement specific IP-based timezone detection and time calculation logic
       const response: DateTimeJsonResponse = {
         abbreviation: 'UTC',
-        client_ip: clientIp,
         datetime: new Date().toISOString(),
         day_of_week: new Date().getDay(),
         day_of_year: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)),

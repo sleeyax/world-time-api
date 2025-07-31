@@ -1,4 +1,4 @@
-import { buildApp } from '../../src/index';
+import { buildApp } from '../index';
 import { FastifyInstance } from 'fastify';
 
 describe('IP Routes', () => {
