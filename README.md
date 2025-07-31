@@ -1,6 +1,9 @@
 # World Time API
 
-A World Time API clone built with Fastify and TypeScript, implementing all endpoints from the [original World Time API]() specification.
+A [World Time API](http://worldtimeapi.org/) clone built with Fastify and TypeScript.
+
+## Why?
+I got tired of the original World Time API being down frequently, so I challenged myself to a freestyle coding challenge to build a reliable clone within 24 hours. Turns out it wasn't that hard.
 
 ## Data Sources
 We use the following open data sources to provide accurate timezone information:
