@@ -10,7 +10,7 @@ import {
   ErrorJsonResponse,
   ErrorTextResponse
 } from '../types/api';
-import { getTimeZones } from '../services/timezone';
+import { getTimeZones, getTimeZonesByArea } from '../services/timezone';
 
 export async function timezoneRoutes(fastify: FastifyInstance) {
   // GET /timezone - List all timezones (JSON)
@@ -32,7 +32,6 @@ export async function timezoneRoutes(fastify: FastifyInstance) {
   // GET /timezone.txt - List all timezones (plain text)
   fastify.get('/timezone.txt', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      // TODO: Implement timezone listing logic
       const timezones: ListTextResponse = getTimeZones().join('\n');
       
       reply.type('text/plain');
@@ -49,11 +48,7 @@ export async function timezoneRoutes(fastify: FastifyInstance) {
     try {
       const { area } = request.params;
       
-      // TODO: Implement area-specific timezone listing logic
-      const timezones: ListJsonResponse = [
-        `${area}/City1`,
-        `${area}/City2`
-      ];
+      const timezones: ListJsonResponse = getTimeZonesByArea(area);
       
       reply.type('application/json');
       return timezones;
