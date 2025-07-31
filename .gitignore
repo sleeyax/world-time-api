@@ -2,3 +2,14 @@ node_modules/
 dist/
 build/
 .env
+
+# Test coverage
+coverage/
+*.lcov
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
