@@ -21,12 +21,13 @@ export function getTime(zone: string[] | string, utcDateTime: tc.DateTime = tc.D
   const dayOfWeek = dateTime.weekDay();
   const dayOfYear = dateTime.dayOfYear() + 1; // starts counting at 0
   const weekNumber = dateTime.weekNumber();
-  const abbreviation = dateTime.zoneAbbreviation();
-  const dst = timezone.dst();
+  const abbreviation = getZoneAbbreviation(dateTime, utcOffset); 
+  const dst = utcOffset.seconds() !== utcOffsetRaw.seconds();
   const dstOffset = dst ? utcOffset.seconds() - utcOffsetRaw.seconds() : 0;
-  const dstTransitions = getDstTransitions(timezone.name(), dateTime.year());
+  const dstTransitions = dst ? getDstTransitions(timezone.name(), dateTime.year()) : { dstStart: null, dstEnd: null };
   const dstFrom = dstTransitions.dstStart ? toISOWithoutFractionalZeros(dstTransitions.dstStart.toIsoString()) : null;
   const dstUntil = dstTransitions.dstEnd ? toISOWithoutFractionalZeros(dstTransitions.dstEnd.toIsoString()) : null;
+  const rawOffset = utcOffsetRaw.seconds() === -0 ? 0 : utcOffsetRaw.seconds();
 
   return {
     utc_offset: toHmString(utcOffset),
@@ -36,7 +37,7 @@ export function getTime(zone: string[] | string, utcDateTime: tc.DateTime = tc.D
     datetime: dateTime.toIsoString(),
     utc_datetime: utcDateTime.toIsoString(),
     unixtime: unizTimeSeconds,
-    raw_offset: utcOffsetRaw.seconds(),
+    raw_offset: rawOffset,
     week_number: weekNumber,
     dst: dst,
     abbreviation,
@@ -64,4 +65,24 @@ function getDstTransitions(zoneName: string, year: number): { dstStart: tc.DateT
     dstStart: firstChange ? new tc.DateTime(firstChange, tc.utc()) : null,
     dstEnd: secondChange ? new tc.DateTime(secondChange, tc.utc()) : null
   };
+}
+
+function getZoneAbbreviation(dateTime: tc.DateTime, utcOffset: tc.Duration) {
+  let abbreviation = dateTime.zoneAbbreviation();
+
+  // Fallback in case it's an unknown zones.
+  if (abbreviation === "%z" || abbreviation === "") {
+    // Extract abbreviation from UTC offset 
+    // "+01:00" -> "+01", "-09:30" -> "-0930", "+03:00" -> "+03"
+    const offsetString = toHmString(utcOffset);
+    if (offsetString.endsWith(":00")) {
+      // Remove ":00" for hour-only offsets (e.g., "+01:00" -> "+01")
+      abbreviation = offsetString.slice(0, -3);
+    } else {
+      // Remove colon for offsets with minutes (e.g., "-09:30" -> "-0930")
+      abbreviation = offsetString.replace(":", "");
+    }
+  }
+
+  return abbreviation;
 }
