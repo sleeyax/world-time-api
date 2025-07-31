@@ -61,7 +61,7 @@ describe('Timezone Service', () => {
       const location = 'Chicago';
       // 2025-07-31 13:00:00
       var utcDate = new DateTime(2025, 7, 31, 13, 0, 0, 0, tc.utc());
-      const time = getTime(area, location, utcDate);
+      const time = getTime([area, location], utcDate);
       
       expect(time.utc_datetime).toMatch("2025-07-31T13:00:00.000+00:00");
       expect(time.datetime).toMatch("2025-07-31T08:00:00.000-05:00");

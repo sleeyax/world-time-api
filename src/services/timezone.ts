@@ -10,8 +10,8 @@ export function getTimeZonesByArea(area: string) {
     .filter(tz => tz.startsWith(area + '/'));
 }
 
-export function getTime(area: string, location: string, utcDateTime: tc.DateTime = tc.DateTime.nowUtc()): DateTimeJsonResponse {
-  const timezone = tc.TimeZone.zone(area + '/' + location);
+export function getTime(zone: string[], utcDateTime: tc.DateTime = tc.DateTime.nowUtc()): DateTimeJsonResponse {
+  const timezone = tc.TimeZone.zone(zone.join('/'));
   const dateTime = utcDateTime.toZone(timezone);
   const unixTime = dateTime.unixUtcMillis();
   const utcOffset = dateTime.offsetDuration();
