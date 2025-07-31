@@ -18,8 +18,8 @@
     "world-time-api",
     "timezone"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Sleeyax",
+  "license": "",
   "type": "commonjs",
   "dependencies": {
     "@fastify/cors": "^11.0.1",

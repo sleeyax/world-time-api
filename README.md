@@ -1,6 +1,12 @@
 # World Time API
 
-A World Time API clone built with Fastify and TypeScript, implementing all endpoints from the original World Time API specification.
+A World Time API clone built with Fastify and TypeScript, implementing all endpoints from the [original World Time API]() specification.
+
+## Data Sources
+We use the following open data sources to provide accurate timezone information:
+
+- Timezone data from [IANA timezone database](https://www.iana.org/time-zones)
+- Geo IP data from [maxmind geolite2](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/)
 
 ## Features
 
@@ -124,26 +130,3 @@ src/
 
 - `PORT` - Server port (default: 3000)
 - `HOST` - Server host (default: 0.0.0.0)
-
-## TODO
-
-The basic API structure is implemented with placeholder responses. The following business logic needs to be implemented:
-
-- [ ] Actual timezone data and calculations
-- [ ] IP geolocation for timezone detection
-- [ ] Daylight saving time calculations
-- [ ] Real timezone abbreviations
-- [ ] Week number calculations
-- [ ] Error handling for invalid timezones/IPs
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## License
-
-ISC
