@@ -29,20 +29,20 @@ export function getTime(zone: string[] | string, utcDateTime: tc.DateTime = tc.D
   const dstUntil = dstTransitions.dstEnd ? toISOWithoutFractionalZeros(dstTransitions.dstEnd.toIsoString()) : null;
 
   return {
-    abbreviation,
-    datetime: dateTime.toIsoString(),
+    utc_offset: toHmString(utcOffset),
+    timezone: timezone.name(),
     day_of_week: dayOfWeek,
     day_of_year: dayOfYear,
-    dst: dst,
-    dst_from: dstFrom,
-    dst_offset: dstOffset,
-    dst_until: dstUntil,
-    raw_offset: utcOffsetRaw.seconds(),
-    timezone: timezone.name(),
-    unixtime: unizTimeSeconds,
+    datetime: dateTime.toIsoString(),
     utc_datetime: utcDateTime.toIsoString(),
-    utc_offset: toHmString(utcOffset),
+    unixtime: unizTimeSeconds,
+    raw_offset: utcOffsetRaw.seconds(),
     week_number: weekNumber,
+    dst: dst,
+    abbreviation,
+    dst_offset: dstOffset,
+    dst_from: dstFrom,
+    dst_until: dstUntil,
   }
 }
 
