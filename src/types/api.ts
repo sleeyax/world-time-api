@@ -13,9 +13,9 @@ export interface DateTimeJsonResponse {
   utc_datetime: string;
   utc_offset: string;
   week_number: number;
-  dst_from?: string;
-  dst_until?: string;
-  raw_offset?: number;
+  dst_from: string | null;
+  dst_until: string | null;
+  raw_offset: number | null;
 }
 
 export type DateTimeTextResponse = string;

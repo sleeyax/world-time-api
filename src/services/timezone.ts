@@ -37,16 +37,16 @@ export function getTime(zone: string[], utcDateTime: tc.DateTime = tc.DateTime.n
     dst: dst,
     abbreviation,
     dst_offset: dstOffset,
-    dst_from: dstTransitions.dstStart?.toIsoString(),
-    dst_until: dstTransitions.dstEnd?.toIsoString(),
+    dst_from: dstTransitions.dstStart?.toIsoString() ?? null,
+    dst_until: dstTransitions.dstEnd?.toIsoString() ?? null,
   }
 }
 
-function getDstTransitions(zoneName: string, year: number): { dstStart: tc.DateTime | undefined, dstEnd: tc.DateTime | undefined } {
+function getDstTransitions(zoneName: string, year: number): { dstStart: tc.DateTime | null, dstEnd: tc.DateTime | null } {
   const db = tc.TzDatabase.instance();
   
   if (!db.hasDst(zoneName)) {
-    return { dstStart: undefined, dstEnd: undefined };
+    return { dstStart: null, dstEnd: null };
   }
 
   // Start from beginning of year
@@ -57,8 +57,8 @@ function getDstTransitions(zoneName: string, year: number): { dstStart: tc.DateT
   const secondChange = firstChange ? db.nextDstChange(zoneName, firstChange) : null;
   
   return { 
-    dstStart: firstChange ? new tc.DateTime(firstChange, tc.utc()) : undefined,
-    dstEnd: secondChange ? new tc.DateTime(secondChange, tc.utc()) : undefined
+    dstStart: firstChange ? new tc.DateTime(firstChange, tc.utc()) : null,
+    dstEnd: secondChange ? new tc.DateTime(secondChange, tc.utc()) : null
   };
 }
 

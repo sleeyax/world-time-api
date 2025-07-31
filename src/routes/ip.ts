@@ -25,7 +25,10 @@ export async function ipRoutes(fastify: FastifyInstance) {
         unixtime: Math.floor(Date.now() / 1000),
         utc_datetime: new Date().toISOString(),
         utc_offset: '+00:00',
-        week_number: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1
+        week_number: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1,
+        dst_from: null,
+        dst_until: null,
+        raw_offset: null,
       };
       
       reply.type('application/json');
@@ -85,7 +88,10 @@ week_number: ${Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1)
         unixtime: Math.floor(Date.now() / 1000),
         utc_datetime: new Date().toISOString(),
         utc_offset: '+00:00',
-        week_number: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1
+        week_number: Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / (1000 * 60 * 60 * 24 * 7)) + 1,
+        dst_from: null,
+        dst_until: null,
+        raw_offset: null,
       };
       
       reply.type('application/json');
