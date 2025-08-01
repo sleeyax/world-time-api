@@ -4,6 +4,7 @@ import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { DateTimeJsonResponse } from '../types/api';
 import { toISOWithMilliseconds } from '../utils/world-time-compatibility';
+import { expect, describe, it } from 'vitest';
 
 describe('Timezone Service', () => {
   describe('getTimeZones', () => {
@@ -157,7 +158,7 @@ describe('Timezone Service', () => {
         return JSON.parse(testFile) as DateTimeJsonResponse;
       }
 
-      test.each(timezones)('should match time of %s', (timezone) => {
+      it.each(timezones)('should match time of %s', (timezone) => {
         const expected = getTestData(timezone);
         const utcDate = new DateTime(expected.utc_datetime);
         const actual = getTime(timezone, utcDate);

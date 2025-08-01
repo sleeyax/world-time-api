@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "A World Time API clone that doesn't suck",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --watchAll=false",
-    "test:download": "ts-node tests/scripts/download_test_data.ts",
+    "test": "vitest --watch=false",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:ci": "vitest --ci --coverage --watchAll=false",
+    "test:download": "tsx tests/scripts/download_test_data.ts",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
@@ -35,11 +35,10 @@
     "commander": "^14.0.0",
     "csv-parser": "^3.2.0",
     "dotenv": "^17.2.1",
-    "jest": "^30.0.5",
-    "ts-jest": "^29.4.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "unzipper": "^0.12.3",
+    "vitest": "^3.2.4",
     "wrangler": "^4.17.0"
   }
 }
