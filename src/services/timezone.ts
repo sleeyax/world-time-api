@@ -1,5 +1,5 @@
-import * as tc from "timezonecomplete";
 import { DateTimeJsonResponse } from "../types/api";
+import { tc } from "../utils/timezone-data";
 import { toHmString, toISOWithoutFractionalZeros } from "../utils/world-time-compatibility";
 
 export function getTimeZones() {
@@ -27,7 +27,7 @@ export function getTime(zone: string[] | string, utcDateTime: tc.DateTime = tc.D
   const dstTransitions = dst ? getDstTransitions(timezone.name(), dateTime.year()) : { dstStart: null, dstEnd: null };
   const dstFrom = dstTransitions.dstStart ? toISOWithoutFractionalZeros(dstTransitions.dstStart.toIsoString()) : null;
   const dstUntil = dstTransitions.dstEnd ? toISOWithoutFractionalZeros(dstTransitions.dstEnd.toIsoString()) : null;
-  const rawOffset = utcOffsetRaw.seconds() === -0 ? 0 : utcOffsetRaw.seconds();
+  const rawOffset = utcOffsetRaw.seconds().toString() === "-0" ? 0 : utcOffsetRaw.seconds();
 
   return {
     utc_offset: toHmString(utcOffset),
