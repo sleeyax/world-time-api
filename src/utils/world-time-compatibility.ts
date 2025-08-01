@@ -1,4 +1,4 @@
-import { Duration } from "timezonecomplete";
+import { type Duration } from "timezonecomplete";
 
 /**
  * Removes '.000' fractional milliseconds from the ISO 8601 string if present.
