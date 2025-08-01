@@ -61,3 +61,9 @@ export type IpHandler = (
   params?: IpParams,
   clientIp?: string
 ) => Promise<DateTimeJsonResponse | DateTimeTextResponse>;
+
+export type HonoApp = { Bindings: Bindings }; 
+
+export type Bindings = {
+  DB: D1Database;
+};

@@ -2,18 +2,18 @@
 
 # World Time API Project Instructions
 
-This is a World Time API clone built with Fastify and TypeScript. The project implements endpoints following the World Time API specification.
+This is a World Time API clone built with TypeScript and CloudFlare workers. The project implements endpoints following the World Time API specification.
 
 ## Project Structure
 - `src/` - Main source code directory
 - `src/types/api.ts` - TypeScript interfaces and types for API responses and requests
 - `src/routes/timezone.ts` - Timezone-related endpoints
 - `src/routes/ip.ts` - IP-based time endpoints
-- `src/index.ts` - Main application file with Fastify server setup
+- `src/index.ts` - Main application file with hono web framework
 
 ## Key Features
 - TypeScript for type safety
-- Fastify web framework for high performance
+- Hono web framework for high performance
 - Swagger/OpenAPI documentation
 - CORS support
 - Health check endpoint

@@ -1,11 +1,9 @@
 # World Time API
 
-A [World Time API](http://worldtimeapi.org/) clone built with Fastify and TypeScript. It's a drop-in replacement except for the following minor difference:
-
-- ISO 8601 date strings are formatted with 3 decimal places (milliseconds) instead of 6 (microseconds).
+A [World Time API](http://worldtimeapi.org/) clone that doesn't suck. It's a drop-in replacement that is 100% compatible with the original API, but with a focus on reliability and performance.
 
 ## Why?
-I got tired of the original World Time API being down frequently, so I challenged myself to a freestyle coding challenge to build a reliable clone within 24 hours. Turns out it wasn't that hard.
+I got tired of the original World Time API not functioning correctly more than half of the time, so I challenged myself to a freestyle coding challenge to build a reliable clone within 24 hours. Turns out it wasn't that hard.
 
 ## Data Sources
 We use the following open data sources to provide accurate timezone information:
@@ -15,35 +13,11 @@ We use the following open data sources to provide accurate timezone information:
 
 ## Features
 
-- 🚀 **Fast**: Built with Fastify for high performance
+- 🚀 **Fast**: Built with performance in mind
 - 📘 **TypeScript**: Full type safety and better developer experience
-- 📊 **API Documentation**: Auto-generated Swagger/OpenAPI documentation
-- 🌍 **CORS Enabled**: Ready for cross-origin requests
-- 🏥 **Health Checks**: Built-in health monitoring
-- 📦 **Docker Ready**: Easy containerization support
-
-## Quick Start
-
-### Prerequisites
-
-- Node.js 16+ 
-- npm or yarn
-
-### Installation
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
+- 🌍 **Geo IP Support**: Automatically detect timezone based on client IP
+- 📅 **Frequently updated**: Timezone datasets are updated as soon as they are available and geo IP datasets are updated every 30 days
+- 💼 **Commercial Use**: Built with commercial use in mind, so you can use it in your projects without worrying about licensing issues
 
 ## API Endpoints
 
@@ -112,6 +86,41 @@ week_number: 31
 
 ## Development
 
+### Installation
+
+```bash
+# Modify your .env file accordingly
+cp .env.example .env
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+To create a local database with the latest geo IP data, run:
+
+```bash
+# Initialize the database schema
+npx wrangler d1 execute geolite2 --local --file=./schema.sql
+
+# Note the output path:
+npm run download:geo -- --dump-only --chunk-size 500
+
+# Import the dumped .SQL file to your local database
+npx wrangler d1 import geolite2 --local --file=./.tmp/1754073802022.sql
+# OR (CHANGE THE EXAMPLE PATH TO YOUR ACTUAL PATH):
+sqlite3 .wrangler/state/v3/d1/miniflare-D1DatabaseObject/6548e7f3bc532c7cd454dcbd6dd89f52914826489289e023ef76de4fb5bd7843.sqlite < .tmp/1754073802022.sql
+```
+
+For testing purposes, you can also specify a flag to only dump a couple of statements:
+
+```bash
+# Only dump 100 rows 10 times
+npm run download:geo -- --dump-only --chunk-size 100 --chunk-count 10
+```
+
 ### Project Structure
 
 ```
@@ -135,3 +144,22 @@ src/
 
 - `PORT` - Server port (default: 3000)
 - `HOST` - Server host (default: 0.0.0.0)
+
+## Production
+Everything is hosted on [Cloudflare](https://www.cloudflare.com/) using:
+
+- [cloudflare workers](https://developers.cloudflare.com/workers/) (serverless platform)
+- [cloudflare D1](https://developers.cloudflare.com/d1/) (database)
+
+> [!NOTE]
+> A paid plan is required if you want to import the whole database (+- 3.5M rows).
+
+To manually import data into the database, you can use the following commands:
+
+```bash
+# Initialize the database schema if you haven't done so already
+npx wrangler d1 execute geolite2 --remote --file=./schema.sql
+
+# Download the latest geo IP data and import it into the database using the cloudflare API
+npm run download:geo -- --chunk-size 500
+```

@@ -1,148 +1,155 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { Hono } from "hono";
 import {
-  TimezoneParams,
-  LocationParams,
-  RegionParams,
   ListJsonResponse,
   ListTextResponse,
   DateTimeJsonResponse,
   DateTimeTextResponse,
-  ErrorJsonResponse,
-  ErrorTextResponse
-} from '../types/api';
-import { getTime, getTimeZones, getTimeZonesByArea } from '../services/timezone';
-import { formatAsText } from '../utils/formatter';
+  HonoApp,
+} from "../types/api";
+import {
+  getTime,
+  getTimeZones,
+  getTimeZonesByArea,
+} from "../services/timezone";
+import { formatAsText } from "../utils/formatter";
 
-export async function timezoneRoutes(fastify: FastifyInstance) {
-  // GET /timezone - List all timezones (JSON)
-  fastify.get('/timezone', async (request: FastifyRequest, reply: FastifyReply) => {
-    try {
-      const timezones: ListJsonResponse = getTimeZones();
+export const timezoneRouter = new Hono<HonoApp>();
 
-      reply.type('application/json');
-      return timezones;
-    } catch (error) {
-      reply.code(500);
-      const errorResponse: ErrorJsonResponse = {
-        error: 'Internal server error'
-      };
-      return errorResponse;
+// GET /timezone - List all timezones (JSON)
+timezoneRouter.get("/timezone", async (c) => {
+  try {
+    const timezones: ListJsonResponse = getTimeZones();
+    return c.json(timezones);
+  } catch (error) {
+    console.error(error);
+    return c.json(
+      {
+        error: "Internal server error",
+      },
+      500
+    );
+  }
+});
+
+// GET /timezone.txt - List all timezones (plain text)
+timezoneRouter.get("/timezone.txt", async (c) => {
+  try {
+    const timezones: ListTextResponse = formatAsText(getTimeZones());
+    return c.text(timezones);
+  } catch (error) {
+    return c.text(
+      "Internal server error",
+
+      500
+    );
+  }
+});
+
+// GET /timezone/:area - List timezones for area (JSON)
+timezoneRouter.get("/timezone/:area", async (c) => {
+  try {
+    const area = c.req.param("area");
+    if (!area) {
+      return c.json({ error: "Area parameter is required" }, 400);
     }
-  });
+    const timezones: ListJsonResponse = getTimeZonesByArea(area);
+    return c.json(timezones);
+  } catch (error) {
+    return c.json(
+      {
+        error: "Internal server error",
+      },
+      500
+    );
+  }
+});
 
-  // GET /timezone.txt - List all timezones (plain text)
-  fastify.get('/timezone.txt', async (request: FastifyRequest, reply: FastifyReply) => {
-    try {
-      const timezones: ListTextResponse = formatAsText(getTimeZones());
-      
-      reply.type('text/plain');
-      return timezones;
-    } catch (error) {
-      reply.code(500);
-      const errorResponse: ErrorTextResponse = 'Internal server error';
-      return errorResponse;
+// GET /timezone/:area.txt - List timezones for area (plain text)
+timezoneRouter.get("/timezone/:area.txt", async (c) => {
+  try {
+    const area = c.req.param("area");
+    if (!area) {
+      return c.text("Area parameter is required", 400);
     }
-  });
+    const timezones: ListTextResponse = formatAsText(getTimeZonesByArea(area));
+    return c.text(timezones);
+  } catch (error) {
+    return c.text("Internal server error", 500);
+  }
+});
 
-  // GET /timezone/:area - List timezones for area (JSON)
-  fastify.get<{ Params: TimezoneParams }>('/timezone/:area', async (request: FastifyRequest<{ Params: TimezoneParams }>, reply: FastifyReply) => {
-    try {
-      const { area } = request.params;
-      
-      const timezones: ListJsonResponse = getTimeZonesByArea(area);
-      
-      reply.type('application/json');
-      return timezones;
-    } catch (error) {
-      reply.code(500);
-      const errorResponse: ErrorJsonResponse = {
-        error: 'Internal server error'
-      };
-      return errorResponse;
-    }
-  });
+// GET /timezone/:area/:location - Get time for specific location (JSON)
+timezoneRouter.get("/timezone/:area/:location", async (c) => {
+  try {
+    const area = c.req.param("area");
+    const location = c.req.param("location");
 
-  // GET /timezone/:area.txt - List timezones for area (plain text)
-  fastify.get<{ Params: TimezoneParams }>('/timezone/:area.txt', async (request: FastifyRequest<{ Params: TimezoneParams }>, reply: FastifyReply) => {
-    try {
-      const { area } = request.params;
-      
-      const timezones: ListTextResponse = formatAsText(getTimeZonesByArea(area));
-      
-      reply.type('text/plain');
-      return timezones;
-    } catch (error) {
-      reply.code(500);
-      const errorResponse: ErrorTextResponse = 'Internal server error';
-      return errorResponse;
+    if (!area || !location) {
+      return c.json({ error: "Area and location parameters are required" }, 400);
     }
-  });
 
-  // GET /timezone/:area/:location - Get time for specific location (JSON)
-  fastify.get<{ Params: LocationParams }>('/timezone/:area/:location', async (request: FastifyRequest<{ Params: LocationParams }>, reply: FastifyReply) => {
-    try {
-      const { area, location } = request.params;
-      
-      const response: DateTimeJsonResponse = getTime([area, location]);
-      
-      reply.type('application/json');
-      return response;
-    } catch (error) {
-      reply.code(500);
-      const errorResponse: ErrorJsonResponse = {
-        error: 'Internal server error'
-      };
-      return errorResponse;
-    }
-  });
+    const response: DateTimeJsonResponse = getTime([area, location]);
+    return c.json(response);
+  } catch (error) {
+    return c.json({ error: "Internal server error" }, 500);
+  }
+});
 
-  // GET /timezone/:area/:location.txt - Get time for specific location (plain text)
-  fastify.get<{ Params: LocationParams }>('/timezone/:area/:location.txt', async (request: FastifyRequest<{ Params: LocationParams }>, reply: FastifyReply) => {
-    try {
-      const { area, location } = request.params;
-      
-      const response: DateTimeTextResponse = formatAsText(getTime([area, location]));
-      
-      reply.type('text/plain');
-      return response;
-    } catch (error) {
-      reply.code(500);
-      const errorResponse: ErrorTextResponse = 'Internal server error';
-      return errorResponse;
-    }
-  });
+// GET /timezone/:area/:location.txt - Get time for specific location (plain text)
+timezoneRouter.get("/timezone/:area/:location.txt", async (c) => {
+  try {
+    const area = c.req.param("area");
+    const location = c.req.param("location");
 
-  // GET /timezone/:area/:location/:region - Get time for specific region (JSON)
-  fastify.get<{ Params: RegionParams }>('/timezone/:area/:location/:region', async (request: FastifyRequest<{ Params: RegionParams }>, reply: FastifyReply) => {
-    try {
-      const { area, location, region } = request.params;
-      
-      const response: DateTimeJsonResponse = getTime([area, location, region]);
-      
-      reply.type('application/json');
-      return response;
-    } catch (error) {
-      reply.code(500);
-      const errorResponse: ErrorJsonResponse = {
-        error: 'Internal server error'
-      };
-      return errorResponse;
+    if (!area || !location) {
+      return c.text("Area and location parameters are required", 400);
     }
-  });
 
-  // GET /timezone/:area/:location/:region.txt - Get time for specific region (plain text)
-  fastify.get<{ Params: RegionParams }>('/timezone/:area/:location/:region.txt', async (request: FastifyRequest<{ Params: RegionParams }>, reply: FastifyReply) => {
-    try {
-      const { area, location, region } = request.params;
-      
-      const response: DateTimeTextResponse = formatAsText(getTime([area, location, region]));
-      
-      reply.type('text/plain');
-      return response;
-    } catch (error) {
-      reply.code(500);
-      const errorResponse: ErrorTextResponse = 'Internal server error';
-      return errorResponse;
+    const response: DateTimeTextResponse = formatAsText(
+      getTime([area, location])
+    );
+    return c.text(response);
+  } catch (error) {
+    return c.text("Internal server error", 500);
+  }
+});
+
+// GET /timezone/:area/:location/:region - Get time for specific region (JSON)
+timezoneRouter.get("/timezone/:area/:location/:region", async (c) => {
+  try {
+    const area = c.req.param("area");
+    const location = c.req.param("location");
+    const region = c.req.param("region");
+
+    if (!area || !location || !region) {
+      return c.json({ error: "Area, location, and region parameters are required" }, 400);
     }
-  });
-}
+
+    const response: DateTimeJsonResponse = getTime([area, location, region]);
+    return c.json(response);
+  } catch (error) {
+    return c.json({ error: "Internal server error" }, 500);
+  }
+});
+
+// GET /timezone/:area/:location/:region.txt - Get time for specific region (plain text)
+timezoneRouter.get("/timezone/:area/:location/:region.txt", async (c) => {
+  try {
+    const area = c.req.param("area");
+    const location = c.req.param("location");
+    const region = c.req.param("region");
+
+    if (!area || !location || !region) {
+      return c.text("Area, location, and region parameters are required", 400);
+    }
+
+    const response: DateTimeTextResponse = formatAsText(
+      getTime([area, location, region])
+    );
+    return c.text(response);
+  } catch (error) {
+    return c.text("Internal server error", 500);
+  }
+});
+
+export default timezoneRouter;
