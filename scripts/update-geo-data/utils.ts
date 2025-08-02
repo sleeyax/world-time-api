@@ -17,29 +17,29 @@ export function getTempDir() {
  */
 export async function extractDatabase(filePath: string): Promise<string> {
   const extractPath = join(getTempDir(), "GeoLite2-City");
-  
+
   // Ensure the extraction directory exists
   if (!existsSync(extractPath)) {
     mkdirSync(extractPath, { recursive: true });
   }
-  
+
   // Files we want to extract
   const targetFiles = [
-    'GeoLite2-City-Blocks-IPv4.csv',
-    'GeoLite2-City-Blocks-IPv6.csv',
-    'GeoLite2-City-Locations-en.csv',
-    'COPYRIGHT.txt',
-    'LICENSE.txt',
-    'README.md'
+    "GeoLite2-City-Blocks-IPv4.csv",
+    "GeoLite2-City-Blocks-IPv6.csv",
+    "GeoLite2-City-Locations-en.csv",
+    "COPYRIGHT.txt",
+    "LICENSE.txt",
+    "README.md",
   ];
-  
+
   // Extract only specific files
   await createReadStream(filePath)
     .pipe(unzipper.Parse())
-    .on('entry', (entry) => {
-      const fileName = entry.path.split('/').pop(); // get just the filename
-      
-      if (targetFiles.includes(fileName || '')) {
+    .on("entry", (entry) => {
+      const fileName = entry.path.split("/").pop(); // get just the filename
+
+      if (targetFiles.includes(fileName || "")) {
         // Extract to the root of extractPath, not in subdirectories.
         entry.pipe(createWriteStream(join(extractPath, fileName!)));
       } else {
@@ -47,7 +47,7 @@ export async function extractDatabase(filePath: string): Promise<string> {
       }
     })
     .promise();
-  
+
   return extractPath;
 }
 
@@ -58,7 +58,7 @@ export async function extractDatabase(filePath: string): Promise<string> {
 export async function* readCsv<InputRow = any, OutputRow = unknown>(
   filePaths: string,
   rowParser: (row: InputRow) => OutputRow,
-  {chunkSize, chunkCount}: {chunkSize?: number, chunkCount?: number} = {},
+  { chunkSize, chunkCount }: { chunkSize?: number; chunkCount?: number } = {},
 ): AsyncGenerator<OutputRow[], void, unknown> {
   let batch: OutputRow[] = [];
   let chunkCounter = 0;
@@ -71,7 +71,7 @@ export async function* readCsv<InputRow = any, OutputRow = unknown>(
 
     if (chunkSize && batch.length >= chunkSize) {
       yield [...batch];
-      
+
       batch = [];
       chunkCounter++;
 
@@ -91,7 +91,7 @@ export async function* readCsv<InputRow = any, OutputRow = unknown>(
  * Clean up temporary files
  */
 export function cleanup(): Promise<void> {
- return unlink(getTempDir())
+  return unlink(getTempDir());
 }
 
 export async function sleep(ms: number): Promise<void> {

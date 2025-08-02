@@ -50,18 +50,22 @@ export interface IpParams {
 }
 
 // Utility types for route handlers
-export type TimezoneListHandler = () => Promise<ListJsonResponse | ListTextResponse>;
-export type TimezoneAreaHandler = (params: TimezoneParams) => Promise<ListJsonResponse | ListTextResponse>;
+export type TimezoneListHandler = () => Promise<
+  ListJsonResponse | ListTextResponse
+>;
+export type TimezoneAreaHandler = (
+  params: TimezoneParams,
+) => Promise<ListJsonResponse | ListTextResponse>;
 export type DateTimeHandler = (
   params: LocationParams | RegionParams,
-  clientIp?: string
+  clientIp?: string,
 ) => Promise<DateTimeJsonResponse | DateTimeTextResponse>;
 export type IpHandler = (
   params?: IpParams,
-  clientIp?: string
+  clientIp?: string,
 ) => Promise<DateTimeJsonResponse | DateTimeTextResponse>;
 
-export type HonoApp = { Bindings: Bindings }; 
+export type HonoApp = { Bindings: Bindings };
 
 export type Bindings = {
   DB: D1Database;

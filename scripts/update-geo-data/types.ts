@@ -10,7 +10,7 @@ export type MaxMindIpBlock = {
   longitude?: string;
   accuracy_radius?: string;
   is_anycast?: string;
-}
+};
 
 export type MaxMindLocation = {
   geoname_id: string;
@@ -27,4 +27,4 @@ export type MaxMindLocation = {
   metro_code?: string;
   time_zone?: string;
   is_in_european_union?: string;
-}
+};

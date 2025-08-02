@@ -3,6 +3,7 @@
 A [World Time API](http://worldtimeapi.org/) clone that doesn't suck. It's a drop-in replacement that is 100% compatible with the original API, but with a focus on reliability and performance.
 
 ## Why?
+
 I got tired of the original World Time API not functioning correctly more than half of the time, so I challenged myself to a freestyle coding challenge to build a POC within 24 hours. Turns out it wasn't that hard.
 
 ## Features
@@ -14,6 +15,7 @@ I got tired of the original World Time API not functioning correctly more than h
 - 💼 **Commercial Use**: Built with commercial use in mind, so you can use it in your projects without worrying about licensing issues
 
 ## Data Sources
+
 We use the following open data sources to provide accurate timezone information:
 
 - Timezone data from [IANA timezone database](https://www.iana.org/time-zones)
@@ -120,9 +122,11 @@ For testing purposes, you can also specify a flag to only dump a couple of state
 # Only dump 100 rows 10 times
 npm run download:geo -- --dump-only --chunk-size 100 --chunk-count 10
 ```
+
 ``
 
 ## Production
+
 Everything is hosted on [Cloudflare](https://www.cloudflare.com/) using:
 
 - [cloudflare workers](https://developers.cloudflare.com/workers/) (serverless platform)

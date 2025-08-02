@@ -1,4 +1,4 @@
-import {Address4, Address6} from "ip-address";
+import { Address4, Address6 } from "ip-address";
 
 export function ipToBinary(ip: string): Buffer {
   let address: Address4 | Address6;

@@ -48,7 +48,7 @@ async function getTimezone(zone: string) {
     throw new Error(`Failed to fetch timezone ${zone}: ${res.statusText}`);
   }
 
-  const data = await res.json() as any;
+  const data = (await res.json()) as any;
   delete data.client_ip; // let's not dox ourselves
   console.log(data);
 

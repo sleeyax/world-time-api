@@ -156,7 +156,7 @@ async function pollImportStatus(bookmark: string) {
         error,
         messages,
       },
-      { depth: null }
+      { depth: null },
     );
 
     if (status === "complete") {

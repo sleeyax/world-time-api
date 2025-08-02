@@ -1,10 +1,13 @@
 import { Hono } from "hono";
-import { DateTimeJsonResponse, DateTimeTextResponse, HonoApp } from "../types/api";
+import {
+  DateTimeJsonResponse,
+  DateTimeTextResponse,
+  HonoApp,
+} from "../types/api";
 import { getTime } from "../services/timezone";
 import { formatAsText } from "../utils/formatter";
 import { getConnInfo } from "hono/cloudflare-workers";
 import { ipToBinary } from "../utils/ip";
-import { GeoIp2Location, GeoIp2Network } from "../types/database";
 
 export const ipRouter = new Hono<HonoApp>();
 
@@ -114,7 +117,9 @@ ipRouter.get("/ip/:ipv4.txt", async (c) => {
 async function ipToTimezone(db: D1Database, ip: string) {
   const ipBuffer = ipToBinary(ip);
 
-  const row = await db.prepare(`
+  const row = await db
+    .prepare(
+      `
 select 
   location.time_zone as timezone, 
   registered_country.time_zone as registered_country_timezone, 
@@ -135,17 +140,23 @@ left join geoip2_location represented_country on (
 where ? between net.network_start and net.network_end
 order by net.network_end
 limit 1;
-`).bind(ipBuffer).first<{
-  time_zone: string | null;
-  registered_country_timezone: string | null;
-  represented_country_timezone: string | null;
-} | null>();
-  
+`,
+    )
+    .bind(ipBuffer)
+    .first<{
+      time_zone: string | null;
+      registered_country_timezone: string | null;
+      represented_country_timezone: string | null;
+    } | null>();
+
   if (!row) {
     return null;
   }
 
-  const timezone = row.time_zone || row.registered_country_timezone || row.represented_country_timezone;
+  const timezone =
+    row.time_zone ||
+    row.registered_country_timezone ||
+    row.represented_country_timezone;
 
   return timezone;
 }

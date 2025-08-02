@@ -26,25 +26,25 @@ program
   .option(
     "--chunk-size [number]",
     "Size of each chunk to read from CSV",
-    parseInt
+    parseInt,
   )
   .option("--chunk-count [number]", "Number of chunks to read", (v) =>
-    parseInt(v)
+    parseInt(v),
   )
   .option(
     "--max-rows [number]",
     "Maximum amount of row values per insert statement (default = 250)",
     (v) => parseInt(v),
-    250
+    250,
   )
   .option(
     "--dump-only",
-    "Whether to only dump the SQL without pushing to the remote"
+    "Whether to only dump the SQL without pushing to the remote",
   )
   .option("--split-files", "Whether to split output into multiple files")
   .option(
     "--add-transaction",
-    "Whether to wrap statements in a transaction (local only)"
+    "Whether to wrap statements in a transaction (local only)",
   )
   .option("--optimize-writes", "Whether to optimize writes (local only)");
 
@@ -77,7 +77,7 @@ async function main() {
 
     // Skip if the the temporary directory contains any SQL files already
     const hasSQLDumps = (await readdir(getTempDir())).some((file) =>
-      file.endsWith(".sql")
+      file.endsWith(".sql"),
     );
     let outputFile = generateOutputFile();
     if (!hasSQLDumps) {
@@ -86,7 +86,7 @@ async function main() {
       console.log(
         `${
           !existingZipPath ? "Downloading" : "Using existing"
-        } MaxMind database...`
+        } MaxMind database...`,
       );
       const filePath = existingZipPath ?? (await downloadMaxMindDatabase());
       console.log("Database downloaded to:", filePath);
@@ -104,7 +104,7 @@ async function main() {
       for await (const batch of readCsv<MaxMindIpBlock, GeoIp2Network>(
         `${extractedPath}/GeoLite2-City-Blocks-IPv4.csv`,
         mapToGeoIp2Network,
-        options
+        options,
       )) {
         const sql = makeSqlInsert({
           data: batch,
@@ -136,7 +136,7 @@ async function main() {
       for await (const batch of readCsv<MaxMindLocation, GeoIp2Location>(
         `${extractedPath}/GeoLite2-City-Locations-en.csv`,
         mapToGeoIp2Location,
-        options
+        options,
       )) {
         const sql = makeSqlInsert({
           data: batch,
@@ -165,7 +165,9 @@ async function main() {
       }
       console.log("Finished reading locations");
     } else {
-      console.log("SQL dump files already exist, skipping CSV to SQL conversion");
+      console.log(
+        "SQL dump files already exist, skipping CSV to SQL conversion",
+      );
     }
 
     if (options.dumpOnly) {

@@ -5,6 +5,7 @@
 This is a World Time API clone built with TypeScript and CloudFlare workers. The project implements endpoints following the World Time API specification.
 
 ## Project Structure
+
 - `src/` - Main source code directory
 - `src/types/api.ts` - TypeScript interfaces and types for API responses and requests
 - `src/routes/timezone.ts` - Timezone-related endpoints
@@ -12,6 +13,7 @@ This is a World Time API clone built with TypeScript and CloudFlare workers. The
 - `src/index.ts` - Main application file with hono web framework
 
 ## Key Features
+
 - TypeScript for type safety
 - Hono web framework for high performance
 - Swagger/OpenAPI documentation
@@ -20,6 +22,7 @@ This is a World Time API clone built with TypeScript and CloudFlare workers. The
 - Graceful shutdown handling
 
 ## Development Guidelines
+
 - Follow the existing TypeScript interfaces defined in `src/types/api.ts`
 - All endpoints should handle both JSON and plain text responses
 - Use proper error handling with appropriate HTTP status codes
@@ -27,6 +30,7 @@ This is a World Time API clone built with TypeScript and CloudFlare workers. The
 - Maintain consistency with the original World Time API specification
 
 ## API Endpoints
+
 - `/api/timezone` - List all timezones
 - `/api/timezone/:area` - List timezones for specific area
 - `/api/timezone/:area/:location` - Get time for specific location

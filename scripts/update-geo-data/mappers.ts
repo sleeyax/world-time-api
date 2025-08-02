@@ -98,7 +98,7 @@ export function makeSqlInsert({
       .join(",");
 
     return `INSERT INTO ${tableName} (${columns})\nVALUES ${values}\nON CONFLICT(${onConflict.join(
-      ", "
+      ", ",
     )}) DO UPDATE SET ${updateAssignments}\nWHERE ${whereClause};`;
   });
 
@@ -107,7 +107,7 @@ export function makeSqlInsert({
   if (addTransaction) {
     return `BEGIN;\n${sql}\nCOMMIT;\n`;
   }
-  
+
   return sql;
 }
 

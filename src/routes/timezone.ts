@@ -26,7 +26,7 @@ timezoneRouter.get("/timezone", async (c) => {
       {
         error: "Internal server error",
       },
-      500
+      500,
     );
   }
 });
@@ -40,7 +40,7 @@ timezoneRouter.get("/timezone.txt", async (c) => {
     return c.text(
       "Internal server error",
 
-      500
+      500,
     );
   }
 });
@@ -59,7 +59,7 @@ timezoneRouter.get("/timezone/:area", async (c) => {
       {
         error: "Internal server error",
       },
-      500
+      500,
     );
   }
 });
@@ -85,7 +85,10 @@ timezoneRouter.get("/timezone/:area/:location", async (c) => {
     const location = c.req.param("location");
 
     if (!area || !location) {
-      return c.json({ error: "Area and location parameters are required" }, 400);
+      return c.json(
+        { error: "Area and location parameters are required" },
+        400,
+      );
     }
 
     const response: DateTimeJsonResponse = getTime([area, location]);
@@ -106,7 +109,7 @@ timezoneRouter.get("/timezone/:area/:location.txt", async (c) => {
     }
 
     const response: DateTimeTextResponse = formatAsText(
-      getTime([area, location])
+      getTime([area, location]),
     );
     return c.text(response);
   } catch (error) {
@@ -122,7 +125,10 @@ timezoneRouter.get("/timezone/:area/:location/:region", async (c) => {
     const region = c.req.param("region");
 
     if (!area || !location || !region) {
-      return c.json({ error: "Area, location, and region parameters are required" }, 400);
+      return c.json(
+        { error: "Area, location, and region parameters are required" },
+        400,
+      );
     }
 
     const response: DateTimeJsonResponse = getTime([area, location, region]);
@@ -144,7 +150,7 @@ timezoneRouter.get("/timezone/:area/:location/:region.txt", async (c) => {
     }
 
     const response: DateTimeTextResponse = formatAsText(
-      getTime([area, location, region])
+      getTime([area, location, region]),
     );
     return c.text(response);
   } catch (error) {

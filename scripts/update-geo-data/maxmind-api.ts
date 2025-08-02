@@ -16,7 +16,7 @@ export async function getLastModifiedDate() {
 
   if (!response.ok) {
     throw new Error(
-      `Failed to get database info: ${response.status} ${response.statusText}`
+      `Failed to get database info: ${response.status} ${response.statusText}`,
     );
   }
 
@@ -42,7 +42,7 @@ export async function downloadMaxMindDatabase(): Promise<string> {
 
   if (!response.ok) {
     throw new Error(
-      `Failed to download database: ${response.status} ${response.statusText}`
+      `Failed to download database: ${response.status} ${response.statusText}`,
     );
   }
 
@@ -62,7 +62,7 @@ function getClient() {
 
   if (!accountId || !licenseKey) {
     throw new Error(
-      "MAXMIND_ACCOUNT_ID and MAXMIND_LICENSE_KEY must be set in environment variables"
+      "MAXMIND_ACCOUNT_ID and MAXMIND_LICENSE_KEY must be set in environment variables",
     );
   }
 
