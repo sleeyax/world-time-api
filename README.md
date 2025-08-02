@@ -2,19 +2,33 @@
 
 [![Tests](https://github.com/sleeyax/world-time-api/actions/workflows/test.yml/badge.svg)](https://github.com/sleeyax/world-time-api/actions/workflows/test.yml)
 
-A [World Time API](http://worldtimeapi.org/) clone that doesn't suck. It's a drop-in replacement that is 100% compatible with the original API, but with a focus on reliability and performance.
+Fast, reliable and up to date alternative to [worldtimeapi.org](http://worldtimeapi.org/) (see comparison table below). It returns the current local time details for a given timezone or IP address in JSON (or plain text) format.
 
-## Why?
+## Features Comparison
 
-I got tired of the original World Time API not functioning correctly more than half of the time, so I challenged myself to a freestyle coding challenge to build a POC within 24 hours. Turns out it wasn't that hard.
+Comparison of APIs that provide similar functionality.
 
-## Features
+| Feature                                           | This project     | worldtimeapi.org | ipgeolocation.io |
+| ------------------------------------------------- | ---------------- | ---------------- | ---------------- |
+| Frequently updated 📅                             | ✅               | ❌               | ❓               |
+| Reliable 🟢                                       | ✅               | ❌ \*            | ✅               |
+| Timezone support 🕒                               | ✅               | ✅               | ✅               |
+| Geo IP support 🌍                                 | ✅               | ✅               | ✅               |
+| Open source 👐                                    | ✅               | ❌               | ❌               |
+| Commercial use 💼                                 | ✅               | ❌               | ✅               |
+| Backwards compatible with worldtimeapi.org API 🔄 | ✅               | n/a              | ❌               |
+| Response formats 📝                               | JSON, plain text | JSON, plain text | JSON             |
+| Performance 🚀                                    | Fast             | Slow             | Average          |
 
-- 🚀 **Fast**: Designed for optimal performance (< 200ms)
-- 📘 **TypeScript**: Full type safety and better developer experience
-- 🌍 **Geo IP Support**: Automatically detect timezone based on client IP
-- 📅 **Frequently updated**: Timezone datasets are updated as soon as they are available and geo IP datasets are updated every 30 days
-- 💼 **Commercial Use**: Built with commercial use in mind, so you can use it in your projects without worrying about licensing issues
+\* has been down multiple times in the past, and still suffers from occasional 'connection reset' errors.
+
+## Roadmap
+
+A couple of features that are planned for the future:
+
+- [ ] Provide additional geolocation data API endpoints (coordinates, country, city, etc.). We have the data, just not the API endpoints.
+- [ ] IPV6 support. Our database already supports this, we just need to import the relevant dataset and update the API documentation accordingly.
+- [Suggest a feature!](https://github.com/sleeyax/world-time-api/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen)
 
 ## Data Sources
 
@@ -22,6 +36,8 @@ We use the following open data sources to provide accurate timezone information:
 
 - Timezone data from [IANA timezone database](https://www.iana.org/time-zones)
 - Geo IP data from [maxmind geolite2](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/)
+
+Both are standards in the industry and are updated regularly to reflect changes in timezones and IP geolocation data.
 
 ## API Endpoints
 
@@ -44,11 +60,6 @@ The API follows the World Time API specification with the following endpoints:
 - `GET /api/ip.txt` - Get time based on client IP (plain text)
 - `GET /api/ip/{ipv4}` - Get time based on specific IP (JSON)
 - `GET /api/ip/{ipv4}.txt` - Get time based on specific IP (plain text)
-
-### Utility Endpoints
-
-- `GET /health` - Health check endpoint
-- `GET /docs` - Swagger UI documentation
 
 ## Response Formats
 
