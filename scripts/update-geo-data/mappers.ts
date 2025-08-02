@@ -1,6 +1,7 @@
 import { Address4, Address6 } from "ip-address";
 import { MaxMindIpBlock, MaxMindLocation } from "./types";
 import { GeoIp2Location, GeoIp2Network } from "../../src/types/database";
+import { chunkArray } from "./utils";
 
 export const mapToGeoIp2Network = (row: MaxMindIpBlock): GeoIp2Network => ({
   network_start: ipToBinaryRanges(row.network).start,
@@ -42,35 +43,23 @@ export const mapToGeoIp2Location = (row: MaxMindLocation): GeoIp2Location => ({
     : undefined,
 });
 
-export function makeSqlInsert(
-  data: Record<string, unknown>[],
-  tableName: string,
-  onConflict: string[],
-  addTransaction?: boolean
-) {
+type MakeSqlInsertOptions = {
+  data: Record<string, unknown>[];
+  tableName: string;
+  onConflict: string[];
+  addTransaction?: boolean;
+  maxValuesEach?: number;
+};
+
+export function makeSqlInsert({
+  data,
+  tableName,
+  onConflict,
+  addTransaction = false,
+  maxValuesEach = 250, // as recommended in https://developers.cloudflare.com/d1/best-practices/import-export-data/#resolve-statement-too-long-error
+}: MakeSqlInsertOptions) {
   const columnsArr = Object.keys(data[0]);
   const columns = columnsArr.join(",");
-  const values = data
-    .map((row: any) => {
-      return (
-        "\n(" +
-        columnsArr
-          .map((col) => {
-            const val = row[col];
-            if (val === null || val === undefined || val === "") {
-              return "NULL";
-            }
-            // Handle Buffer values for BLOB columns
-            if (Buffer.isBuffer(val)) {
-              return `X'${val.toString("hex")}'`;
-            }
-            return `'${String(val).replace(/'/g, "").replace(/"/g, "'")}'`;
-          })
-          .join(",") +
-        ")"
-      );
-    })
-    .join(",");
 
   // Prepare update assignments for all columns except conflictCol
   const updateAssignments = columnsArr
@@ -84,13 +73,42 @@ export function makeSqlInsert(
     .map((col) => `${col} IS NOT excluded.${col}`)
     .join(" OR ");
 
-  return `${
-    addTransaction ? "BEGIN;\n" : ""
-  }INSERT INTO ${tableName} (${columns})\nVALUES ${values}\nON CONFLICT(${onConflict.join(
-    ", "
-  )}) DO UPDATE SET ${updateAssignments}\nWHERE ${whereClause};\n${
-    addTransaction ? "COMMIT;\n" : ""
-  }`;
+  const dataChunks = chunkArray(data, maxValuesEach);
+  const sqlStatements = dataChunks.map((chunk) => {
+    const values = chunk
+      .map((row: any) => {
+        return (
+          "\n(" +
+          columnsArr
+            .map((col) => {
+              const val = row[col];
+              if (val === null || val === undefined || val === "") {
+                return "NULL";
+              }
+              // Handle Buffer values for BLOB columns
+              if (Buffer.isBuffer(val)) {
+                return `X'${val.toString("hex")}'`;
+              }
+              return `'${String(val).replace(/'/g, "").replace(/"/g, "'")}'`;
+            })
+            .join(",") +
+          ")"
+        );
+      })
+      .join(",");
+
+    return `INSERT INTO ${tableName} (${columns})\nVALUES ${values}\nON CONFLICT(${onConflict.join(
+      ", "
+    )}) DO UPDATE SET ${updateAssignments}\nWHERE ${whereClause};`;
+  });
+
+  const sql = sqlStatements.join("\n\n");
+
+  if (addTransaction) {
+    return `BEGIN;\n${sql}\nCOMMIT;\n`;
+  }
+  
+  return sql;
 }
 
 export function ipToBinaryRanges(ip: string) {

@@ -106,7 +106,7 @@ To create a local database with the latest geo IP data, run:
 npx wrangler d1 execute geolite2 --local --file=./schema.sql
 
 # Note the output path:
-npm run download:geo -- --dump-only --chunk-size 500
+npm run download:geo -- --chunk-size 500 --max-rows 10000 --dump-only --add-transaction --optimize-writes
 
 # Import the dumped .SQL file to your local database
 npx wrangler d1 import geolite2 --local --file=./.tmp/1754073802022.sql
@@ -160,6 +160,7 @@ To manually import data into the database, you can use the following commands:
 # Initialize the database schema if you haven't done so already
 npx wrangler d1 execute geolite2 --remote --file=./schema.sql
 
-# Download the latest geo IP data and import it into the database using the cloudflare API
-npm run download:geo -- --chunk-size 500
+# Download the latest geo IP data and import it into the database using the cloudflare API,
+# in chunks of 250,000 rows (+- 39 MB per file)
+npm run download:geo -- --chunk-size 250000 --split-files
 ```
