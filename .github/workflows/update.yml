@@ -4,6 +4,7 @@ on:
   schedule:
     # Every 48 hours
     - cron: "0 0 */2 * *"
+  workflow_dispatch:
 
 jobs:
   update:
