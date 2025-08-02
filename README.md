@@ -4,7 +4,7 @@
 
 Fast, reliable and up to date alternative to [worldtimeapi.org](http://worldtimeapi.org/). It returns the current local time details for a given timezone or IP address in JSON (or plain text) format.
 
-## Features Comparison
+## Feature Comparison
 
 Comparison of APIs that provide similar functionality.
 
