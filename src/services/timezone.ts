@@ -23,11 +23,11 @@ export function getTime(zone: string[] | string, utcDateTime: tc.DateTime = tc.D
   const weekNumber = dateTime.weekNumber();
   const abbreviation = getZoneAbbreviation(dateTime, utcOffset); 
   const dst = utcOffset.seconds() !== utcOffsetRaw.seconds();
-  const dstOffset = dst ? utcOffset.seconds() - utcOffsetRaw.seconds() : 0;
+  const dstOffset = normalizeZero(dst ? utcOffset.seconds() - utcOffsetRaw.seconds() : 0);
   const dstTransitions = dst ? getDstTransitions(timezone.name(), dateTime.year()) : { dstStart: null, dstEnd: null };
   const dstFrom = dstTransitions.dstStart ? toISOWithoutFractionalZeros(dstTransitions.dstStart.toIsoString()) : null;
   const dstUntil = dstTransitions.dstEnd ? toISOWithoutFractionalZeros(dstTransitions.dstEnd.toIsoString()) : null;
-  const rawOffset = utcOffsetRaw.seconds().toString() === "-0" ? 0 : utcOffsetRaw.seconds();
+  const rawOffset = normalizeZero(utcOffsetRaw.seconds());
 
   return {
     utc_offset: toHmString(utcOffset),
@@ -85,4 +85,11 @@ function getZoneAbbreviation(dateTime: tc.DateTime, utcOffset: tc.Duration) {
   }
 
   return abbreviation;
+}
+
+/**
+ * Converts a number to 0 if it is -0 or +0, otherwise returns the number as is.
+ */
+function normalizeZero(value: number) {
+  return value === 0 ? 0 : value;
 }

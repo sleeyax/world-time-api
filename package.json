@@ -1,44 +1,44 @@
 {
   "name": "world-time-api",
   "version": "1.0.0",
-  "description": "A World Time API clone built with Fastify and TypeScript",
-  "main": "dist/index.js",
+  "description": "A World Time API clone that doesn't suck",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --watchAll=false",
-    "test:download": "ts-node tests/scripts/download_test_data.ts"
+    "test": "vitest --watch=false",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:ci": "vitest --ci --coverage --watchAll=false",
+    "test:download": "tsx tests/scripts/download_test_data.ts",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "download:geo": "tsx scripts/update-geo-data/main.ts"
   },
   "keywords": [
-    "fastify",
     "typescript",
     "world-time-api",
     "timezone"
   ],
   "author": "Sleeyax",
   "license": "",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
-    "@fastify/cors": "^11.0.1",
-    "@fastify/swagger": "^9.5.1",
-    "@fastify/swagger-ui": "^5.2.3",
-    "fastify": "^5.4.0",
-    "geolite2-redist": "^3.1.1",
-    "maxmind": "^4.3.28",
+    "hono": "^4.8.10",
+    "ip-address": "^10.0.1",
     "timezonecomplete": "^5.14.1",
     "tzdata": "^1.0.44"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
+    "@cloudflare/workers-types": "^4.20250801.0",
     "@types/node": "^24.1.0",
-    "jest": "^30.0.5",
-    "nodemon": "^3.1.10",
-    "ts-jest": "^29.4.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "@types/unzipper": "^0.10.11",
+    "cloudflare": "^4.5.0",
+    "commander": "^14.0.0",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^17.2.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "unzipper": "^0.12.3",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.17.0"
   }
 }

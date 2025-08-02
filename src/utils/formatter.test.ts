@@ -1,4 +1,5 @@
 import { formatAsText } from './formatter';
+import { expect, describe, it } from 'vitest';
 
 describe('formatAsText', () => {
   describe('array formatting', () => {
