@@ -1,5 +1,7 @@
 # World Time API
 
+[![Tests](https://github.com/sleeyax/world-time-api/actions/workflows/test.yml/badge.svg)](https://github.com/sleeyax/world-time-api/actions/workflows/test.yml)
+
 A [World Time API](http://worldtimeapi.org/) clone that doesn't suck. It's a drop-in replacement that is 100% compatible with the original API, but with a focus on reliability and performance.
 
 ## Why?
