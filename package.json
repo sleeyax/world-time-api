@@ -2,6 +2,7 @@
   "name": "world-time-api",
   "version": "1.0.0",
   "description": "A World Time API clone that doesn't suck",
+  "main": "src/index.ts",
   "scripts": {
     "test": "vitest --watch=false",
     "test:watch": "vitest --watch",
