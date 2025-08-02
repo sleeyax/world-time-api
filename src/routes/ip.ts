@@ -133,6 +133,8 @@ left join geoip2_location represented_country on (
   and represented_country.locale_code = 'en'
 )
 where net.network_start <= ? and net.network_end >= ?
+order by net.network_end
+limit 1;
 `).bind(ipBuffer, ipBuffer).first<{
   time_zone: string | null;
   registered_country_timezone: string | null;
