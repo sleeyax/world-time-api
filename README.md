@@ -2,7 +2,7 @@
 
 [![Tests](https://github.com/sleeyax/world-time-api/actions/workflows/test.yml/badge.svg)](https://github.com/sleeyax/world-time-api/actions/workflows/test.yml)
 
-Fast, reliable and up to date alternative to [worldtimeapi.org](http://worldtimeapi.org/) (see comparison table below). It returns the current local time details for a given timezone or IP address in JSON (or plain text) format.
+Fast, reliable and up to date alternative to [worldtimeapi.org](http://worldtimeapi.org/). It returns the current local time details for a given timezone or IP address in JSON (or plain text) format.
 
 ## Features Comparison
 
