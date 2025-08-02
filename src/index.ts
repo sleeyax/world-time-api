@@ -27,6 +27,15 @@ app.onError((rawError, c) => {
   );
 });
 
+app.notFound((c) => {
+  return c.json(
+    {
+      error: "Not Found",
+    },
+    404,
+  );
+});
+
 // Apply IP middleware to world time API routes only.
 app.use("/api/timezone/*", clientIpMiddleware);
 app.use("/api/ip/*", clientIpMiddleware);
