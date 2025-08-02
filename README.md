@@ -3,21 +3,21 @@
 A [World Time API](http://worldtimeapi.org/) clone that doesn't suck. It's a drop-in replacement that is 100% compatible with the original API, but with a focus on reliability and performance.
 
 ## Why?
-I got tired of the original World Time API not functioning correctly more than half of the time, so I challenged myself to a freestyle coding challenge to build a reliable clone within 24 hours. Turns out it wasn't that hard.
+I got tired of the original World Time API not functioning correctly more than half of the time, so I challenged myself to a freestyle coding challenge to build a POC within 24 hours. Turns out it wasn't that hard.
+
+## Features
+
+- 🚀 **Fast**: Designed for optimal performance (< 200ms)
+- 📘 **TypeScript**: Full type safety and better developer experience
+- 🌍 **Geo IP Support**: Automatically detect timezone based on client IP
+- 📅 **Frequently updated**: Timezone datasets are updated as soon as they are available and geo IP datasets are updated every 30 days
+- 💼 **Commercial Use**: Built with commercial use in mind, so you can use it in your projects without worrying about licensing issues
 
 ## Data Sources
 We use the following open data sources to provide accurate timezone information:
 
 - Timezone data from [IANA timezone database](https://www.iana.org/time-zones)
 - Geo IP data from [maxmind geolite2](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/)
-
-## Features
-
-- 🚀 **Fast**: Built with performance in mind
-- 📘 **TypeScript**: Full type safety and better developer experience
-- 🌍 **Geo IP Support**: Automatically detect timezone based on client IP
-- 📅 **Frequently updated**: Timezone datasets are updated as soon as they are available and geo IP datasets are updated every 30 days
-- 💼 **Commercial Use**: Built with commercial use in mind, so you can use it in your projects without worrying about licensing issues
 
 ## API Endpoints
 
@@ -120,30 +120,7 @@ For testing purposes, you can also specify a flag to only dump a couple of state
 # Only dump 100 rows 10 times
 npm run download:geo -- --dump-only --chunk-size 100 --chunk-count 10
 ```
-
-### Project Structure
-
-```
-src/
-├── index.ts           # Main application entry point
-├── types/
-│   └── api.ts         # TypeScript type definitions
-└── routes/
-    ├── timezone.ts    # Timezone-related routes
-    └── ip.ts          # IP-based routes
-```
-
-### Available Scripts
-
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build the project for production
-- `npm start` - Start production server
-- `npm test` - Run tests (when implemented)
-
-### Environment Variables
-
-- `PORT` - Server port (default: 3000)
-- `HOST` - Server host (default: 0.0.0.0)
+``
 
 ## Production
 Everything is hosted on [Cloudflare](https://www.cloudflare.com/) using:
