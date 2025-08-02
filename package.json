@@ -11,7 +11,9 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
-    "download:geo": "tsx scripts/update-geo-data/main.ts"
+    "download:geo": "tsx scripts/update-geo-data/main.ts",
+    "format": "prettier . --check",
+    "format:fix": "prettier . --write"
   },
   "keywords": [
     "typescript",
@@ -35,6 +37,7 @@
     "commander": "^14.0.0",
     "csv-parser": "^3.2.0",
     "dotenv": "^17.2.1",
+    "prettier": "3.6.2",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "unzipper": "^0.12.3",
