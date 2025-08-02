@@ -4,7 +4,7 @@ import { ipRouter } from './routes/ip'
 import { HonoApp } from './types/api'
 import { clientIpMiddleware } from './middleware/client-ip'
 
-const app = new Hono<HonoApp>()
+const app = new Hono<HonoApp>({strict: false})
 
 // Apply IP middleware to world time API routes only.
 app.use('/api/timezone/*', clientIpMiddleware);
