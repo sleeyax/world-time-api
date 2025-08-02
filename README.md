@@ -63,40 +63,48 @@ The API follows the World Time API specification with the following endpoints:
 
 ## Response Formats
 
-### JSON DateTime Response
+### DateTime
+
+JSON:
 
 ```json
 {
-  "abbreviation": "EST",
-  "client_ip": "192.168.1.1",
-  "datetime": "2025-07-31T10:30:00.000Z",
-  "day_of_week": 4,
-  "day_of_year": 212,
-  "dst": false,
-  "dst_offset": 0,
-  "timezone": "America/New_York",
-  "unixtime": 1722423000,
-  "utc_datetime": "2025-07-31T14:30:00.000Z",
   "utc_offset": "-04:00",
-  "week_number": 31
+  "timezone": "America/New_York",
+  "day_of_week": 6,
+  "day_of_year": 214,
+  "datetime": "2025-08-02T13:02:11.703-04:00",
+  "utc_datetime": "2025-08-02T17:02:11.703+00:00",
+  "unixtime": 1754154131,
+  "raw_offset": -18000,
+  "week_number": 31,
+  "dst": true,
+  "abbreviation": "EDT",
+  "dst_offset": 3600,
+  "dst_from": "2025-03-09T07:00:00+00:00",
+  "dst_until": "2025-11-02T06:00:00+00:00",
+  "client_ip": "127.0.0.1"
 }
 ```
 
-### Plain Text Response
+Plain Text:
 
 ```
-abbreviation: EST
-client_ip: 192.168.1.1
-datetime: 2025-07-31T10:30:00.000Z
-day_of_week: 4
-day_of_year: 212
-dst: false
-dst_offset: 0
-timezone: America/New_York
-unixtime: 1722423000
-utc_datetime: 2025-07-31T14:30:00.000Z
 utc_offset: -04:00
+timezone: America/New_York
+day_of_week: 6
+day_of_year: 214
+datetime: 2025-08-02T13:02:51.390-04:00
+utc_datetime: 2025-08-02T17:02:51.390+00:00
+unixtime: 1754154171
+raw_offset: -18000
 week_number: 31
+dst: true
+abbreviation: EDT
+dst_offset: 3600
+dst_from: 2025-03-09T07:00:00+00:00
+dst_until: 2025-11-02T06:00:00+00:00
+client_ip: 127.0.0.1
 ```
 
 ## Development
