@@ -4,6 +4,7 @@ import { ipRouter } from "./routes/ip";
 import { HonoApp } from "./types/api";
 import { clientIpMiddleware } from "./middleware/client-ip";
 import { HTTPException } from "hono/http-exception";
+import { textResponseMiddleware } from "./middleware/text-response";
 
 const app = new Hono<HonoApp>({ strict: false });
 
@@ -29,6 +30,9 @@ app.onError((rawError, c) => {
 // Apply IP middleware to world time API routes only.
 app.use("/api/timezone/*", clientIpMiddleware);
 app.use("/api/ip/*", clientIpMiddleware);
+
+// Convert any call to an URL that ends with .txt to a text response.
+app.use("*", textResponseMiddleware);
 
 app.get("/", (c) => {
   return c.text(
