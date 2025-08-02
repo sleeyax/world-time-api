@@ -151,9 +151,6 @@ Everything is hosted on [Cloudflare](https://www.cloudflare.com/) using:
 - [cloudflare workers](https://developers.cloudflare.com/workers/) (serverless platform)
 - [cloudflare D1](https://developers.cloudflare.com/d1/) (database)
 
-> [!NOTE]
-> A paid plan is required if you want to import the whole database (+- 3.5M rows).
-
 To manually import data into the database, you can use the following commands:
 
 ```bash
