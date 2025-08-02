@@ -14,7 +14,7 @@ export function getTimeZonesByArea(area: string) {
 }
 
 export function getTime(
-  zone: string[] | string,
+  zone: string,
   utcDateTime: tc.DateTime = tc.DateTime.nowUtc(),
 ): DateTimeJsonResponse {
   const timezone = tc.TimeZone.zone(
