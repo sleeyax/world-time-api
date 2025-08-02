@@ -38,47 +38,18 @@ timezoneRouter.on("GET", ["/timezone/:area", "/timezone/:area.txt"], (c) => {
 // GET /timezone/:area/:location - Get time for specific location (JSON, plain text)
 timezoneRouter.on(
   "GET",
-  ["/timezone/:area/:location", "/timezone/:area/:location.txt"],
-  (c) => {
-    const area = c.req.param("area");
-    const location = c.req.param("location").replace(/\.txt$/, "");
-    const zone = `${area}/${location}`;
-    if (!area || !location) {
-      throw new HTTPException(400, {
-        message: "Area and location parameters are required",
-      });
-    }
-
-    try {
-      const response: DateTimeJsonResponse = getTime(zone);
-      return c.json(response);
-    } catch (error) {
-      if (isTimeZoneNotFoundError(error)) {
-        throw new HTTPException(404, {
-          message: `unknown location ${zone}`,
-        });
-      }
-
-      throw error;
-    }
-  },
-);
-
-// GET /timezone/:area/:location/:region - Get time for specific region (JSON, plain text)
-timezoneRouter.on(
-  "GET",
   [
-    "/timezone/:area/:location/:region",
-    "/timezone/:area/:location/:region.txt",
+    "/timezone/:area/:location/:region?",
+    "/timezone/:area/:location/:region?.txt",
   ],
   (c) => {
     const area = c.req.param("area");
-    const location = c.req.param("location");
-    const region = c.req.param("region").replace(/\.txt$/, "");
-    const zone = `${area}/${location}/${region}`;
-    if (!area || !location || !region) {
+    const location = c.req.param("location").replace(/\.txt$/, "");
+    const region = c.req.param("region")?.replace(/\.txt$/, "");
+    const zone = `${area}/${location}${region ? `/${region}` : ""}`;
+    if (!area || !location) {
       throw new HTTPException(400, {
-        message: "Area, location, and region parameters are required",
+        message: "Area and location parameters are required",
       });
     }
 
