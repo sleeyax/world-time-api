@@ -12,13 +12,13 @@ Comparison of APIs that provide similar functionality.
 | ------------------------------------------------- | ---------------- | ---------------- | ---------------- |
 | 📅 Frequently updated                             | ✅               | ❌               | ❓               |
 | 🟢 Reliable                                       | ✅               | ❌ \*            | ✅               |
+| 🚀 Performance                                    | Fast             | Slow             | Average          |
 | 🕒 Timezone support                               | ✅               | ✅               | ✅               |
 | 🌍 Geo IP support                                 | ✅               | ✅               | ✅               |
 | 👐 Open source                                    | ✅               | ❌               | ❌               |
 | 💼 Commercial use                                 | ✅               | ❌               | ✅               |
 | 🔄 Backwards compatible with worldtimeapi.org API | ✅               | n/a              | ❌               |
 | 📝 Response formats                               | JSON, plain text | JSON, plain text | JSON             |
-| 🚀 Performance                                    | Fast             | Slow             | Average          |
 
 \* has been down multiple times in the past, and still suffers from occasional 'connection reset' errors.
 
