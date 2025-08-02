@@ -73,19 +73,21 @@ export async function importSqlFromFile(filePath: string): Promise<void> {
 
   // Init upload
   console.log("Initializing import with Cloudflare D1...");
-  const {
-    upload_url,
-    filename,
-    error: importError,
-  } = await cloudflare.d1.database.import(databaseId, {
+  const importResponse = await cloudflare.d1.database.import(databaseId, {
     account_id: accountId,
     action: "init",
     etag,
   });
-  if (importError) {
-    throw new Error(`Failed to initialize import: ${importError}`);
+  if (importResponse.at_bookmark) {
+    console.log("File already imported!");
+    console.dir(importResponse, { depth: null });
+    await pollImportStatus(importResponse.at_bookmark);
+    return;
   }
-  if (!upload_url || !filename) {
+  if (importResponse.error) {
+    throw new Error(`Failed to initialize import: ${importResponse.error}`);
+  }
+  if (!importResponse.upload_url || !importResponse.filename) {
     throw new Error("Received empty upload URL or filename from Cloudflare D1");
   }
 
@@ -103,7 +105,7 @@ export async function importSqlFromFile(filePath: string): Promise<void> {
       "Content-Length": size.toString(),
     },
   } as any; // Cast to any to bypass TS type error
-  const r2Response = await fetch(upload_url, fetchOptions);
+  const r2Response = await fetch(importResponse.upload_url, fetchOptions);
 
   // Verify etag
   console.log("Verifying ETag...");
@@ -118,7 +120,7 @@ export async function importSqlFromFile(filePath: string): Promise<void> {
     await cloudflare.d1.database.import(databaseId, {
       account_id: accountId,
       action: "ingest",
-      filename,
+      filename: importResponse.filename,
       etag,
     });
   if (ingestionError) {
@@ -130,32 +132,43 @@ export async function importSqlFromFile(filePath: string): Promise<void> {
 
   // Poll import status
   console.log("Polling import status...");
+  await pollImportStatus(at_bookmark);
+
+  console.log("Import completed successfully!");
+}
+
+async function pollImportStatus(bookmark: string) {
+  const { cloudflare, accountId, databaseId } = getCloudflareInstance();
+
   while (true) {
-    const { success, error, status } = await cloudflare.d1.database.import(
-      databaseId,
-      {
+    const { error, status, messages, result, success } =
+      await cloudflare.d1.database.import(databaseId, {
         account_id: accountId,
         action: "poll",
-        current_bookmark: at_bookmark,
-      }
+        current_bookmark: bookmark,
+      });
+
+    console.dir(
+      {
+        status,
+        result,
+        success,
+        error,
+        messages,
+      },
+      { depth: null }
     );
-    console.log(`Import status: ${status}`);
 
-    const doneMessage = "Not currently importing anything.";
-    const isDone = success || (!success && error === doneMessage);
-
-    if (isDone) {
+    if (status === "complete") {
       break;
     }
 
-    if (error && error !== doneMessage) {
+    if (error) {
       throw new Error(`Import failed: ${error}`);
     }
 
     await sleep(1000);
   }
-
-  console.log("Import completed successfully!");
 }
 
 function getCloudflareInstance() {
