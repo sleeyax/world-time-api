@@ -2,7 +2,6 @@
 
 export interface DateTimeJsonResponse {
   abbreviation: string;
-  // client_ip: string; // TODO: wrap this at API level
   datetime: string;
   day_of_week: number;
   day_of_year: number;
