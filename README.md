@@ -144,8 +144,6 @@ For testing purposes, you can also specify a flag to only dump a couple of state
 npm run download:geo -- --dump-only --chunk-size 100 --chunk-count 10
 ```
 
-``
-
 ## Production
 
 Everything is hosted on [Cloudflare](https://www.cloudflare.com/) using:
