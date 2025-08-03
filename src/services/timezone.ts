@@ -45,20 +45,20 @@ export function getTime(
   const rawOffset = normalizeZero(utcOffsetRaw.seconds());
 
   return {
-    utc_offset: toHmString(utcOffset),
-    timezone: timezone.name(),
+    abbreviation,
+    datetime: dateTime.toIsoString(),
     day_of_week: dayOfWeek,
     day_of_year: dayOfYear,
-    datetime: dateTime.toIsoString(),
-    utc_datetime: utcDateTime.toIsoString(),
-    unixtime: unizTimeSeconds,
-    raw_offset: rawOffset,
-    week_number: weekNumber,
     dst: dst,
-    abbreviation,
-    dst_offset: dstOffset,
     dst_from: dstFrom,
+    dst_offset: dstOffset,
     dst_until: dstUntil,
+    raw_offset: rawOffset,
+    timezone: timezone.name(),
+    unixtime: unizTimeSeconds,
+    utc_datetime: utcDateTime.toIsoString(),
+    utc_offset: toHmString(utcOffset),
+    week_number: weekNumber,
   };
 }
 
