@@ -5,6 +5,7 @@ import { HonoApp } from "./types/api";
 import { clientIpMiddleware } from "./middleware/client-ip";
 import { HTTPException } from "hono/http-exception";
 import { textResponseMiddleware } from "./middleware/text-response";
+import { healthRouter } from "./routes/health";
 
 const app = new Hono<HonoApp>({ strict: false });
 
@@ -50,5 +51,6 @@ app.get("/", (c) => {
 });
 app.route("/api", timezoneRouter);
 app.route("/api", ipRouter);
+app.route("/api", healthRouter);
 
 export default app;
