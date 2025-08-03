@@ -45,7 +45,7 @@ app.use("*", textResponseMiddleware);
 
 app.get("/", (c) => {
   return c.text(
-    "A world time API that actually works. Built with <3 by Sleeyax",
+    "© 2025 World Time API. All rights reserved. Made with ❤️ for developers worldwide.",
   );
 });
 app.route("/api", timezoneRouter);
