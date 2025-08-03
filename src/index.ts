@@ -6,6 +6,7 @@ import { clientIpMiddleware } from "./middleware/client-ip";
 import { HTTPException } from "hono/http-exception";
 import { textResponseMiddleware } from "./middleware/text-response";
 import { healthRouter } from "./routes/health";
+import { rapidAPIMiddleware } from "./middleware/rapid-api";
 
 const app = new Hono<HonoApp>({ strict: false });
 
@@ -36,6 +37,9 @@ app.notFound((c) => {
     404,
   );
 });
+
+// Ensure sure incoming requests are from Rapid API.
+app.use("*", rapidAPIMiddleware);
 
 // Apply IP middleware to world time API routes only.
 app.use("/api/timezone/*", clientIpMiddleware);
