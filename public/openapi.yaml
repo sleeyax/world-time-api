@@ -1,4 +1,4 @@
-openapi: "3.1.0"
+openapi: "3.0.1"
 info:
   title: "World Time API"
   version: "20250801"
@@ -30,8 +30,7 @@ paths:
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/SuccessfulListJsonResponse"
@@ -45,8 +44,7 @@ paths:
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/SuccessfulListTextResponse"
@@ -61,14 +59,12 @@ paths:
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
         - name: location
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
@@ -82,14 +78,12 @@ paths:
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
         - name: location
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
@@ -104,20 +98,17 @@ paths:
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
         - name: location
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
         - name: region
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
@@ -131,20 +122,17 @@ paths:
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
         - name: location
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
         - name: region
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
@@ -182,8 +170,7 @@ paths:
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
@@ -199,8 +186,7 @@ paths:
           in: path
           required: true
           schema:
-            type:
-              - "string"
+            type: string
       responses:
         "200":
           $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
@@ -260,12 +246,10 @@ components:
       description: >-
         a list of available timezones
       items:
-        type:
-          - "string"
+        type: string
 
     ListTextResponse:
-      type:
-        - "string"
+      type: string
       description: >-
         a list of available timezones, one per line
 
@@ -285,18 +269,15 @@ components:
         - week_number
       properties:
         abbreviation:
-          type:
-            - "string"
+          type: string
           description: >-
             the abbreviated name of the timezone
         client_ip:
-          type:
-            - "string"
+          type: string
           description: >-
             the IP of the client making the request
         datetime:
-          type:
-            - "string"
+          type: string
           description: >-
             an ISO8601-valid string representing
             the current, local date/time
@@ -314,8 +295,7 @@ components:
             flag indicating whether the local
             time is in daylight savings
         dst_from:
-          type:
-            - "string"
+          type: string
           description: >-
             an ISO8601-valid string representing
             the datetime when daylight savings
@@ -326,8 +306,7 @@ components:
             the difference in seconds between the current local
             time and daylight saving time for the location
         dst_until:
-          type:
-            - "string"
+          type: string
           description: >-
             an ISO8601-valid string representing
             the datetime when daylight savings
@@ -339,8 +318,7 @@ components:
             and the time in UTC, excluding any daylight saving difference
             (see dst_offset)
         timezone:
-          type:
-            - "string"
+          type: string
           description: >-
             timezone in `Area/Location` or
             `Area/Location/Region` format
@@ -349,14 +327,12 @@ components:
           description: >-
             number of seconds since the Epoch
         utc_datetime:
-          type:
-            - "string"
+          type: string
           description: >-
             an ISO8601-valid string representing
             the current date/time in UTC
         utc_offset:
-          type:
-            - "string"
+          type: string
           description: >-
             an ISO8601-valid string representing
             the offset from UTC
@@ -366,8 +342,7 @@ components:
             the current week number
 
     DateTimeTextResponse:
-      type:
-        - "string"
+      type: string
       description: >-
         time zone details, as per the DateTimeJsonResponse
         response, in the format `key: value`, one item per line
@@ -377,13 +352,11 @@ components:
         - error
       properties:
         error:
-          type:
-            - "string"
+          type: string
           description: >-
             details about the error encountered
 
     ErrorTextResponse:
-      type:
-        - "string"
+      type: string
       description: >-
         details about the error encountered in plain text
