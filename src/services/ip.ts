@@ -1,4 +1,6 @@
+import { Context } from "hono";
 import { ipToBinary } from "../utils/ip";
+import { getConnInfo } from "hono/cloudflare-workers";
 
 export async function ipToTimezone(db: D1Database, ip: string) {
   const ipBuffer = ipToBinary(ip);
@@ -45,4 +47,10 @@ limit 1;
     row.represented_country_timezone;
 
   return timezone;
+}
+
+export function getClientIp(c: Context) {
+  // See: https://docs.rapidapi.com/docs/additional-request-headers.
+  const forwardedFor = c.req.header("x-forwarded-for")?.split(",")[0].trim();
+  return forwardedFor || getConnInfo(c).remote.address || "127.0.0.1";
 }

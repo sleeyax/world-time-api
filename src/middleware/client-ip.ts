@@ -1,5 +1,5 @@
 import { MiddlewareHandler } from "hono";
-import { getConnInfo } from "hono/cloudflare-workers";
+import { getClientIp } from "../services/ip";
 
 export const clientIpMiddleware: MiddlewareHandler = async (c, next) => {
   await next();
@@ -16,7 +16,7 @@ export const clientIpMiddleware: MiddlewareHandler = async (c, next) => {
         !jsonBody.error &&
         typeof jsonBody === "object"
       ) {
-        const clientIp = getConnInfo(c).remote.address ?? "127.0.0.1";
+        const clientIp = getClientIp(c);
         jsonBody.client_ip = clientIp;
       }
 

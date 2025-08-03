@@ -1,9 +1,8 @@
 import { Hono } from "hono";
 import { DateTimeJsonResponse, HonoApp } from "../types/api";
 import { getTime } from "../services/timezone";
-import { getConnInfo } from "hono/cloudflare-workers";
 import { HTTPException } from "hono/http-exception";
-import { ipToTimezone } from "../services/ip";
+import { getClientIp, ipToTimezone } from "../services/ip";
 import { AddressError } from "ip-address";
 import { isTimeZoneNotFoundError } from "../utils/error";
 
@@ -11,7 +10,7 @@ export const ipRouter = new Hono<HonoApp>();
 
 // GET /ip - Get time based on client IP (JSON, plain text)
 ipRouter.on("GET", ["/ip", "ip.txt"], async (c) => {
-  const clientIp = getConnInfo(c).remote.address;
+  const clientIp = getClientIp(c);
   if (!clientIp) {
     throw new HTTPException(400, {
       message: "Client IP not detected",
