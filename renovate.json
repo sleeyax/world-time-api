@@ -8,7 +8,7 @@
       "groupName": "timezone-data",
       "automerge": true,
       "automergeType": "branch",
-      "schedule": ["every day"]
+      "schedule": ["0 0 * * *"]
     },
     {
       "matchPackageNames": [
