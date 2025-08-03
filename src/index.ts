@@ -46,7 +46,7 @@ app.use("/api/timezone/*", clientIpMiddleware);
 app.use("/api/ip/*", clientIpMiddleware);
 
 // Convert any call to an URL that ends with .txt to a text response.
-app.use("*", textResponseMiddleware);
+app.use("/api/*", textResponseMiddleware);
 
 app.get("/", (c) => {
   return c.text(
