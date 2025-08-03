@@ -1,7 +1,7 @@
 import { MiddlewareHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
 
-export const rapidAPIMiddleware: MiddlewareHandler = async (c) => {
+export const rapidAPIMiddleware: MiddlewareHandler = async (c, next) => {
   const headerKey = "X-RapidAPI-Proxy-Secret";
   const key = c.req.header(headerKey);
   const isDev = process.env.NODE_ENV === "development";
@@ -12,4 +12,6 @@ export const rapidAPIMiddleware: MiddlewareHandler = async (c) => {
       cause: `Invalid or missing ${headerKey} header`,
     });
   }
+
+  await next();
 };
