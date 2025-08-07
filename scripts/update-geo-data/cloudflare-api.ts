@@ -2,7 +2,7 @@ import { Cloudflare } from "cloudflare";
 import { createHash } from "crypto";
 import { sleep } from "./utils";
 import { createReadStream } from "fs";
-import { promises as fsPromises } from "fs";
+import { stat } from "fs/promises";
 
 let cachedConnectionInfo:
   | {
@@ -96,7 +96,7 @@ export async function importSqlFromFile(filePath: string): Promise<void> {
   const fileStream = createReadStream(filePath, {
     highWaterMark: 16 * 1024 * 1024, // 16MB buffer
   });
-  const { size } = await fsPromises.stat(filePath);
+  const { size } = await stat(filePath);
   const fetchOptions = {
     method: "PUT",
     body: fileStream as any, // Node.js stream

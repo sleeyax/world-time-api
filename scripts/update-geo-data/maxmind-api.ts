@@ -32,9 +32,8 @@ export async function getLastModifiedDate() {
 /**
  * Download the MaxMind CSV database
  */
-export async function downloadMaxMindDatabase(): Promise<string> {
+export async function downloadMaxMindDatabase(downloadPath: string): Promise<string> {
   const { url, headers } = getClient();
-  const downloadPath = getDownloadedZipPath();
 
   const response = await fetch(url, {
     headers,

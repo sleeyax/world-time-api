@@ -1,6 +1,6 @@
 import csvParser from "csv-parser";
 import { existsSync, mkdirSync, createReadStream, createWriteStream } from "fs";
-import { unlink } from "fs/promises";
+import { stat, unlink } from "fs/promises";
 import { join } from "path";
 import * as unzipper from "unzipper";
 
@@ -104,4 +104,13 @@ export function chunkArray<T>(arr: T[], size: number): T[][] {
     result.push(arr.slice(i, i + size));
   }
   return result;
+}
+
+export async function fileExists(filePath: string): Promise<boolean> {
+  try {
+    await stat(filePath);
+    return true;
+  } catch (error) {
+    return false;
+  }
 }

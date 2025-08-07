@@ -1,4 +1,4 @@
-import { readdir, readFile, writeFile } from "fs/promises";
+import { readdir, writeFile } from "fs/promises";
 import dotenv from "dotenv";
 import { MaxMindIpBlock, MaxMindLocation } from "./types.js";
 import {
@@ -11,7 +11,7 @@ import {
   importSqlFromFile,
   updateLastUpdated,
 } from "./cloudflare-api.js";
-import { cleanup, extractDatabase, getTempDir, readCsv } from "./utils.js";
+import { extractDatabase, fileExists, getTempDir, readCsv } from "./utils.js";
 import {
   makeSqlInsert,
   mapToGeoIp2Location,
@@ -82,13 +82,13 @@ async function main() {
     let outputFile = generateOutputFile();
     if (!hasSQLDumps) {
       // Download (or reuse existing) zip and extract the database
-      const existingZipPath = getDownloadedZipPath();
-      console.log(
-        `${
-          !existingZipPath ? "Downloading" : "Using existing"
-        } MaxMind database...`,
-      );
-      const filePath = existingZipPath ?? (await downloadMaxMindDatabase());
+      const filePath = getDownloadedZipPath();
+      if (!(await fileExists(filePath))) {
+        console.log("Downloading MaxMind database...");
+        await downloadMaxMindDatabase(filePath);
+      } else {
+        console.log("MaxMind database already downloaded");
+      }
       console.log("Database downloaded to:", filePath);
       console.log("Extracting database...");
       const extractedPath = await extractDatabase(filePath);
