@@ -1,12 +1,15 @@
 import { Hono } from "hono";
+import { WorkerEntrypoint } from "cloudflare:workers";
 import { timezoneRouter } from "./routes/timezone";
 import { ipRouter } from "./routes/ip";
-import { HonoApp } from "./types/api";
+import { HonoApp, Bindings } from "./types/api";
 import { clientIpMiddleware } from "./middleware/client-ip";
 import { HTTPException } from "hono/http-exception";
 import { textResponseMiddleware } from "./middleware/text-response";
 import { healthRouter } from "./routes/health";
 import { rapidAPIMiddleware } from "./middleware/rapid-api";
+import { ipToTimezone } from "./services/ip";
+import { getTime } from "./services/timezone";
 
 const app = new Hono<HonoApp>({ strict: false });
 
@@ -57,4 +60,21 @@ app.route("/api", timezoneRouter);
 app.route("/api", ipRouter);
 app.route("/api", healthRouter);
 
-export default app;
+export default class WorldTimeApi extends WorkerEntrypoint<Bindings> {
+  // Hono requests.
+  async fetch(request: Request): Promise<Response> {
+    return app.fetch(request, this.env, this.ctx);
+  }
+
+  // Service bindings.
+  // See: https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/.
+  async getTimeByIP(clientIp: string) {
+    const timezone = await ipToTimezone(this.env.DB, clientIp);
+
+    if (!timezone) {
+      throw new Error("Couldn't find geo data for IP");
+    }
+
+    return getTime(timezone);
+  }
+}
