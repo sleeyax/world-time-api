@@ -20,7 +20,7 @@ ipRouter.on("GET", ["/ip", "ip.txt"], async (c) => {
   const timezone = await ipToTimezone(c.env.DB, clientIp);
   if (!timezone) {
     throw new HTTPException(404, {
-      message: "Couldn't find geo data for IP",
+      message: `Couldn't find geo data for IP ${clientIp}`,
     });
   }
 
@@ -43,7 +43,7 @@ ipRouter.on("GET", ["/ip/:ipv4", "/ip/:ipv4.txt"], async (c) => {
     timezone = await ipToTimezone(c.env.DB, ipv4);
     if (!timezone) {
       throw new HTTPException(404, {
-        message: "Couldn't find geo data for IP",
+        message: `Couldn't find geo data for IP ${ipv4}`,
       });
     }
   } catch (error) {

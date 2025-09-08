@@ -72,7 +72,7 @@ export default class WorldTimeApi extends WorkerEntrypoint<Bindings> {
     const timezone = await ipToTimezone(this.env.DB, clientIp);
 
     if (!timezone) {
-      throw new Error("Couldn't find geo data for IP");
+      throw new Error(`Couldn't find geo data for IP ${clientIp}`);
     }
 
     const time = getTime(timezone);
