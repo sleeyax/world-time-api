@@ -75,6 +75,7 @@ export default class WorldTimeApi extends WorkerEntrypoint<Bindings> {
       throw new Error("Couldn't find geo data for IP");
     }
 
-    return getTime(timezone);
+    const time = getTime(timezone);
+    return { ...time, client_ip: clientIp };
   }
 }
