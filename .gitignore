@@ -7,9 +7,6 @@ build/
 coverage/
 *.lcov
 
-# VS Code
-.vscode/
-
 # Logs
 *.log
 npm-debug.log*
@@ -22,6 +19,8 @@ dist/
 !.yarn/releases
 .vscode/*
 !.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/settings.json
 !.vscode/*.code-snippets
 .idea/workspace.xml
 .idea/usage.statistics.xml

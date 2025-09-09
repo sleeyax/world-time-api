@@ -1,0 +1,6 @@
+{
+  "recommendations": [
+    "rohit-gohri.format-code-action",
+    "esbenp.prettier-vscode",
+  ]
+}
