@@ -51,6 +51,15 @@ limit 1;
 
 export function getClientIp(c: Context) {
   // See: https://docs.rapidapi.com/docs/additional-request-headers.
-  const forwardedFor = c.req.header("x-forwarded-for")?.split(",")[0].trim();
-  return forwardedFor || getConnInfo(c).remote.address || "127.0.0.1";
+  const ipForwardedByRapidAPI = c.req
+    .header("x-forwarded-for")
+    ?.split(",")[0]
+    .trim();
+  const ipForwardedByMagicAPI = c.req.header("x-original-forwarded-for");
+  return (
+    ipForwardedByMagicAPI ||
+    ipForwardedByRapidAPI ||
+    getConnInfo(c).remote.address ||
+    "127.0.0.1"
+  );
 }
