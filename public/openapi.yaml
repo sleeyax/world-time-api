@@ -31,9 +31,21 @@ paths:
           required: true
           schema:
             type: string
+          example: "Africa"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulListJsonResponse"
+          description: >-
+            the list of available timezones in JSON format for the specified area
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListJsonResponse"
+              example:
+                - "Africa/Abidjan"
+                - "Africa/Accra"
+                - "Africa/Addis_Ababa"
+                - "Africa/Algiers"
+                - "Africa/Asmara"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
   /timezone/{area}.txt:
@@ -45,9 +57,21 @@ paths:
           required: true
           schema:
             type: string
+          example: "Africa"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulListTextResponse"
+          description: >-
+            the list of available timezones in plain text for the specified area
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/ListTextResponse"
+              example: |
+                Africa/Abidjan
+                Africa/Accra
+                Africa/Addis_Ababa
+                Africa/Algiers
+                Africa/Asmara
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
@@ -60,14 +84,37 @@ paths:
           required: true
           schema:
             type: string
+          example: "Africa"
         - name: location
           in: path
           required: true
           schema:
             type: string
+          example: "Abidjan"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
+          description: >-
+            the current time for the timezone requested in JSON format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DateTimeJsonResponse"
+              example:
+                abbreviation: "GMT"
+                datetime: "2025-09-12T12:18:29.438+00:00"
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: null
+                dst_offset: 0
+                dst_until: null
+                raw_offset: 0
+                timezone: "Africa/Abidjan"
+                unixtime: 1757679509
+                utc_datetime: "2025-09-12T12:18:29.438+00:00"
+                utc_offset: "+00:00"
+                week_number: 37
+                client_ip: "127.0.0.1"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
   /timezone/{area}/{location}.txt:
@@ -79,14 +126,37 @@ paths:
           required: true
           schema:
             type: string
+          example: "Africa"
         - name: location
           in: path
           required: true
           schema:
             type: string
+          example: "Abidjan"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
+          description: >-
+            the current time for the timezone requested in plain text
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/DateTimeTextResponse"
+              example: |
+                abbreviation: GMT
+                datetime: 2025-09-12T12:18:29.438+00:00
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: 
+                dst_offset: 0
+                dst_until: 
+                raw_offset: 0
+                timezone: Africa/Abidjan
+                unixtime: 1757679509
+                utc_datetime: 2025-09-12T12:18:29.438+00:00
+                utc_offset: +00:00
+                week_number: 37
+                client_ip: 127.0.0.1
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
@@ -99,19 +169,43 @@ paths:
           required: true
           schema:
             type: string
+          example: "America"
         - name: location
           in: path
           required: true
           schema:
             type: string
+          example: "Argentina"
         - name: region
           in: path
           required: true
           schema:
             type: string
+          example: "Buenos_Aires"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
+          description: >-
+            the current time for the timezone requested in JSON format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DateTimeJsonResponse"
+              example:
+                abbreviation: "-03"
+                datetime: "2025-09-12T09:30:07.347-03:00"
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: null
+                dst_offset: 0
+                dst_until: null
+                raw_offset: -10800
+                timezone: "America/Argentina/Buenos_Aires"
+                unixtime: 1757680207
+                utc_datetime: "2025-09-12T12:30:07.347+00:00"
+                utc_offset: "-03:00"
+                week_number: 37
+                client_ip: "127.0.0.1"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
   /timezone/{area}/{location}/{region}.txt:
@@ -123,19 +217,43 @@ paths:
           required: true
           schema:
             type: string
+          example: "America"
         - name: location
           in: path
           required: true
           schema:
             type: string
+          example: "Argentina"
         - name: region
           in: path
           required: true
           schema:
             type: string
+          example: "Buenos_Aires"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
+          description: >-
+            the current time for the timezone requested in plain text
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/DateTimeTextResponse"
+              example: |
+                abbreviation: -03
+                datetime: 2025-09-12T09:30:07.347-03:00
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: 
+                dst_offset: 0
+                dst_until: 
+                raw_offset: -10800
+                timezone: America/Argentina/Buenos_Aires
+                unixtime: 1757680207
+                utc_datetime: 2025-09-12T12:30:07.347+00:00
+                utc_offset: -03:00
+                week_number: 37
+                client_ip: 127.0.0.1
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
@@ -146,7 +264,28 @@ paths:
         note: this is a "best guess" obtained from open-source data.
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
+          description: >-
+            the current time for the timezone determined from client IP in JSON format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DateTimeJsonResponse"
+              example:
+                abbreviation: "BST"
+                datetime: "2025-09-12T14:28:04.754+01:00"
+                day_of_week: 5
+                day_of_year: 255
+                dst: true
+                dst_from: "2025-03-30T01:00:00+00:00"
+                dst_offset: 3600
+                dst_until: "2025-10-26T01:00:00+00:00"
+                raw_offset: 0
+                timezone: "Europe/London"
+                unixtime: 1757683684
+                utc_datetime: "2025-09-12T13:28:04.754+00:00"
+                utc_offset: "+01:00"
+                week_number: 37
+                client_ip: "127.0.0.1"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
   /ip.txt:
@@ -156,7 +295,28 @@ paths:
         note: this is a "best guess" obtained from open-source data.
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
+          description: >-
+            the current time for the timezone determined from client IP in plain text
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/DateTimeTextResponse"
+              example: |
+                abbreviation: BST
+                datetime: 2025-09-12T14:28:04.754+01:00
+                day_of_week: 5
+                day_of_year: 255
+                dst: true
+                dst_from: 2025-03-30T01:00:00+00:00
+                dst_offset: 3600
+                dst_until: 2025-10-26T01:00:00+00:00
+                raw_offset: 0
+                timezone: Europe/London
+                unixtime: 1757683684
+                utc_datetime: 2025-09-12T13:28:04.754+00:00
+                utc_offset: +01:00
+                week_number: 37
+                client_ip: 127.0.0.1
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
@@ -171,9 +331,31 @@ paths:
           required: true
           schema:
             type: string
+          example: "1.1.1.1"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulDateTimeJsonResponse"
+          description: >-
+            the current time for the timezone determined from the specified IP in JSON format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DateTimeJsonResponse"
+              example:
+                abbreviation: "AEST"
+                datetime: "2025-09-12T22:24:30.887+10:00"
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: null
+                dst_offset: 0
+                dst_until: null
+                raw_offset: 36000
+                timezone: "Australia/Sydney"
+                unixtime: 1757679870
+                utc_datetime: "2025-09-12T12:24:30.887+00:00"
+                utc_offset: "+10:00"
+                week_number: 37
+                client_ip: "127.0.0.1"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
   /ip/{ipv4}.txt:
@@ -187,9 +369,31 @@ paths:
           required: true
           schema:
             type: string
+          example: "1.1.1.1"
       responses:
         "200":
-          $ref: "#/components/responses/SuccessfulDateTimeTextResponse"
+          description: >-
+            the current time for the timezone determined from the specified IP in plain text
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/DateTimeTextResponse"
+              example: |
+                abbreviation: AEST
+                datetime: 2025-09-12T22:24:30.887+10:00
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: 
+                dst_offset: 0
+                dst_until: 
+                raw_offset: 36000
+                timezone: Australia/Sydney
+                unixtime: 1757679870
+                utc_datetime: 2025-09-12T12:24:30.887+00:00
+                utc_offset: +10:00
+                week_number: 37
+                client_ip: 127.0.0.1
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
@@ -202,6 +406,14 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ListJsonResponse"
+          example:
+            - "Africa/Abidjan"
+            - "Africa/Accra"
+            - "Africa/Addis_Ababa"
+            - "Africa/Algiers"
+            - "Africa/Asmara"
+            - "Africa/Asmera"
+            - "Africa/Bamako"
     SuccessfulListTextResponse:
       description: >-
         the list of available timezones in plain text
@@ -209,6 +421,14 @@ components:
         text/plain:
           schema:
             $ref: "#/components/schemas/ListTextResponse"
+          example: |
+            Africa/Abidjan
+            Africa/Accra
+            Africa/Addis_Ababa
+            Africa/Algiers
+            Africa/Asmara
+            Africa/Asmera
+            Africa/Bamako
 
     SuccessfulDateTimeJsonResponse:
       description: >-
@@ -217,6 +437,79 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/DateTimeJsonResponse"
+          examples:
+            timezone_two_parts:
+              summary: "Timezone with area/location (e.g., Africa/Abidjan)"
+              value:
+                abbreviation: "GMT"
+                datetime: "2025-09-12T12:18:29.438+00:00"
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: null
+                dst_offset: 0
+                dst_until: null
+                raw_offset: 0
+                timezone: "Africa/Abidjan"
+                unixtime: 1757679509
+                utc_datetime: "2025-09-12T12:18:29.438+00:00"
+                utc_offset: "+00:00"
+                week_number: 37
+                client_ip: "127.0.0.1"
+            timezone_three_parts:
+              summary: "Timezone with area/location/region (e.g., America/Argentina/Buenos_Aires)"
+              value:
+                abbreviation: "-03"
+                datetime: "2025-09-12T09:30:07.347-03:00"
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: null
+                dst_offset: 0
+                dst_until: null
+                raw_offset: -10800
+                timezone: "America/Argentina/Buenos_Aires"
+                unixtime: 1757680207
+                utc_datetime: "2025-09-12T12:30:07.347+00:00"
+                utc_offset: "-03:00"
+                week_number: 37
+                client_ip: "127.0.0.1"
+            ip_lookup:
+              summary: "IP-based time lookup"
+              value:
+                abbreviation: "BST"
+                datetime: "2025-09-12T14:28:04.754+01:00"
+                day_of_week: 5
+                day_of_year: 255
+                dst: true
+                dst_from: "2025-03-30T01:00:00+00:00"
+                dst_offset: 3600
+                dst_until: "2025-10-26T01:00:00+00:00"
+                raw_offset: 0
+                timezone: "Europe/London"
+                unixtime: 1757683684
+                utc_datetime: "2025-09-12T13:28:04.754+00:00"
+                utc_offset: "+01:00"
+                week_number: 37
+                client_ip: "127.0.0.1"
+            ip_lookup_specific:
+              summary: "Specific IP address lookup (e.g., 1.1.1.1)"
+              value:
+                abbreviation: "AEST"
+                datetime: "2025-09-12T22:24:30.887+10:00"
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: null
+                dst_offset: 0
+                dst_until: null
+                raw_offset: 36000
+                timezone: "Australia/Sydney"
+                unixtime: 1757679870
+                utc_datetime: "2025-09-12T12:24:30.887+00:00"
+                utc_offset: "+10:00"
+                week_number: 37
+                client_ip: "127.0.0.1"
     SuccessfulDateTimeTextResponse:
       description: >-
         the current time for the timezone requested in plain text
@@ -224,6 +517,79 @@ components:
         text/plain:
           schema:
             $ref: "#/components/schemas/DateTimeTextResponse"
+          examples:
+            timezone_two_parts:
+              summary: "Timezone with area/location (e.g., Africa/Abidjan)"
+              value: |
+                abbreviation: GMT
+                datetime: 2025-09-12T12:18:29.438+00:00
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: 
+                dst_offset: 0
+                dst_until: 
+                raw_offset: 0
+                timezone: Africa/Abidjan
+                unixtime: 1757679509
+                utc_datetime: 2025-09-12T12:18:29.438+00:00
+                utc_offset: +00:00
+                week_number: 37
+                client_ip: 127.0.0.1
+            timezone_three_parts:
+              summary: "Timezone with area/location/region (e.g., America/Argentina/Buenos_Aires)"
+              value: |
+                abbreviation: -03
+                datetime: 2025-09-12T09:30:07.347-03:00
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: 
+                dst_offset: 0
+                dst_until: 
+                raw_offset: -10800
+                timezone: America/Argentina/Buenos_Aires
+                unixtime: 1757680207
+                utc_datetime: 2025-09-12T12:30:07.347+00:00
+                utc_offset: -03:00
+                week_number: 37
+                client_ip: 127.0.0.1
+            ip_lookup:
+              summary: "IP-based time lookup"
+              value: |
+                abbreviation: BST
+                datetime: 2025-09-12T14:28:04.754+01:00
+                day_of_week: 5
+                day_of_year: 255
+                dst: true
+                dst_from: 2025-03-30T01:00:00+00:00
+                dst_offset: 3600
+                dst_until: 2025-10-26T01:00:00+00:00
+                raw_offset: 0
+                timezone: Europe/London
+                unixtime: 1757683684
+                utc_datetime: 2025-09-12T13:28:04.754+00:00
+                utc_offset: +01:00
+                week_number: 37
+                client_ip: 127.0.0.1
+            ip_lookup_specific:
+              summary: "Specific IP address lookup (e.g., 1.1.1.1)"
+              value: |
+                abbreviation: AEST
+                datetime: 2025-09-12T22:24:30.887+10:00
+                day_of_week: 5
+                day_of_year: 255
+                dst: false
+                dst_from: 
+                dst_offset: 0
+                dst_until: 
+                raw_offset: 36000
+                timezone: Australia/Sydney
+                unixtime: 1757679870
+                utc_datetime: 2025-09-12T12:24:30.887+00:00
+                utc_offset: +10:00
+                week_number: 37
+                client_ip: 127.0.0.1
 
     ErrorJsonResponse:
       description: >-
