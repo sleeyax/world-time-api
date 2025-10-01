@@ -1,16 +1,16 @@
 {
-  "utc_offset": "+12:00",
+  "utc_offset": "+13:00",
   "timezone": "Pacific/Auckland",
-  "day_of_week": 5,
-  "day_of_year": 213,
-  "datetime": "2025-08-01T04:10:18.018858+12:00",
-  "utc_datetime": "2025-07-31T16:10:18.018858+00:00",
-  "unixtime": 1753978218,
+  "day_of_week": 3,
+  "day_of_year": 274,
+  "datetime": "2025-10-01T23:43:02.369473+13:00",
+  "utc_datetime": "2025-10-01T10:43:02.369473+00:00",
+  "unixtime": 1759315382,
   "raw_offset": 43200,
-  "week_number": 31,
-  "dst": false,
-  "abbreviation": "NZST",
-  "dst_offset": 0,
-  "dst_from": null,
-  "dst_until": null
+  "week_number": 40,
+  "dst": true,
+  "abbreviation": "NZDT",
+  "dst_offset": 3600,
+  "dst_from": "2025-09-27T14:00:00+00:00",
+  "dst_until": "2026-04-04T14:00:00+00:00"
 }

@@ -1,16 +1,16 @@
 {
   "utc_offset": "+10:00",
   "timezone": "Australia/Sydney",
-  "day_of_week": 5,
-  "day_of_year": 213,
-  "datetime": "2025-08-01T02:09:03.467843+10:00",
-  "utc_datetime": "2025-07-31T16:09:03.467843+00:00",
-  "unixtime": 1753978143,
+  "day_of_week": 3,
+  "day_of_year": 274,
+  "datetime": "2025-10-01T20:42:19.482961+10:00",
+  "utc_datetime": "2025-10-01T10:42:19.482961+00:00",
+  "unixtime": 1759315339,
   "raw_offset": 36000,
-  "week_number": 31,
+  "week_number": 40,
   "dst": false,
   "abbreviation": "AEST",
   "dst_offset": 0,
-  "dst_from": null,
-  "dst_until": null
+  "dst_from": "2025-10-04T16:00:00+00:00",
+  "dst_until": "2025-04-05T16:00:00+00:00"
 }

@@ -1,16 +1,16 @@
 {
   "utc_offset": "-04:00",
   "timezone": "America/Asuncion",
-  "day_of_week": 4,
-  "day_of_year": 212,
-  "datetime": "2025-07-31T12:04:51.959758-04:00",
-  "utc_datetime": "2025-07-31T16:04:51.959758+00:00",
-  "unixtime": 1753977891,
+  "day_of_week": 3,
+  "day_of_year": 274,
+  "datetime": "2025-10-01T06:38:06.953676-04:00",
+  "utc_datetime": "2025-10-01T10:38:06.953676+00:00",
+  "unixtime": 1759315086,
   "raw_offset": -14400,
-  "week_number": 31,
+  "week_number": 40,
   "dst": false,
   "abbreviation": "-04",
   "dst_offset": 0,
   "dst_from": null,
-  "dst_until": null
+  "dst_until": "2024-10-15T00:00:00+00:00"
 }

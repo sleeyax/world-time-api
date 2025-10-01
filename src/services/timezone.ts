@@ -33,9 +33,8 @@ export function getTime(
   const dstOffset = normalizeZero(
     dst ? utcOffset.seconds() - utcOffsetRaw.seconds() : 0,
   );
-  const dstTransitions = dst
-    ? getDstTransitions(timezone.name(), dateTime.year())
-    : { dstStart: null, dstEnd: null };
+  const dstTransitions = getDstTransitions(timezone.name(), dateTime, dst);
+
   const dstFrom = dstTransitions.dstStart
     ? toISOWithoutFractionalZeros(dstTransitions.dstStart.toIsoString())
     : null;
@@ -62,9 +61,21 @@ export function getTime(
   };
 }
 
+/**
+ * Get DST transition dates based on current time and DST status
+ *
+ * When DST is active:
+ * - dstStart: when current DST period started
+ * - dstEnd: when current DST period will end
+ *
+ * When DST is NOT active:
+ * - dstStart: when next DST period will begin (future)
+ * - dstEnd: when last DST period ended (past)
+ */
 function getDstTransitions(
   zoneName: string,
-  year: number,
+  currentTime: tc.DateTime,
+  isDstActive: boolean,
 ): { dstStart: tc.DateTime | null; dstEnd: tc.DateTime | null } {
   const db = tc.TzDatabase.instance();
 
@@ -72,28 +83,41 @@ function getDstTransitions(
     return { dstStart: null, dstEnd: null };
   }
 
-  // Start from beginning of year
-  const startOfYear = new tc.DateTime(
-    year,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    tc.utc(),
-  ).unixUtcMillis();
+  const currentMillis = currentTime.unixUtcMillis();
 
-  // Find next two DST changes from start of year
-  const firstChange = db.nextDstChange(zoneName, startOfYear);
-  const secondChange = firstChange
-    ? db.nextDstChange(zoneName, firstChange)
+  // Find the next DST transition from current time.
+  const nextChange = db.nextDstChange(zoneName, currentMillis);
+
+  // Find the previous DST transition by searching from one year ago.
+  const oneYearAgo = currentTime.add(-1, tc.TimeUnit.Year).unixUtcMillis();
+  let prevChange = db.nextDstChange(zoneName, oneYearAgo);
+
+  // Keep looking forward until we find the transition just before current time.
+  while (prevChange && prevChange < currentMillis) {
+    const nextTransition = db.nextDstChange(zoneName, prevChange);
+    if (nextTransition && nextTransition < currentMillis) {
+      prevChange = nextTransition;
+    } else {
+      break;
+    }
+  }
+
+  // Convert to DateTime objects.
+  const prevDateTime = prevChange
+    ? new tc.DateTime(prevChange, tc.utc())
+    : null;
+  const nextDateTime = nextChange
+    ? new tc.DateTime(nextChange, tc.utc())
     : null;
 
-  return {
-    dstStart: firstChange ? new tc.DateTime(firstChange, tc.utc()) : null,
-    dstEnd: secondChange ? new tc.DateTime(secondChange, tc.utc()) : null,
-  };
+  // Return based on DST status.
+  if (isDstActive) {
+    // DST is active: prev = when it started, next = when it will end.
+    return { dstStart: prevDateTime, dstEnd: nextDateTime };
+  } else {
+    // DST is NOT active: prev = when it last ended, next = when it will begin.
+    return { dstStart: nextDateTime, dstEnd: prevDateTime };
+  }
 }
 
 function getZoneAbbreviation(dateTime: tc.DateTime, utcOffset: tc.Duration) {

@@ -1,16 +1,16 @@
 {
   "utc_offset": "+09:30",
   "timezone": "Australia/Yancowinna",
-  "day_of_week": 5,
-  "day_of_year": 213,
-  "datetime": "2025-08-01T01:39:04.406469+09:30",
-  "utc_datetime": "2025-07-31T16:09:04.406469+00:00",
-  "unixtime": 1753978144,
+  "day_of_week": 3,
+  "day_of_year": 274,
+  "datetime": "2025-10-01T20:12:20.610512+09:30",
+  "utc_datetime": "2025-10-01T10:42:20.610512+00:00",
+  "unixtime": 1759315340,
   "raw_offset": 34200,
-  "week_number": 31,
+  "week_number": 40,
   "dst": false,
   "abbreviation": "ACST",
   "dst_offset": 0,
-  "dst_from": null,
-  "dst_until": null
+  "dst_from": "2025-10-04T16:30:00+00:00",
+  "dst_until": "2025-04-05T16:30:00+00:00"
 }

@@ -1,16 +1,16 @@
 {
   "utc_offset": "+01:00",
   "timezone": "Eire",
-  "day_of_week": 4,
-  "day_of_year": 212,
-  "datetime": "2025-07-31T17:09:08.763304+01:00",
-  "utc_datetime": "2025-07-31T16:09:08.763304+00:00",
-  "unixtime": 1753978148,
+  "day_of_week": 3,
+  "day_of_year": 274,
+  "datetime": "2025-10-01T11:42:26.202847+01:00",
+  "utc_datetime": "2025-10-01T10:42:26.202847+00:00",
+  "unixtime": 1759315346,
   "raw_offset": 3600,
-  "week_number": 31,
+  "week_number": 40,
   "dst": false,
   "abbreviation": "IST",
   "dst_offset": 0,
-  "dst_from": null,
-  "dst_until": null
+  "dst_from": "2025-10-26T01:00:00+00:00",
+  "dst_until": "2025-03-30T01:00:00+00:00"
 }

@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "World Time API"
-  version: "20250912"
+  version: "2025-10-01"
   description: >-
     API to get the current local time details for a given timezone or IP address
 
@@ -510,6 +510,42 @@ components:
                 utc_offset: "+10:00"
                 week_number: 37
                 client_ip: "127.0.0.1"
+            dst_not_active:
+              summary: "DST not active - shows when DST will begin (future) and last ended (past)"
+              value:
+                abbreviation: "AEST"
+                datetime: "2025-10-01T10:58:52.533+10:00"
+                day_of_week: 3
+                day_of_year: 274
+                dst: false
+                dst_from: "2025-10-04T16:00:00+00:00"
+                dst_offset: 0
+                dst_until: "2025-04-05T16:00:00+00:00"
+                raw_offset: 36000
+                timezone: "Australia/Sydney"
+                unixtime: 1759280332
+                utc_datetime: "2025-10-01T00:58:52.533+00:00"
+                utc_offset: "+10:00"
+                week_number: 40
+                client_ip: "127.0.0.1"
+            dst_active:
+              summary: "DST active - shows when DST started (past) and will end (future)"
+              value:
+                abbreviation: "CDT"
+                datetime: "2025-07-31T11:05:04.562-05:00"
+                day_of_week: 4
+                day_of_year: 212
+                dst: true
+                dst_from: "2025-03-09T08:00:00+00:00"
+                dst_offset: 3600
+                dst_until: "2025-11-02T07:00:00+00:00"
+                raw_offset: -21600
+                timezone: "America/Chicago"
+                unixtime: 1753977904
+                utc_datetime: "2025-07-31T16:05:04.562+00:00"
+                utc_offset: "-05:00"
+                week_number: 31
+                client_ip: "127.0.0.1"
     SuccessfulDateTimeTextResponse:
       description: >-
         the current time for the timezone requested in plain text
@@ -662,10 +698,12 @@ components:
             time is in daylight savings
         dst_from:
           type: string
+          nullable: true
           description: >-
-            an ISO8601-valid string representing
-            the datetime when daylight savings
-            started for this timezone
+            an ISO8601-valid string representing the datetime of a DST transition.
+            When DST is active (dst=true): shows when the current DST period started.
+            When DST is NOT active (dst=false): shows when the next DST period will begin (future date).
+            Returns null if the timezone does not observe DST.
         dst_offset:
           type: integer
           description: >-
@@ -673,10 +711,12 @@ components:
             time and daylight saving time for the location
         dst_until:
           type: string
+          nullable: true
           description: >-
-            an ISO8601-valid string representing
-            the datetime when daylight savings
-            will end for this timezone
+            an ISO8601-valid string representing the datetime of a DST transition.
+            When DST is active (dst=true): shows when the current DST period will end (future date).
+            When DST is NOT active (dst=false): shows when the last DST period ended (past date).
+            Returns null if the timezone does not observe DST.
         raw_offset:
           type: integer
           description: >-
