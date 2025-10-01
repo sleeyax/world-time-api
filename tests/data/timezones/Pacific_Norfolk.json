@@ -11,6 +11,6 @@
   "dst": false,
   "abbreviation": "+11",
   "dst_offset": 0,
-  "dst_from": null,
-  "dst_until": null
+  "dst_from": "2025-10-04T15:00:00+00:00",
+  "dst_until": "2025-04-05T15:00:00+00:00"
 }
