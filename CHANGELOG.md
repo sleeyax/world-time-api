@@ -39,4 +39,8 @@ Clients expecting `null` when DST is inactive will now receive date strings inst
 
 ## 2025-09-12
 
+Bug fixes and improvements.
+
+## 2025-08-01
+
 Initial release.
