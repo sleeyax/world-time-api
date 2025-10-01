@@ -1,16 +1,16 @@
 {
-  "utc_offset": "-04:00",
+  "utc_offset": "-03:00",
   "timezone": "America/Santiago",
-  "day_of_week": 4,
-  "day_of_year": 212,
-  "datetime": "2025-07-31T12:06:16.522048-04:00",
-  "utc_datetime": "2025-07-31T16:06:16.522048+00:00",
-  "unixtime": 1753977976,
+  "day_of_week": 3,
+  "day_of_year": 274,
+  "datetime": "2025-10-01T07:38:50.393656-03:00",
+  "utc_datetime": "2025-10-01T10:38:50.393656+00:00",
+  "unixtime": 1759315130,
   "raw_offset": -14400,
-  "week_number": 31,
-  "dst": false,
-  "abbreviation": "-04",
-  "dst_offset": 0,
-  "dst_from": null,
-  "dst_until": null
+  "week_number": 40,
+  "dst": true,
+  "abbreviation": "-03",
+  "dst_offset": 3600,
+  "dst_from": "2025-09-07T04:00:00+00:00",
+  "dst_until": "2026-04-05T03:00:00+00:00"
 }
