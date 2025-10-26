@@ -4,7 +4,7 @@
   "schedule": ["on the first day of the month"],
   "packageRules": [
     {
-      "matchPackageNames": ["tzdata"],
+      "matchPackageNames": ["tzdata", "timezonecomplete"],
       "groupName": "timezone-data",
       "automerge": true,
       "automergeType": "branch",
