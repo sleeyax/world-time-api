@@ -27,7 +27,7 @@
   "dependencies": {
     "hono": "^4.8.10",
     "ip-address": "^10.0.1",
-    "timezonecomplete": "^5.14.1",
+    "timezonecomplete": "5.15.0",
     "tzdata": "^1.0.44"
   },
   "devDependencies": {
