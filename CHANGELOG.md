@@ -11,7 +11,9 @@
 
 **When DST is active** (`dst = true`):
 
-- No change - same behavior as before
+- No change - same behavior as before:
+  - `dst_from` shows when DST began (in the current period)
+  - `dst_until` shows when DST will end (next)
 
 #### Example
 
@@ -22,6 +24,16 @@ Australia/Sydney on October 1, 2025 (DST not active):
   "dst": false,
   "dst_from": "2025-10-04T16:00:00+00:00", // DST starts Oct 5 at 2am local
   "dst_until": "2025-04-05T16:00:00+00:00" // DST ended Apr 6 at 3am local
+}
+```
+
+Australia/Sydney on October 1, 2025 (DST active):
+
+```json
+{
+  "dst": true,
+  "dst_from": "2025-10-04T16:00:00+00:00", // DST started Oct 5 at 2am local
+  "dst_until": "2026-04-04T16:00:00+00:00" // DST ends Apr 5 at 3am local
 }
 ```
 
