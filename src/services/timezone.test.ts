@@ -189,5 +189,56 @@ describe("Timezone Service", () => {
         expect(actual.dst_until).toBe(expected.dst_until);
       });
     });
+
+    describe("DST boundary conditions", () => {
+      it("should correctly handle DST transitions at exact transition time", () => {
+        // Test at exact DST end time (Oct 26, 2025 01:00 UTC)
+        // This is when Europe/Amsterdam transitions from CEST (+02:00) to CET (+01:00)
+        const dstEndTime = new DateTime("2025-10-26T01:00:00+00:00");
+        const result = getTime("Europe/Amsterdam", dstEndTime);
+
+        // At the transition moment, DST should be false (we've just exited DST)
+        expect(result.dst).toBe(false);
+        expect(result.utc_offset).toBe("+01:00");
+
+        // dst_until should be the current transition (when DST ended)
+        expect(result.dst_until).toBe("2025-10-26T01:00:00+00:00");
+
+        // dst_from should be when the next DST period will start
+        expect(result.dst_from).toBe("2026-03-29T01:00:00+00:00");
+      });
+
+      it("should correctly handle DST transitions just before transition time", () => {
+        // Test 1 minute before DST ends
+        const beforeDstEnd = new DateTime("2025-10-26T00:59:00+00:00");
+        const result = getTime("Europe/Amsterdam", beforeDstEnd);
+
+        // Still in DST
+        expect(result.dst).toBe(true);
+        expect(result.utc_offset).toBe("+02:00");
+
+        // dst_from should be when current DST period started
+        expect(result.dst_from).toBe("2025-03-30T01:00:00+00:00");
+
+        // dst_until should be when current DST period will end
+        expect(result.dst_until).toBe("2025-10-26T01:00:00+00:00");
+      });
+
+      it("should correctly handle DST transitions just after transition time", () => {
+        // Test 1 minute after DST ends
+        const afterDstEnd = new DateTime("2025-10-26T01:01:00+00:00");
+        const result = getTime("Europe/Amsterdam", afterDstEnd);
+
+        // No longer in DST
+        expect(result.dst).toBe(false);
+        expect(result.utc_offset).toBe("+01:00");
+
+        // dst_until should be when the last DST period ended
+        expect(result.dst_until).toBe("2025-10-26T01:00:00+00:00");
+
+        // dst_from should be when the next DST period will start
+        expect(result.dst_from).toBe("2026-03-29T01:00:00+00:00");
+      });
+    });
   });
 });

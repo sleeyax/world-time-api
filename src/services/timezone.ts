@@ -92,10 +92,10 @@ function getDstTransitions(
   const oneYearAgo = currentTime.add(-1, tc.TimeUnit.Year).unixUtcMillis();
   let prevChange = db.nextDstChange(zoneName, oneYearAgo);
 
-  // Keep looking forward until we find the transition just before current time.
+  // Keep looking forward until we find the transition just before or at current time.
   while (prevChange && prevChange < currentMillis) {
     const nextTransition = db.nextDstChange(zoneName, prevChange);
-    if (nextTransition && nextTransition < currentMillis) {
+    if (nextTransition && nextTransition <= currentMillis) {
       prevChange = nextTransition;
     } else {
       break;
