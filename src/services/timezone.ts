@@ -17,9 +17,8 @@ export function getTime(
   zone: string,
   utcDateTime: tc.DateTime = tc.DateTime.nowUtc(),
 ): DateTimeJsonResponse {
-  const timezone = tc.TimeZone.zone(
-    Array.isArray(zone) ? zone.join("/") : zone,
-  );
+  const timezone = tc.TimeZone.zone(zone);
+  const timezoneName = timezone.name();
   const dateTime = utcDateTime.toZone(timezone);
   const unixTimeMillis = dateTime.unixUtcMillis();
   const unizTimeSeconds = Math.floor(unixTimeMillis / 1000);
@@ -33,7 +32,7 @@ export function getTime(
   const dstOffset = normalizeZero(
     dst ? utcOffset.seconds() - utcOffsetRaw.seconds() : 0,
   );
-  const dstTransitions = getDstTransitions(timezone.name(), dateTime, dst);
+  const dstTransitions = getDstTransitions(timezoneName, dateTime, dst);
 
   const dstFrom = dstTransitions.dstStart
     ? toISOWithoutFractionalZeros(dstTransitions.dstStart.toIsoString())
@@ -53,7 +52,7 @@ export function getTime(
     dst_offset: dstOffset,
     dst_until: dstUntil,
     raw_offset: rawOffset,
-    timezone: timezone.name(),
+    timezone: timezoneName,
     unixtime: unizTimeSeconds,
     utc_datetime: utcDateTime.toIsoString(),
     utc_offset: toHmString(utcOffset),
