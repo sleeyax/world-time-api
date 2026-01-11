@@ -4,6 +4,7 @@
   "main": "src/index.ts",
   "compatibility_date": "2025-07-31",
   "compatibility_flags": ["nodejs_compat"],
+  "route": "public.timeapi.world",
   // "vars": {
   //   "MY_VAR": "my-variable"
   // },
