@@ -176,7 +176,7 @@ function getCloudflareInstance() {
     return cachedConnectionInfo;
   }
 
-  const cloudflareApiToken = process.env.CLOUDFLARE_API_TOKEN_NO_WRANGLER;
+  const cloudflareApiToken = process.env.CLOUDFLARE_API_TOKEN_READ_D1;
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
   const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID;
 
