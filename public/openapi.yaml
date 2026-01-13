@@ -6,7 +6,7 @@ info:
     API to get the current local time details for a given timezone or IP address
 
 servers:
-  - url: https://world-time-api.sleeyax.workers.dev/api/
+  - url: https://public.timeapi.world/api/
 
 paths:
   /timezone:
