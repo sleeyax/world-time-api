@@ -27,7 +27,7 @@ timezoneRouter.on("GET", ["/timezone/:area", "/timezone/:area.txt"], (c) => {
 
   const timezones: ListJsonResponse = getTimeZonesByArea(area);
   if (timezones.length === 0) {
-    throw new HTTPException(404, {
+    throw new HTTPException(400, {
       message: `unknown location ${area}`,
     });
   }
@@ -58,7 +58,7 @@ timezoneRouter.on(
       return c.json(response);
     } catch (error) {
       if (isTimeZoneNotFoundError(error)) {
-        throw new HTTPException(404, {
+        throw new HTTPException(400, {
           message: `unknown location ${zone}`,
         });
       }

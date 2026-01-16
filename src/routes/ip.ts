@@ -61,7 +61,7 @@ ipRouter.on("GET", ["/ip/:ipv4", "/ip/:ipv4.txt"], async (c) => {
     return c.json(response);
   } catch (error) {
     if (isTimeZoneNotFoundError(error)) {
-      throw new HTTPException(404, {
+      throw new HTTPException(400, {
         message: `unknown location ${timezone}`,
       });
     }
