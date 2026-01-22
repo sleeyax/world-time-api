@@ -53,6 +53,9 @@ export interface GeoJsonResponse {
     name: string | null;
   };
   is_in_european_union: boolean;
+  is_anonymous_proxy: boolean;
+  is_satellite_provider: boolean;
+  is_anycast: boolean;
 }
 
 // Request parameter types

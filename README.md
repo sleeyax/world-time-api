@@ -125,7 +125,10 @@ JSON:
   ],
   "country": { "code": "AU", "name": "Australia" },
   "continent": { "code": "OC", "name": "Oceania" },
-  "is_in_european_union": false
+  "is_in_european_union": false,
+  "is_anonymous_proxy": false,
+  "is_satellite_provider": false,
+  "is_anycast": false
 }
 ```
 
@@ -143,6 +146,9 @@ subdivisions: [{"code":"NSW","name":"New South Wales"}]
 country: {"code":"AU","name":"Australia"}
 continent: {"code":"OC","name":"Oceania"}
 is_in_european_union: false
+is_anonymous_proxy: false
+is_satellite_provider: false
+is_anycast: false
 ```
 
 ## Development

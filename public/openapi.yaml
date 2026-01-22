@@ -397,6 +397,9 @@ paths:
                   code: "OC"
                   name: "Oceania"
                 is_in_european_union: false
+                is_anonymous_proxy: false
+                is_satellite_provider: false
+                is_anycast: false
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
   /geo.txt:
@@ -425,6 +428,9 @@ paths:
                 country: {"code":"AU","name":"Australia"}
                 continent: {"code":"OC","name":"Oceania"}
                 is_in_european_union: false
+                is_anonymous_proxy: false
+                is_satellite_provider: false
+                is_anycast: false
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
@@ -474,6 +480,9 @@ paths:
                   code: "OC"
                   name: "Oceania"
                 is_in_european_union: false
+                is_anonymous_proxy: false
+                is_satellite_provider: false
+                is_anycast: false
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
   /geo/{ip}.txt:
@@ -516,6 +525,9 @@ paths:
                 country: {"code":"AU","name":"Australia"}
                 continent: {"code":"OC","name":"Oceania"}
                 is_in_european_union: false
+                is_anonymous_proxy: false
+                is_satellite_provider: false
+                is_anycast: false
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
@@ -965,6 +977,9 @@ components:
         - country
         - continent
         - is_in_european_union
+        - is_anonymous_proxy
+        - is_satellite_provider
+        - is_anycast
       properties:
         ip:
           type: string
@@ -1047,6 +1062,18 @@ components:
           type: boolean
           description: >-
             whether the location is in the European Union
+        is_anonymous_proxy:
+          type: boolean
+          description: >-
+            whether the IP belongs to an anonymous proxy (VPN, Tor, etc.)
+        is_satellite_provider:
+          type: boolean
+          description: >-
+            whether the IP belongs to a satellite internet provider
+        is_anycast:
+          type: boolean
+          description: >-
+            whether the IP is an anycast address
 
     GeoTextResponse:
       type: string

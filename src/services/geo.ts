@@ -18,6 +18,9 @@ interface GeoRow {
   continent_code: string | null;
   continent_name: string | null;
   is_in_european_union: number | null;
+  is_anonymous_proxy: number | null;
+  is_satellite_provider: number | null;
+  is_anycast: number | null;
   // Fallback fields from registered_country
   registered_country_iso_code: string | null;
   registered_country_name: string | null;
@@ -41,6 +44,9 @@ select
   net.longitude,
   net.accuracy_radius,
   net.postal_code,
+  net.is_anonymous_proxy,
+  net.is_satellite_provider,
+  net.is_anycast,
   location.city_name,
   location.metro_code,
   location.time_zone,
@@ -123,5 +129,8 @@ limit 1;
       name: continentName,
     },
     is_in_european_union: Boolean(isInEu),
+    is_anonymous_proxy: Boolean(row.is_anonymous_proxy),
+    is_satellite_provider: Boolean(row.is_satellite_provider),
+    is_anycast: Boolean(row.is_anycast),
   };
 }
