@@ -8,6 +8,7 @@ interface GeoRow {
   postal_code: string | null;
   city_name: string | null;
   metro_code: number | null;
+  time_zone: string | null;
   subdivision_1_iso_code: string | null;
   subdivision_1_name: string | null;
   subdivision_2_iso_code: string | null;
@@ -23,6 +24,7 @@ interface GeoRow {
   registered_continent_code: string | null;
   registered_continent_name: string | null;
   registered_is_in_european_union: number | null;
+  registered_time_zone: string | null;
 }
 
 export async function ipToGeoLocation(
@@ -41,6 +43,7 @@ select
   net.postal_code,
   location.city_name,
   location.metro_code,
+  location.time_zone,
   location.subdivision_1_iso_code,
   location.subdivision_1_name,
   location.subdivision_2_iso_code,
@@ -54,7 +57,8 @@ select
   registered_country.country_name as registered_country_name,
   registered_country.continent_code as registered_continent_code,
   registered_country.continent_name as registered_continent_name,
-  registered_country.is_in_european_union as registered_is_in_european_union
+  registered_country.is_in_european_union as registered_is_in_european_union,
+  registered_country.time_zone as registered_time_zone
 from
   geoip2_network net
 left join geoip2_location location on (
@@ -98,12 +102,14 @@ limit 1;
   const continentName = row.continent_name || row.registered_continent_name;
   const isInEu =
     row.is_in_european_union ?? row.registered_is_in_european_union ?? 0;
+  const timezone = row.time_zone || row.registered_time_zone;
 
   return {
     ip,
     latitude: row.latitude,
     longitude: row.longitude,
     accuracy_radius: row.accuracy_radius,
+    timezone,
     city: row.city_name,
     postal_code: row.postal_code,
     metro_code: row.metro_code,

@@ -39,6 +39,7 @@ export interface GeoJsonResponse {
   latitude: number | null;
   longitude: number | null;
   accuracy_radius: number | null;
+  timezone: string | null;
   city: string | null;
   postal_code: string | null;
   metro_code: number | null;

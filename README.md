@@ -116,6 +116,7 @@ JSON:
   "latitude": -33.8591,
   "longitude": 151.2002,
   "accuracy_radius": 1000,
+  "timezone": "Australia/Sydney",
   "city": "Sydney",
   "postal_code": "2000",
   "metro_code": null,
@@ -135,6 +136,7 @@ ip: 1.1.1.1
 latitude: -33.8591
 longitude: 151.2002
 accuracy_radius: 1000
+timezone: Australia/Sydney
 city: Sydney
 postal_code: 2000
 subdivisions: [{"code":"NSW","name":"New South Wales"}]

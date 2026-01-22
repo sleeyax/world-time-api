@@ -383,6 +383,7 @@ paths:
                 latitude: -33.8591
                 longitude: 151.2002
                 accuracy_radius: 1000
+                timezone: "Australia/Sydney"
                 city: "Sydney"
                 postal_code: "2000"
                 metro_code: null
@@ -416,6 +417,7 @@ paths:
                 latitude: -33.8591
                 longitude: 151.2002
                 accuracy_radius: 1000
+                timezone: Australia/Sydney
                 city: Sydney
                 postal_code: 2000
                 metro_code:
@@ -458,6 +460,7 @@ paths:
                 latitude: -33.8591
                 longitude: 151.2002
                 accuracy_radius: 1000
+                timezone: "Australia/Sydney"
                 city: "Sydney"
                 postal_code: "2000"
                 metro_code: null
@@ -505,6 +508,7 @@ paths:
                 latitude: -33.8591
                 longitude: 151.2002
                 accuracy_radius: 1000
+                timezone: Australia/Sydney
                 city: Sydney
                 postal_code: 2000
                 metro_code:
@@ -953,6 +957,7 @@ components:
         - latitude
         - longitude
         - accuracy_radius
+        - timezone
         - city
         - postal_code
         - metro_code
@@ -980,6 +985,11 @@ components:
           nullable: true
           description: >-
             accuracy radius in kilometers
+        timezone:
+          type: string
+          nullable: true
+          description: >-
+            timezone in `Area/Location` or `Area/Location/Region` format
         city:
           type: string
           nullable: true
