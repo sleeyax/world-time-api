@@ -17,10 +17,7 @@ function formatArrayValue(arr: any[]): string {
   return arr.join(", ");
 }
 
-function flattenObject(
-  obj: any,
-  prefix: string = "",
-): Array<[string, string]> {
+function flattenObject(obj: any, prefix: string = ""): Array<[string, string]> {
   const result: Array<[string, string]> = [];
 
   for (const [key, value] of Object.entries(obj)) {

@@ -120,9 +120,7 @@ JSON:
   "city": "Sydney",
   "postal_code": "2000",
   "metro_code": null,
-  "subdivisions": [
-    { "code": "NSW", "name": "New South Wales" }
-  ],
+  "subdivisions": [{ "code": "NSW", "name": "New South Wales" }],
   "country": { "code": "AU", "name": "Australia" },
   "continent": { "code": "OC", "name": "Oceania" },
   "is_in_european_union": false,
