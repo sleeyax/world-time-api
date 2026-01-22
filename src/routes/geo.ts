@@ -47,7 +47,7 @@ geoRouter.on("GET", ["/geo/:ip", "/geo/:ip.txt"], async (c) => {
   } catch (error) {
     if (error instanceof AddressError) {
       throw new HTTPException(400, {
-        message: "malformed ip",
+        message: "Malformed IP",
       });
     }
     throw error;
