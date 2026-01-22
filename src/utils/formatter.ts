@@ -1,7 +1,17 @@
+function valueToString(value: any): string {
+  if (value === null || value === undefined) {
+    return "";
+  }
+  if (typeof value === "object") {
+    return JSON.stringify(value);
+  }
+  return String(value);
+}
+
 function objectToString(obj: any): string {
   return Object.entries(obj)
     .filter(([_, value]) => value != null)
-    .map(([key, value]) => `${key}: ${value}`)
+    .map(([key, value]) => `${key}: ${valueToString(value)}`)
     .join("\n");
 }
 

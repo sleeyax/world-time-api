@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { WorkerEntrypoint } from "cloudflare:workers";
 import { timezoneRouter } from "./routes/timezone";
 import { ipRouter } from "./routes/ip";
+import { geoRouter } from "./routes/geo";
 import { HonoApp, Bindings } from "./types/api";
 import { clientIpMiddleware } from "./middleware/client-ip";
 import { HTTPException } from "hono/http-exception";
@@ -47,6 +48,7 @@ app.use("*", rapidAPIMiddleware);
 // Apply IP middleware to world time API routes only.
 app.use("/api/timezone/*", clientIpMiddleware);
 app.use("/api/ip/*", clientIpMiddleware);
+app.use("/api/geo/*", clientIpMiddleware);
 
 // Convert any call to an URL that ends with .txt to a text response.
 app.use("/api/*", textResponseMiddleware);
@@ -58,6 +60,7 @@ app.get("/", (c) => {
 });
 app.route("/api", timezoneRouter);
 app.route("/api", ipRouter);
+app.route("/api", geoRouter);
 app.route("/api", healthRouter);
 
 export default class WorldTimeApi extends WorkerEntrypoint<Bindings> {
