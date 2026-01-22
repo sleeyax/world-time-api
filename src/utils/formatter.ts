@@ -26,7 +26,9 @@ function flattenObject(obj: any, prefix: string = ""): Array<[string, string]> {
     const fullKey = prefix ? `${prefix}_${key}` : key;
 
     if (Array.isArray(value)) {
-      result.push([fullKey, formatArrayValue(value)]);
+      const formatted = formatArrayValue(value);
+      if (formatted === "") continue;
+      result.push([fullKey, formatted]);
     } else if (typeof value === "object") {
       // Flatten nested object
       result.push(...flattenObject(value, fullKey));
