@@ -365,6 +365,174 @@ paths:
                 client_ip: "127.0.0.1"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
+  /geo:
+    get:
+      summary: >-
+        request geolocation data based on the ip of the request.
+        note: this is a "best guess" obtained from open-source data.
+      responses:
+        "200":
+          description: >-
+            geolocation data for the client IP in JSON format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeoJsonResponse"
+              example:
+                ip: "1.1.1.1"
+                latitude: -33.8591
+                longitude: 151.2002
+                accuracy_radius: 1000
+                timezone: "Australia/Sydney"
+                city: "Sydney"
+                postal_code: "2000"
+                metro_code: null
+                subdivisions:
+                  - code: "NSW"
+                    name: "New South Wales"
+                country:
+                  code: "AU"
+                  name: "Australia"
+                continent:
+                  code: "OC"
+                  name: "Oceania"
+                is_in_european_union: false
+                is_anonymous_proxy: false
+                is_satellite_provider: false
+                is_anycast: false
+        default:
+          $ref: "#/components/responses/ErrorJsonResponse"
+  /geo.txt:
+    get:
+      summary: >-
+        request geolocation data based on the ip of the request.
+        note: this is a "best guess" obtained from open-source data.
+      responses:
+        "200":
+          description: >-
+            geolocation data for the client IP in plain text
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/GeoTextResponse"
+              example: |
+                ip: 1.1.1.1
+                latitude: -33.8591
+                longitude: 151.2002
+                accuracy_radius: 1000
+                timezone: Australia/Sydney
+                city: Sydney
+                postal_code: 2000
+                subdivisions: NSW (New South Wales)
+                country_code: AU
+                country_name: Australia
+                continent_code: OC
+                continent_name: Oceania
+                is_in_european_union: false
+                is_anonymous_proxy: false
+                is_satellite_provider: false
+                is_anycast: false
+        default:
+          $ref: "#/components/responses/ErrorTextResponse"
+
+  /geo/{ip}:
+    get:
+      summary: >-
+        request geolocation data for a specific IPv4 or IPv6 address.
+        note: this is a "best guess" obtained from open-source data.
+      parameters:
+        - name: ip
+          in: path
+          required: true
+          description: IPv4 or IPv6 address
+          schema:
+            type: string
+          examples:
+            ipv4:
+              value: "1.1.1.1"
+              summary: IPv4 address
+            ipv6:
+              value: "2606:4700:4700::1111"
+              summary: IPv6 address (Cloudflare DNS)
+      responses:
+        "200":
+          description: >-
+            geolocation data for the specified IP in JSON format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeoJsonResponse"
+              example:
+                ip: "1.1.1.1"
+                latitude: -33.8591
+                longitude: 151.2002
+                accuracy_radius: 1000
+                timezone: "Australia/Sydney"
+                city: "Sydney"
+                postal_code: "2000"
+                metro_code: null
+                subdivisions:
+                  - code: "NSW"
+                    name: "New South Wales"
+                country:
+                  code: "AU"
+                  name: "Australia"
+                continent:
+                  code: "OC"
+                  name: "Oceania"
+                is_in_european_union: false
+                is_anonymous_proxy: false
+                is_satellite_provider: false
+                is_anycast: false
+        default:
+          $ref: "#/components/responses/ErrorJsonResponse"
+  /geo/{ip}.txt:
+    get:
+      summary: >-
+        request geolocation data for a specific IPv4 or IPv6 address.
+        note: this is a "best guess" obtained from open-source data.
+      parameters:
+        - name: ip
+          in: path
+          required: true
+          description: IPv4 or IPv6 address
+          schema:
+            type: string
+          examples:
+            ipv4:
+              value: "1.1.1.1"
+              summary: IPv4 address
+            ipv6:
+              value: "2606:4700:4700::1111"
+              summary: IPv6 address (Cloudflare DNS)
+      responses:
+        "200":
+          description: >-
+            geolocation data for the specified IP in plain text
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/GeoTextResponse"
+              example: |
+                ip: 1.1.1.1
+                latitude: -33.8591
+                longitude: 151.2002
+                accuracy_radius: 1000
+                timezone: Australia/Sydney
+                city: Sydney
+                postal_code: 2000
+                subdivisions: NSW (New South Wales)
+                country_code: AU
+                country_name: Australia
+                continent_code: OC
+                continent_name: Oceania
+                is_in_european_union: false
+                is_anonymous_proxy: false
+                is_satellite_provider: false
+                is_anycast: false
+        default:
+          $ref: "#/components/responses/ErrorTextResponse"
+
   /ip/{ip}.txt:
     get:
       summary: >-
@@ -780,3 +948,137 @@ components:
       type: string
       description: >-
         details about the error encountered in plain text
+
+    GeoSubdivision:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+          description: >-
+            ISO 3166-2 subdivision code
+        name:
+          type: string
+          description: >-
+            subdivision name
+
+    GeoJsonResponse:
+      type: object
+      required:
+        - ip
+        - latitude
+        - longitude
+        - accuracy_radius
+        - timezone
+        - city
+        - postal_code
+        - metro_code
+        - subdivisions
+        - country
+        - continent
+        - is_in_european_union
+        - is_anonymous_proxy
+        - is_satellite_provider
+        - is_anycast
+      properties:
+        ip:
+          type: string
+          description: >-
+            the IP address that was looked up
+        latitude:
+          type: number
+          nullable: true
+          description: >-
+            latitude coordinate
+        longitude:
+          type: number
+          nullable: true
+          description: >-
+            longitude coordinate
+        accuracy_radius:
+          type: integer
+          nullable: true
+          description: >-
+            accuracy radius in kilometers
+        timezone:
+          type: string
+          nullable: true
+          description: >-
+            timezone in `Area/Location` or `Area/Location/Region` format
+        city:
+          type: string
+          nullable: true
+          description: >-
+            city name
+        postal_code:
+          type: string
+          nullable: true
+          description: >-
+            postal code
+        metro_code:
+          type: integer
+          nullable: true
+          description: >-
+            metro code (US only)
+        subdivisions:
+          type: array
+          description: >-
+            list of subdivisions (e.g., states, provinces)
+          items:
+            $ref: "#/components/schemas/GeoSubdivision"
+        country:
+          type: object
+          required:
+            - code
+            - name
+          properties:
+            code:
+              type: string
+              nullable: true
+              description: >-
+                ISO 3166-1 alpha-2 country code
+            name:
+              type: string
+              nullable: true
+              description: >-
+                country name
+        continent:
+          type: object
+          required:
+            - code
+            - name
+          properties:
+            code:
+              type: string
+              nullable: true
+              description: >-
+                two-letter continent code
+            name:
+              type: string
+              nullable: true
+              description: >-
+                continent name
+        is_in_european_union:
+          type: boolean
+          description: >-
+            whether the location is in the European Union
+        is_anonymous_proxy:
+          type: boolean
+          description: >-
+            whether the IP belongs to an anonymous proxy (VPN, Tor, etc.)
+        is_satellite_provider:
+          type: boolean
+          description: >-
+            whether the IP belongs to a satellite internet provider
+        is_anycast:
+          type: boolean
+          description: >-
+            whether the IP is an anycast address
+
+    GeoTextResponse:
+      type: string
+      description: >-
+        geolocation details, as per the GeoJsonResponse
+        response, in the format `key: value`, one item per line

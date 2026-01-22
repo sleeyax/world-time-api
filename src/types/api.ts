@@ -29,6 +29,35 @@ export interface ErrorJsonResponse {
 
 export type ErrorTextResponse = string;
 
+export interface GeoSubdivision {
+  code: string;
+  name: string;
+}
+
+export interface GeoJsonResponse {
+  ip: string;
+  latitude: number | null;
+  longitude: number | null;
+  accuracy_radius: number | null;
+  timezone: string | null;
+  city: string | null;
+  postal_code: string | null;
+  metro_code: number | null;
+  subdivisions: GeoSubdivision[];
+  country: {
+    code: string | null;
+    name: string | null;
+  };
+  continent: {
+    code: string | null;
+    name: string | null;
+  };
+  is_in_european_union: boolean;
+  is_anonymous_proxy: boolean;
+  is_satellite_provider: boolean;
+  is_anycast: boolean;
+}
+
 // Request parameter types
 export interface TimezoneParams {
   area: string;

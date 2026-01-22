@@ -22,13 +22,6 @@ Comparison of APIs that provide similar functionality.
 
 \* has been down multiple times in the past, and still suffers from occasional 'connection reset' errors.
 
-## Roadmap
-
-A couple of features that are planned for the future:
-
-- [ ] Provide additional geolocation data API endpoints (coordinates, country, city, etc.). We have the data, just not the API endpoints.
-- [Suggest a feature!](https://github.com/sleeyax/world-time-api/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen)
-
 ## Data Sources
 
 We use the following open data sources to provide accurate timezone information:
@@ -59,6 +52,13 @@ The API follows the World Time API specification with the following endpoints:
 - `GET /api/ip.txt` - Get time based on client IP (plain text)
 - `GET /api/ip/{ip}` - Get time based on specific IPv4 or IPv6 address (JSON)
 - `GET /api/ip/{ip}.txt` - Get time based on specific IPv4 or IPv6 address (plain text)
+
+### Geolocation Endpoints
+
+- `GET /api/geo` - Get geolocation data for client IP (JSON)
+- `GET /api/geo.txt` - Get geolocation data for client IP (plain text)
+- `GET /api/geo/{ip}` - Get geolocation data for specific IPv4 or IPv6 address (JSON)
+- `GET /api/geo/{ip}.txt` - Get geolocation data for specific IPv4 or IPv6 address (plain text)
 
 ## Response Formats
 
@@ -104,6 +104,51 @@ dst_offset: 3600
 dst_from: 2025-03-09T07:00:00+00:00
 dst_until: 2025-11-02T06:00:00+00:00
 client_ip: 127.0.0.1
+```
+
+### Geolocation
+
+JSON:
+
+```json
+{
+  "ip": "1.1.1.1",
+  "latitude": -33.8591,
+  "longitude": 151.2002,
+  "accuracy_radius": 1000,
+  "timezone": "Australia/Sydney",
+  "city": "Sydney",
+  "postal_code": "2000",
+  "metro_code": null,
+  "subdivisions": [{ "code": "NSW", "name": "New South Wales" }],
+  "country": { "code": "AU", "name": "Australia" },
+  "continent": { "code": "OC", "name": "Oceania" },
+  "is_in_european_union": false,
+  "is_anonymous_proxy": false,
+  "is_satellite_provider": false,
+  "is_anycast": false
+}
+```
+
+Plain Text:
+
+```
+ip: 1.1.1.1
+latitude: -33.8591
+longitude: 151.2002
+accuracy_radius: 1000
+timezone: Australia/Sydney
+city: Sydney
+postal_code: 2000
+subdivisions: NSW (New South Wales)
+country_code: AU
+country_name: Australia
+continent_code: OC
+continent_name: Oceania
+is_in_european_union: false
+is_anonymous_proxy: false
+is_satellite_provider: false
+is_anycast: false
 ```
 
 ## Development
