@@ -57,7 +57,7 @@ export async function updateLastUpdated(lastUpdated: string): Promise<void> {
   }
 }
 
-export async function importSqlFromFile(filePath: string): Promise<void> {
+async function importSqlFromFileInternal(filePath: string): Promise<void> {
   const { cloudflare, accountId, databaseId } = getCloudflareInstance();
 
   // Compute MD5 hash of the file in a streaming way
@@ -135,6 +135,44 @@ export async function importSqlFromFile(filePath: string): Promise<void> {
   await pollImportStatus(at_bookmark);
 
   console.log("Import completed successfully!");
+}
+
+export async function importSqlFromFile(filePath: string): Promise<void> {
+  const maxRetries = 5;
+  let lastError: Error | undefined;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await importSqlFromFileInternal(filePath);
+      return; // Success, exit the retry loop
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+
+      // Check if this is a D1_RESET_DO error
+      if (errorMessage.includes("D1_RESET_DO")) {
+        console.log(
+          `Import failed with D1_RESET_DO error (attempt ${attempt}/${maxRetries})`,
+        );
+        lastError = error instanceof Error ? error : new Error(String(error));
+
+        if (attempt < maxRetries) {
+          const delaySeconds = attempt * 2; // Exponential backoff: 2s, 4s, 6s, 8s
+          console.log(`Retrying in ${delaySeconds} seconds...`);
+          await sleep(delaySeconds * 1000);
+          continue;
+        }
+      } else {
+        // For other errors, throw immediately without retry
+        throw error;
+      }
+    }
+  }
+
+  // If we get here, all retries failed
+  throw new Error(
+    `Import failed after ${maxRetries} attempts: ${lastError?.message}`,
+  );
 }
 
 async function pollImportStatus(bookmark: string) {
