@@ -5,6 +5,7 @@ function toBool(value: string | number | boolean | null | undefined): boolean {
   if (value === null || value === undefined) return false;
   if (typeof value === "boolean") return value;
   if (typeof value === "number") return value !== 0;
+  if (value === "0") return false;
   return value === "true" || value === "1";
 }
 
