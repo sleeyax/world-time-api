@@ -28,10 +28,10 @@ ipRouter.on("GET", ["/ip", "ip.txt"], async (c) => {
   return c.json(response);
 });
 
-// GET /ip/:ipv4 - Get time based on specific IP (JSON, plain text)
-ipRouter.on("GET", ["/ip/:ipv4", "/ip/:ipv4.txt"], async (c) => {
-  const ipv4 = c.req.param("ipv4").replace(/\.txt$/, "");
-  if (!ipv4) {
+// GET /ip/:ip - Get time based on specific IP (JSON, plain text)
+ipRouter.on("GET", ["/ip/:ip", "/ip/:ip.txt"], async (c) => {
+  const ip = c.req.param("ip").replace(/\.txt$/, "");
+  if (!ip) {
     throw new HTTPException(400, {
       message: "IP parameter is required",
     });
@@ -40,10 +40,10 @@ ipRouter.on("GET", ["/ip/:ipv4", "/ip/:ipv4.txt"], async (c) => {
   let timezone: string | null;
 
   try {
-    timezone = await ipToTimezone(c.env.DB, ipv4);
+    timezone = await ipToTimezone(c.env.DB, ip);
     if (!timezone) {
       throw new HTTPException(404, {
-        message: `Couldn't find geo data for IP ${ipv4}`,
+        message: `Couldn't find geo data for IP ${ip}`,
       });
     }
   } catch (error) {

@@ -46,7 +46,9 @@ program
     "--add-transaction",
     "Whether to wrap statements in a transaction (local only)",
   )
-  .option("--optimize-writes", "Whether to optimize writes (local only)");
+  .option("--optimize-writes", "Whether to optimize writes (local only)")
+  .option("--skip-ipv6", "Skip IPv6 data import (faster local dev)")
+  .option("--skip-ipv4", "Skip IPv4 data import (import only IPv6)");
 
 program.parse(process.argv);
 
@@ -58,6 +60,8 @@ const options = program.opts<{
   maxRows?: number;
   addTransaction?: boolean;
   optimizeWrites?: boolean;
+  skipIpv6?: boolean;
+  skipIpv4?: boolean;
 }>();
 
 console.log("options", options);
@@ -95,43 +99,82 @@ async function main() {
       console.log("Database extracted to:", extractedPath);
 
       // Convert CSV files to SQL inserts
-      console.log("Reading blocks...");
       if (options.optimizeWrites && !options.splitFiles) {
         await writeFile(outputFile, "PRAGMA synchronous = OFF;\n", {
           flag: "w",
         });
       }
-      for await (const batch of readCsv<MaxMindIpBlock, GeoIp2Network>(
-        `${extractedPath}/GeoLite2-City-Blocks-IPv4.csv`,
-        mapToGeoIp2Network,
-        options,
-      )) {
-        const sql = makeSqlInsert({
-          data: batch,
-          tableName: "geoip2_network",
-          onConflict: ["network_start", "network_end"],
-          addTransaction: options.addTransaction,
-          maxValuesEach: options.maxRows,
-        });
 
-        if (options.splitFiles) {
-          if (options.optimizeWrites) {
-            await writeFile(outputFile, "PRAGMA synchronous = OFF;\n", {
+      if (!options.skipIpv4) {
+        console.log("Reading IPv4 blocks...");
+        for await (const batch of readCsv<MaxMindIpBlock, GeoIp2Network>(
+          `${extractedPath}/GeoLite2-City-Blocks-IPv4.csv`,
+          mapToGeoIp2Network,
+          options,
+        )) {
+          const sql = makeSqlInsert({
+            data: batch,
+            tableName: "geoip2_network",
+            onConflict: ["network_start", "network_end"],
+            addTransaction: options.addTransaction,
+            maxValuesEach: options.maxRows,
+          });
+
+          if (options.splitFiles) {
+            if (options.optimizeWrites) {
+              await writeFile(outputFile, "PRAGMA synchronous = OFF;\n", {
+                flag: "w",
+              });
+            }
+            await writeFile(outputFile, sql, {
               flag: "w",
             });
+
+            outputFile = generateOutputFile();
+          } else {
+            await writeFile(outputFile, sql, {
+              flag: "a",
+            });
           }
-          await writeFile(outputFile, sql, {
-            flag: "w",
+        }
+        console.log("Finished reading IPv4 blocks");
+      }
+
+      if (!options.skipIpv6) {
+        console.log("Reading IPv6 blocks...");
+        for await (const batch of readCsv<MaxMindIpBlock, GeoIp2Network>(
+          `${extractedPath}/GeoLite2-City-Blocks-IPv6.csv`,
+          mapToGeoIp2Network,
+          options,
+        )) {
+          const sql = makeSqlInsert({
+            data: batch,
+            tableName: "geoip2_network",
+            onConflict: ["network_start", "network_end"],
+            addTransaction: options.addTransaction,
+            maxValuesEach: options.maxRows,
           });
 
-          outputFile = generateOutputFile();
-        } else {
-          await writeFile(outputFile, sql, {
-            flag: "a",
-          });
+          if (options.splitFiles) {
+            if (options.optimizeWrites) {
+              await writeFile(outputFile, "PRAGMA synchronous = OFF;\n", {
+                flag: "w",
+              });
+            }
+            await writeFile(outputFile, sql, {
+              flag: "w",
+            });
+
+            outputFile = generateOutputFile();
+          } else {
+            await writeFile(outputFile, sql, {
+              flag: "a",
+            });
+          }
         }
+        console.log("Finished reading IPv6 blocks");
       }
-      console.log("Finished reading blocks");
+
       console.log("Reading locations...");
       for await (const batch of readCsv<MaxMindLocation, GeoIp2Location>(
         `${extractedPath}/GeoLite2-City-Locations-en.csv`,
