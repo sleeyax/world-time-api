@@ -142,9 +142,11 @@ accuracy_radius: 1000
 timezone: Australia/Sydney
 city: Sydney
 postal_code: 2000
-subdivisions: [{"code":"NSW","name":"New South Wales"}]
-country: {"code":"AU","name":"Australia"}
-continent: {"code":"OC","name":"Oceania"}
+subdivisions: NSW (New South Wales)
+country_code: AU
+country_name: Australia
+continent_code: OC
+continent_name: Oceania
 is_in_european_union: false
 is_anonymous_proxy: false
 is_satellite_provider: false
