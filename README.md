@@ -208,4 +208,4 @@ npm run download:geo -- --chunk-size 250000 --split-files
 
 ## License
 
-This project is licensed under the BSL 1.1 license, with a change date of `one year from release date` after which the license automatically changes to GPL v3. See [LICENSE](./LICENSE) for details.
+This project is licensed under the BSL 1.1 license, with a change date of `three years from release date` after which the license automatically changes to GPL v3. See [LICENSE](./LICENSE) for details.
