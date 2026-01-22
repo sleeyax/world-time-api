@@ -1,6 +1,13 @@
 import { ipToBinary } from "../utils/ip";
 import { GeoJsonResponse, GeoSubdivision } from "../types/api";
 
+function toBool(value: string | number | boolean | null | undefined): boolean {
+  if (value === null || value === undefined) return false;
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value !== 0;
+  return value === "true" || value === "1";
+}
+
 interface GeoRow {
   latitude: number | null;
   longitude: number | null;
@@ -17,16 +24,16 @@ interface GeoRow {
   country_name: string | null;
   continent_code: string | null;
   continent_name: string | null;
-  is_in_european_union: number | null;
-  is_anonymous_proxy: number | null;
-  is_satellite_provider: number | null;
-  is_anycast: number | null;
+  is_in_european_union: string | number | boolean | null;
+  is_anonymous_proxy: string | number | boolean | null;
+  is_satellite_provider: string | number | boolean | null;
+  is_anycast: string | number | boolean | null;
   // Fallback fields from registered_country
   registered_country_iso_code: string | null;
   registered_country_name: string | null;
   registered_continent_code: string | null;
   registered_continent_name: string | null;
-  registered_is_in_european_union: number | null;
+  registered_is_in_european_union: string | number | boolean | null;
   registered_time_zone: string | null;
 }
 
@@ -107,7 +114,7 @@ limit 1;
   const continentCode = row.continent_code || row.registered_continent_code;
   const continentName = row.continent_name || row.registered_continent_name;
   const isInEu =
-    row.is_in_european_union ?? row.registered_is_in_european_union ?? 0;
+    row.is_in_european_union ?? row.registered_is_in_european_union;
   const timezone = row.time_zone || row.registered_time_zone;
 
   return {
@@ -128,9 +135,9 @@ limit 1;
       code: continentCode,
       name: continentName,
     },
-    is_in_european_union: Boolean(isInEu),
-    is_anonymous_proxy: Boolean(row.is_anonymous_proxy),
-    is_satellite_provider: Boolean(row.is_satellite_provider),
-    is_anycast: Boolean(row.is_anycast),
+    is_in_european_union: toBool(isInEu),
+    is_anonymous_proxy: toBool(row.is_anonymous_proxy),
+    is_satellite_provider: toBool(row.is_satellite_provider),
+    is_anycast: toBool(row.is_anycast),
   };
 }
