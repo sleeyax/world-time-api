@@ -320,18 +320,25 @@ paths:
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
-  /ip/{ipv4}:
+  /ip/{ip}:
     get:
       summary: >-
-        request the current time based on the ip of the request.
+        request the current time based on a specific IPv4 or IPv6 address.
         note: this is a "best guess" obtained from open-source data.
       parameters:
-        - name: ipv4
+        - name: ip
           in: path
           required: true
+          description: IPv4 or IPv6 address
           schema:
             type: string
-          example: "1.1.1.1"
+          examples:
+            ipv4:
+              value: "1.1.1.1"
+              summary: IPv4 address
+            ipv6:
+              value: "2606:4700:4700::1111"
+              summary: IPv6 address (Cloudflare DNS)
       responses:
         "200":
           description: >-
@@ -358,18 +365,25 @@ paths:
                 client_ip: "127.0.0.1"
         default:
           $ref: "#/components/responses/ErrorJsonResponse"
-  /ip/{ipv4}.txt:
+  /ip/{ip}.txt:
     get:
       summary: >-
-        request the current time based on the ip of the request.
+        request the current time based on a specific IPv4 or IPv6 address.
         note: this is a "best guess" obtained from open-source data.
       parameters:
-        - name: ipv4
+        - name: ip
           in: path
           required: true
+          description: IPv4 or IPv6 address
           schema:
             type: string
-          example: "1.1.1.1"
+          examples:
+            ipv4:
+              value: "1.1.1.1"
+              summary: IPv4 address
+            ipv6:
+              value: "2606:4700:4700::1111"
+              summary: IPv6 address (Cloudflare DNS)
       responses:
         "200":
           description: >-

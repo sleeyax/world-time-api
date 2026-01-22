@@ -27,7 +27,6 @@ Comparison of APIs that provide similar functionality.
 A couple of features that are planned for the future:
 
 - [ ] Provide additional geolocation data API endpoints (coordinates, country, city, etc.). We have the data, just not the API endpoints.
-- [ ] IPV6 support. Our database already supports this, we just need to import the relevant dataset and update the API documentation accordingly.
 - [Suggest a feature!](https://github.com/sleeyax/world-time-api/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen)
 
 ## Data Sources
@@ -58,8 +57,8 @@ The API follows the World Time API specification with the following endpoints:
 
 - `GET /api/ip` - Get time based on client IP (JSON)
 - `GET /api/ip.txt` - Get time based on client IP (plain text)
-- `GET /api/ip/{ipv4}` - Get time based on specific IP (JSON)
-- `GET /api/ip/{ipv4}.txt` - Get time based on specific IP (plain text)
+- `GET /api/ip/{ip}` - Get time based on specific IPv4 or IPv6 address (JSON)
+- `GET /api/ip/{ip}.txt` - Get time based on specific IPv4 or IPv6 address (plain text)
 
 ## Response Formats
 

@@ -46,7 +46,7 @@ export interface RegionParams {
 }
 
 export interface IpParams {
-  ipv4: string;
+  ip: string;
 }
 
 // Utility types for route handlers
