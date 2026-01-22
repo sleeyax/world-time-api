@@ -22,7 +22,7 @@
     "timezone"
   ],
   "author": "Sleeyax",
-  "license": "",
+  "license": "BSL-1.1",
   "type": "module",
   "dependencies": {
     "hono": "^4.8.10",
