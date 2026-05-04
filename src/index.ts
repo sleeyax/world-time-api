@@ -8,7 +8,7 @@ import { clientIpMiddleware } from "./middleware/client-ip";
 import { HTTPException } from "hono/http-exception";
 import { textResponseMiddleware } from "./middleware/text-response";
 import { healthRouter } from "./routes/health";
-import { rapidAPIMiddleware } from "./middleware/rapid-api";
+import { authMiddleware } from "./middleware/auth";
 import { ipToTimezone } from "./services/ip";
 import { getTime } from "./services/timezone";
 
@@ -42,8 +42,8 @@ app.notFound((c) => {
   );
 });
 
-// Ensure sure incoming requests are from Rapid API.
-app.use("*", rapidAPIMiddleware);
+// Authenticate incoming requests (RapidAPI proxy secret or master key).
+app.use("*", authMiddleware);
 
 // Apply IP middleware to world time API routes only.
 app.use("/api/timezone/*", clientIpMiddleware);

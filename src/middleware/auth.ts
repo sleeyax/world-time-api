@@ -16,7 +16,7 @@ function parseMasterKeys(raw: string | undefined): Map<string, string> {
   return map;
 }
 
-export const rapidAPIMiddleware: MiddlewareHandler = async (c, next) => {
+export const authMiddleware: MiddlewareHandler = async (c, next) => {
   if (c.req.path === "/api/ping") {
     return next();
   }
