@@ -206,6 +206,58 @@ npx wrangler d1 execute geolite2 --remote --file=./schema.sql
 npm run download:geo -- --chunk-size 250000 --split-files
 ```
 
+## Enterprise keys
+
+Enterprise keys grant direct (non-RapidAPI) access and live in a dedicated `enterprise` D1 database, separate from the geo `geolite2` database.
+Callers authenticate with the `x-enterprise-key` header.
+Each key has an optional monthly request limit (`request_limit`; `null` = unlimited); over-limit requests get a `429` and don't consume quota.
+Limited responses carry `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset`.
+
+One-time setup (creates the database and its schema):
+
+```bash
+# Create the database, then paste the returned database_id into wrangler.jsonc (ENTERPRISE_DB).
+npx wrangler d1 create enterprise
+
+# Apply the schema (local, then remote when deploying).
+npx wrangler d1 execute enterprise --local --file=./schema-enterprise.sql
+npx wrangler d1 execute enterprise --remote --file=./schema-enterprise.sql
+```
+
+Add a key (the raw key is shown to the customer once and never stored, only its hash is):
+
+```bash
+# 1. Generate a strong random raw key into a variable, and print it (give THIS to the customer).
+KEY=$(openssl rand -hex 32); echo "$KEY"
+
+# 2. Hash it (this is what goes in the DB).
+HASH=$(printf '%s' "$KEY" | sha256sum | cut -d' ' -f1); echo "$HASH"
+
+# 3. Insert the hash. request_limit is the monthly cap; use NULL for unlimited.
+#    2000000 below = 1 million requests/month. Add --remote to target production.
+npx wrangler d1 execute enterprise --local \
+  --command "insert into enterprise_keys (key_hash, name, request_limit) values ('$HASH', 'unknown key', 1000000);"
+```
+
+Admin operations (run against the `enterprise` DB; changes can take up to 24h to take effect on warm isolates due to the in-isolate config cache so redeploy to flush immediately):
+
+```bash
+# Change a limit (or set NULL for unlimited)
+update enterprise_keys set request_limit = 5000000 where name = '<name>';
+# Revoke a key
+delete from enterprise_keys where name = '<name>';
+# Inspect usage
+select * from enterprise_key_usage where period = '2026-06';
+```
+
+### Test a key
+
+Use `$KEY` from step 1, or paste the raw key. Auth is bypassed when `NODE_ENV=development`, so unset it to exercise this path locally. `-i` prints the `X-RateLimit-*` headers:
+
+```bash
+curl -i -H "x-enterprise-key: $KEY" http://localhost:8787/api/timezone/Europe/Amsterdam
+```
+
 ## License
 
 This project is licensed under the BSL 1.1 license, with a change date of `three years from release date` after which the license automatically changes to GPL v3. See [LICENSE](./LICENSE) for details.

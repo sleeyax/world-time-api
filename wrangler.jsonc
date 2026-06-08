@@ -26,6 +26,11 @@
       "database_name": "geolite2",
       "database_id": "60e0c742-1506-462b-bd94-674a0fb101f3",
     },
+    {
+      "binding": "ENTERPRISE_DB",
+      "database_name": "enterprise",
+      "database_id": "70289f70-d6c9-4ea7-872b-983d7cb7f5a0",
+    },
   ],
   // "ai": {
   //   "binding": "AI"
