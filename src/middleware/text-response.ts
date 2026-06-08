@@ -11,12 +11,11 @@ export const textResponseMiddleware: MiddlewareHandler = async (c, next) => {
     try {
       const jsonBody = await c.res.json();
       const textBody = formatAsText(jsonBody);
+      const headers = new Headers(c.res.headers);
+      headers.set("Content-Type", "text/plain");
       c.res = new Response(textBody, {
         status: c.res.status,
-        headers: new Headers({
-          ...c.res.headers,
-          "Content-Type": "text/plain",
-        }),
+        headers,
       });
     } catch (_) {
       // skip errors
