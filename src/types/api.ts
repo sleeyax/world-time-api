@@ -97,5 +97,6 @@ export type IpHandler = (
 export type HonoApp = { Bindings: Bindings };
 
 export type Bindings = {
-  DB: D1Database;
+  DB: D1Database; // geolite2 (unchanged)
+  ENTERPRISE_DB: D1Database; // enterprise keys + usage
 };

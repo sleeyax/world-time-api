@@ -42,7 +42,7 @@ app.notFound((c) => {
   );
 });
 
-// Authenticate incoming requests (RapidAPI proxy secret or master key).
+// Authenticate incoming requests (RapidAPI proxy secret or enterprise key).
 app.use("*", authMiddleware);
 
 // Apply IP middleware to world time API routes only.
