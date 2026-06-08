@@ -8,6 +8,7 @@ import { clientIpMiddleware } from "./middleware/client-ip";
 import { HTTPException } from "hono/http-exception";
 import { textResponseMiddleware } from "./middleware/text-response";
 import { healthRouter } from "./routes/health";
+import { whopWebhookRouter } from "./routes/whop-webhook";
 import { authMiddleware } from "./middleware/auth";
 import { ipToTimezone } from "./services/ip";
 import { getTime } from "./services/timezone";
@@ -62,6 +63,7 @@ app.route("/api", timezoneRouter);
 app.route("/api", ipRouter);
 app.route("/api", geoRouter);
 app.route("/api", healthRouter);
+app.route("/webhooks", whopWebhookRouter);
 
 export default class WorldTimeApi extends WorkerEntrypoint<Bindings> {
   // Hono requests.

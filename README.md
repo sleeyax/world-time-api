@@ -258,6 +258,36 @@ Use `$KEY` from step 1, or paste the raw key. Auth is bypassed when `NODE_ENV=de
 curl -i -H "x-enterprise-key: $KEY" http://localhost:8787/api/timezone/Europe/Amsterdam
 ```
 
+### Whop subscriptions
+
+Individual subscriptions sold through [Whop](https://whop.com) provision and revoke enterprise keys automatically, so you don't run the SQL above by hand for them.
+We reuse the **license key Whop already issues per membership**: on subscribe we store its hash as an enterprise key; the customer reads the key from their Whop dashboard and sends it as the usual `x-enterprise-key` header.
+The raw key is never stored, only its hash (same model as manual keys).
+
+`POST /webhooks/whop` receives Whop's `membership.activated` / `membership.deactivated` events, verified via the [`@whop/sdk`](https://www.npmjs.com/package/@whop/sdk) Standard-Webhooks signature check.
+On activate we look the product up in `whop_plans`; **only products listed there grant access** (a row is the allowlist), with `request_limit` as the monthly cap (`null` = unlimited).
+On deactivate we delete the key. Revocation is subject to the same up-to-24h warm-isolate cache as manual keys.
+
+Prerequisite: each API-granting Whop product must use the **License Key** delivery type so the webhook payload carries a `license_key`.
+
+Setup:
+
+```bash
+# 1. Apply the schema
+npx wrangler d1 execute enterprise --remote --file=./schema-enterprise.sql
+
+# 2. Map each API-granting Whop product (prod_...) to its monthly limit (NULL = unlimited).
+npx wrangler d1 execute enterprise --remote \
+  --command "insert into whop_plans (product_id, request_limit) values ('prod_xxx', 1000000);"
+
+# 3. Store the webhook signing secret from the Whop dashboard.
+npx wrangler secret put WHOP_WEBHOOK_SECRET
+```
+
+In the Whop dashboard, point a webhook at `https://<your-worker>/webhooks/whop`, subscribed to `membership.activated` and `membership.deactivated`.
+
+To test locally, expose `wrangler dev` with a tunnel (e.g. `cloudflared tunnel --url http://localhost:8787`), set the dashboard webhook to the tunnel URL, put its signing secret in `.dev.vars` as `WHOP_WEBHOOK_SECRET`, then use the dashboard's **Send test webhook** button.
+
 ## License
 
 This project is licensed under the BSL 1.1 license, with a change date of `three years from release date` after which the license automatically changes to GPL v3. See [LICENSE](./LICENSE) for details.

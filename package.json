@@ -25,6 +25,7 @@
   "license": "BSL-1.1",
   "type": "module",
   "dependencies": {
+    "@whop/sdk": "^0.0.40",
     "hono": "^4.8.10",
     "ip-address": "^10.0.1",
     "timezonecomplete": "5.15.0",
@@ -39,6 +40,7 @@
     "csv-parser": "^3.2.0",
     "dotenv": "^17.2.1",
     "prettier": "3.6.2",
+    "standardwebhooks": "^1.0.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "unzipper": "^0.12.3",

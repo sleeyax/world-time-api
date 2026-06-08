@@ -112,7 +112,7 @@ function setRateLimitHeaders(c: Context<HonoApp>, usage: Usage): void {
 }
 
 export const authMiddleware: MiddlewareHandler<HonoApp> = async (c, next) => {
-  if (c.req.path === "/api/ping") {
+  if (c.req.path === "/api/ping" || c.req.path === "/webhooks/whop") {
     return next();
   }
 
