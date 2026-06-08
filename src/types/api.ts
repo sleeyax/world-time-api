@@ -99,4 +99,6 @@ export type HonoApp = { Bindings: Bindings };
 export type Bindings = {
   DB: D1Database; // geolite2 (unchanged)
   ENTERPRISE_DB: D1Database; // enterprise keys + usage
+  WHOP_WEBHOOK_SECRET: string; // Whop webhook signing secret (verifies incoming webhooks)
+  WHOP_API_KEY?: string; // only used to satisfy the @whop/sdk constructor; no API calls are made for now
 };
