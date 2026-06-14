@@ -122,8 +122,14 @@ function getDstTransitions(
 function getZoneAbbreviation(dateTime: tc.DateTime, utcOffset: tc.Duration) {
   let abbreviation = dateTime.zoneAbbreviation();
 
-  // Fallback in case it's an unknown zones.
-  if (abbreviation === "%z" || abbreviation === "") {
+  // Fallback in case it's an unknown zone.
+  // Since timezonecomplete v5.15.1 unnamed zones return a synthetic "UTC+0100" abbreviation instead of "%z"/"".
+  if (
+    abbreviation === "%z" ||
+    abbreviation === "" ||
+    abbreviation.startsWith("UTC+") ||
+    abbreviation.startsWith("UTC-")
+  ) {
     // Extract abbreviation from UTC offset
     // "+01:00" -> "+01", "-09:30" -> "-0930", "+03:00" -> "+03"
     const offsetString = toHmString(utcOffset);
