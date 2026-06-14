@@ -160,23 +160,23 @@ is_anycast: false
 cp .env.example .env
 
 # Install dependencies
-npm install
+pnpm install
 
 # Start development server
-npm run dev
+pnpm run dev
 ```
 
 To create a local database with the latest geo IP data, run:
 
 ```bash
 # Initialize the database schema
-npx wrangler d1 execute geolite2 --local --file=./schema.sql
+pnpm exec wrangler d1 execute geolite2 --local --file=./schema.sql
 
 # Note the output path:
-npm run download:geo -- --chunk-size 500 --max-rows 10000 --dump-only --add-transaction --optimize-writes
+pnpm run download:geo -- --chunk-size 500 --max-rows 10000 --dump-only --add-transaction --optimize-writes
 
 # Import the dumped .SQL file to your local database
-npx wrangler d1 import geolite2 --local --file=./.tmp/1754073802022.sql
+pnpm exec wrangler d1 import geolite2 --local --file=./.tmp/1754073802022.sql
 # OR (CHANGE THE EXAMPLE PATH TO YOUR ACTUAL PATH):
 sqlite3 .wrangler/state/v3/d1/miniflare-D1DatabaseObject/6548e7f3bc532c7cd454dcbd6dd89f52914826489289e023ef76de4fb5bd7843.sqlite < .tmp/1754073802022.sql
 ```
@@ -185,7 +185,7 @@ For testing purposes, you can also specify a flag to only dump a couple of state
 
 ```bash
 # Only dump 100 rows 10 times
-npm run download:geo -- --dump-only --chunk-size 100 --chunk-count 10
+pnpm run download:geo -- --dump-only --chunk-size 100 --chunk-count 10
 ```
 
 ## Production
@@ -199,11 +199,11 @@ To manually import data into the database, you can use the following commands:
 
 ```bash
 # Initialize the database schema if you haven't done so already
-npx wrangler d1 execute geolite2 --remote --file=./schema.sql
+pnpm exec wrangler d1 execute geolite2 --remote --file=./schema.sql
 
 # Download the latest geo IP data and import it into the database using the cloudflare API,
 # in chunks of 250,000 rows (+- 39 MB per file)
-npm run download:geo -- --chunk-size 250000 --split-files
+pnpm run download:geo -- --chunk-size 250000 --split-files
 ```
 
 ## Enterprise keys
@@ -217,11 +217,11 @@ One-time setup (creates the database and its schema):
 
 ```bash
 # Create the database, then paste the returned database_id into wrangler.jsonc (ENTERPRISE_DB).
-npx wrangler d1 create enterprise
+pnpm exec wrangler d1 create enterprise
 
 # Apply the schema (local, then remote when deploying).
-npx wrangler d1 execute enterprise --local --file=./schema-enterprise.sql
-npx wrangler d1 execute enterprise --remote --file=./schema-enterprise.sql
+pnpm exec wrangler d1 execute enterprise --local --file=./schema-enterprise.sql
+pnpm exec wrangler d1 execute enterprise --remote --file=./schema-enterprise.sql
 ```
 
 Add a key (the raw key is shown to the customer once and never stored, only its hash is):
@@ -235,7 +235,7 @@ HASH=$(printf '%s' "$KEY" | sha256sum | cut -d' ' -f1); echo "$HASH"
 
 # 3. Insert the hash. request_limit is the monthly cap; use NULL for unlimited.
 #    2000000 below = 1 million requests/month. Add --remote to target production.
-npx wrangler d1 execute enterprise --local \
+pnpm exec wrangler d1 execute enterprise --local \
   --command "insert into enterprise_keys (key_hash, name, request_limit) values ('$HASH', 'unknown key', 1000000);"
 ```
 
