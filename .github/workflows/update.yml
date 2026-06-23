@@ -28,7 +28,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Update Geolite2 Database
-        run: "pnpm run download:geo --chunk-size 250000 --split-files"
+        run: "pnpm run download:geo --chunk-size 100000 --split-files"
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN_READ_D1: ${{ secrets.CLOUDFLARE_API_TOKEN_READ_D1 }}
