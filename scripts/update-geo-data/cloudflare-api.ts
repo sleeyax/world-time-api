@@ -231,7 +231,7 @@ export async function pollImportStatus(
   }
 
   throw new Error(
-    `Import polling timed out after ${MAX_POLL_ATTEMPTS} attempts (~${MAX_POLL_ATTEMPTS}s)`,
+    `Import polling timed out after ${MAX_POLL_ATTEMPTS} attempts (at least ~${MAX_POLL_ATTEMPTS}s)`,
   );
 }
 

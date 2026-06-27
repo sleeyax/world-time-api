@@ -77,7 +77,7 @@ describe("pollImportStatus", () => {
       .mockResolvedValue({ success: true, status: "active" });
 
     await expect(pollImportStatus("bm", poll)).rejects.toThrow(
-      "Import polling timed out",
+      "Import polling timed out after 120 attempts",
     );
     // 120 attempts is the current MAX_POLL_ATTEMPTS value.
     expect(poll).toHaveBeenCalledTimes(120);
