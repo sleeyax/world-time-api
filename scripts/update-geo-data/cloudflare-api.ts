@@ -1,8 +1,17 @@
 import { Cloudflare } from "cloudflare";
+import type { DatabaseImportResponse } from "cloudflare/resources/d1/database";
 import { createHash } from "crypto";
 import { sleep } from "./utils";
 import { createReadStream } from "fs";
 import { stat } from "fs/promises";
+
+/** Maximum number of poll attempts before giving up (~2 minutes at 1s intervals). */
+const MAX_POLL_ATTEMPTS = 120;
+
+/** Cloudflare's response when no import is currently in progress. */
+const NOT_IMPORTING_ERROR = "Not currently importing anything.";
+
+export type PollFn = (bookmark: string) => Promise<DatabaseImportResponse>;
 
 let cachedConnectionInfo:
   | {
@@ -81,7 +90,13 @@ export async function importSqlFromFile(filePath: string): Promise<void> {
   if (importResponse.at_bookmark) {
     console.log("File already imported!");
     console.dir(importResponse, { depth: null });
-    await pollImportStatus(importResponse.at_bookmark);
+    await pollImportStatus(importResponse.at_bookmark, (bm) =>
+      cloudflare.d1.database.import(databaseId, {
+        account_id: accountId,
+        action: "poll",
+        current_bookmark: bm,
+      }),
+    );
     return;
   }
   if (importResponse.error) {
@@ -132,21 +147,38 @@ export async function importSqlFromFile(filePath: string): Promise<void> {
 
   // Poll import status
   console.log("Polling import status...");
-  await pollImportStatus(at_bookmark);
+  await pollImportStatus(at_bookmark, (bm) =>
+    cloudflare.d1.database.import(databaseId, {
+      account_id: accountId,
+      action: "poll",
+      current_bookmark: bm,
+    }),
+  );
 
   console.log("Import completed successfully!");
 }
 
-async function pollImportStatus(bookmark: string) {
-  const { cloudflare, accountId, databaseId } = getCloudflareInstance();
+/**
+ * Poll the Cloudflare D1 import status until it reaches a terminal state.
+ *
+ * Terminal states handled:
+ * - `status === "complete"` → success
+ * - `success === false` with `error === NOT_IMPORTING_ERROR` → success (import completed
+ *   and Cloudflare already cleared the status, a common race-condition outcome)
+ * - `success === false` with any other error → hard failure
+ * - Exceeded `MAX_POLL_ATTEMPTS` → timeout failure
+ *
+ * @param bookmark  The D1 import bookmark to poll.
+ * @param poll      Function that performs the actual API call. Injected for testability.
+ */
+export async function pollImportStatus(
+  bookmark: string,
+  poll: PollFn,
+): Promise<void> {
+  let hadActiveImport = false;
 
-  while (true) {
-    const { error, status, messages, result, success } =
-      await cloudflare.d1.database.import(databaseId, {
-        account_id: accountId,
-        action: "poll",
-        current_bookmark: bookmark,
-      });
+  for (let attempt = 0; attempt < MAX_POLL_ATTEMPTS; attempt++) {
+    const { error, status, messages, result, success } = await poll(bookmark);
 
     console.dir(
       {
@@ -160,15 +192,40 @@ async function pollImportStatus(bookmark: string) {
     );
 
     if (status === "complete") {
-      break;
+      return;
     }
 
-    if (error) {
-      throw new Error(`Import failed: ${error}`);
+    if (success) {
+      hadActiveImport = true;
+      await sleep(1000);
+      continue;
     }
 
-    await sleep(1000);
+    // success is false from here on.
+    if (error === NOT_IMPORTING_ERROR) {
+      // Cloudflare cleared the import status. This happens when the import
+      // finished (possibly between polls) or the file was already imported.
+      // In all cases reaching here after a successful ingest, treat as success.
+      if (hadActiveImport) {
+        console.log(
+          "Import completed: status cleared by Cloudflare after active polling.",
+        );
+      } else {
+        console.log(
+          "Import completed: no active import state found (completed before first poll or already imported).",
+        );
+      }
+      return;
+    }
+
+    throw new Error(
+      `Import failed: ${error ?? "unknown error"} (status: ${status ?? "unknown"}, result: ${JSON.stringify(result)})`,
+    );
   }
+
+  throw new Error(
+    `Import polling timed out after ${MAX_POLL_ATTEMPTS} attempts (at least ~${MAX_POLL_ATTEMPTS}s)`,
+  );
 }
 
 function getCloudflareInstance() {
