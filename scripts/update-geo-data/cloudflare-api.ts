@@ -1,4 +1,5 @@
 import { Cloudflare } from "cloudflare";
+import type { DatabaseImportResponse } from "cloudflare/resources/d1/database";
 import { createHash } from "crypto";
 import { sleep } from "./utils";
 import { createReadStream } from "fs";
@@ -10,15 +11,7 @@ const MAX_POLL_ATTEMPTS = 120;
 /** Cloudflare's response when no import is currently in progress. */
 const NOT_IMPORTING_ERROR = "Not currently importing anything.";
 
-export type PollResponse = {
-  error?: string | null;
-  status?: string | null;
-  messages?: string[] | null;
-  result?: unknown;
-  success: boolean;
-};
-
-export type PollFn = (bookmark: string) => Promise<PollResponse>;
+export type PollFn = (bookmark: string) => Promise<DatabaseImportResponse>;
 
 let cachedConnectionInfo:
   | {

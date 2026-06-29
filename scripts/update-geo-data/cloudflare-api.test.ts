@@ -23,8 +23,8 @@ describe("pollImportStatus", () => {
   it("keeps polling while success is true and resolves on status 'complete'", async () => {
     const poll: PollFn = vi
       .fn()
-      .mockResolvedValueOnce({ success: true, status: "active" })
-      .mockResolvedValueOnce({ success: true, status: "active" })
+      .mockResolvedValueOnce({ success: true })
+      .mockResolvedValueOnce({ success: true })
       .mockResolvedValueOnce({ success: true, status: "complete" });
 
     await expect(pollImportStatus("bm", poll)).resolves.toBeUndefined();
@@ -34,7 +34,7 @@ describe("pollImportStatus", () => {
   it("throws on an explicit import failure error", async () => {
     const poll: PollFn = vi
       .fn()
-      .mockResolvedValueOnce({ success: true, status: "active" })
+      .mockResolvedValueOnce({ success: true })
       .mockResolvedValueOnce({
         success: false,
         error: "SQL execution error: table not found",
@@ -50,8 +50,8 @@ describe("pollImportStatus", () => {
   it("resolves when 'Not currently importing anything.' is received after active polling (race-condition fix)", async () => {
     const poll: PollFn = vi
       .fn()
-      .mockResolvedValueOnce({ success: true, status: "active" })
-      .mockResolvedValueOnce({ success: true, status: "active" })
+      .mockResolvedValueOnce({ success: true })
+      .mockResolvedValueOnce({ success: true })
       .mockResolvedValueOnce({
         success: false,
         error: "Not currently importing anything.",
@@ -72,9 +72,7 @@ describe("pollImportStatus", () => {
   });
 
   it("throws a timeout error after MAX_POLL_ATTEMPTS without a terminal state", async () => {
-    const poll: PollFn = vi
-      .fn()
-      .mockResolvedValue({ success: true, status: "active" });
+    const poll: PollFn = vi.fn().mockResolvedValue({ success: true });
 
     await expect(pollImportStatus("bm", poll)).rejects.toThrow(
       "Import polling timed out after 120 attempts",
