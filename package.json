@@ -24,7 +24,7 @@
   "author": "Sleeyax",
   "license": "BSL-1.1",
   "type": "module",
-  "packageManager": "pnpm@10.25.0",
+  "packageManager": "pnpm@10.34.4",
   "dependencies": {
     "hono": "^4.8.10",
     "ip-address": "^10.0.1",
