@@ -19,7 +19,7 @@ importers:
         version: 5.15.1
       tzdata:
         specifier: ^1.0.44
-        version: 1.0.49
+        version: 1.0.50
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20250801.0
@@ -1312,6 +1312,9 @@ packages:
   tzdata@1.0.49:
     resolution: {integrity: sha512-J2C/XN+xQseAeUFzRsOxyNPspJEtIT7KhBMKQC2ljd3LW4qm2KVAavC+OPpUYwD26dk4FpnmyJRPnNZ8lrArVA==}
 
+  tzdata@1.0.50:
+    resolution: {integrity: sha512-+G+bW5+iFchPDAV3SAlZ2xa3bFpq0BKMDFWQHACYxsojs6ySBqQ7PeBSXZsu5289NsYdBW2zmZsxji9DyosTZA==}
+
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
@@ -2452,6 +2455,8 @@ snapshots:
   typescript@5.9.3: {}
 
   tzdata@1.0.49: {}
+
+  tzdata@1.0.50: {}
 
   undici-types@5.26.5: {}
 
