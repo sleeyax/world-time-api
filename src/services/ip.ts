@@ -10,7 +10,7 @@ export async function ipToTimezone(db: D1Database, ip: string) {
     .prepare(
       `
 select 
-  location.time_zone as timezone, 
+  location.time_zone,
   registered_country.time_zone as registered_country_timezone, 
   represented_country.time_zone as represented_country_timezone
 from
