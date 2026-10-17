@@ -1,4 +1,5 @@
 import { ipToBinary } from "../utils/ip";
+import { containingNetwork } from "./network";
 import { GeoJsonResponse, GeoSubdivision } from "../types/api";
 
 function toBool(value: string | number | boolean | null | undefined): boolean {
@@ -74,7 +75,7 @@ select
   registered_country.is_in_european_union as registered_is_in_european_union,
   registered_country.time_zone as registered_time_zone
 from
-  geoip2_network net
+  ${containingNetwork}
 left join geoip2_location location on (
   net.geoname_id = location.geoname_id and location.locale_code = 'en'
 )
@@ -82,9 +83,6 @@ left join geoip2_location registered_country on (
   net.registered_country_geoname_id = registered_country.geoname_id
   and registered_country.locale_code = 'en'
 )
-where ? between net.network_start and net.network_end
-order by net.network_end
-limit 1;
 `,
     )
     .bind(ipBuffer)
