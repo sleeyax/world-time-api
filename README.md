@@ -60,6 +60,11 @@ The API follows the World Time API specification with the following endpoints:
 - `GET /api/geo/{ip}` - Get geolocation data for specific IPv4 or IPv6 address (JSON)
 - `GET /api/geo/{ip}.txt` - Get geolocation data for specific IPv4 or IPv6 address (plain text)
 
+### Status Endpoints
+
+- `GET /api/status` - Get when the geolocation and timezone data was last updated (JSON)
+- `GET /api/status.txt` - Get when the geolocation and timezone data was last updated (plain text)
+
 ## Response Formats
 
 ### DateTime
@@ -149,6 +154,26 @@ is_in_european_union: false
 is_anonymous_proxy: false
 is_satellite_provider: false
 is_anycast: false
+```
+
+### Status
+
+`geo_updated_at` is when MaxMind published the geolocation data in use (`null` until the first import), and `tzdata_version` is the IANA time zone database release in use.
+
+JSON:
+
+```json
+{
+  "geo_updated_at": "2026-10-14T15:04:05.000Z",
+  "tzdata_version": "2026b"
+}
+```
+
+Plain Text:
+
+```
+geo_updated_at: 2026-10-14T15:04:05.000Z
+tzdata_version: 2026b
 ```
 
 ## Development
