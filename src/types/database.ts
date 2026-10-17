@@ -32,5 +32,5 @@ export type GeoIp2Location = {
 
 export type GeoIp2Metadata = {
   id: number;
-  last_updated: string;
+  geo_updated_at: string;
 };

@@ -26,7 +26,17 @@ export async function getLastModifiedDate() {
     throw new Error("No Last-Modified header found in response");
   }
 
-  return lastModified;
+  return httpDateToIso(lastModified);
+}
+
+export function httpDateToIso(httpDate: string): string {
+  const date = new Date(httpDate);
+
+  if (isNaN(date.getTime())) {
+    throw new Error(`Invalid HTTP date: ${httpDate}`);
+  }
+
+  return date.toISOString();
 }
 
 /**
