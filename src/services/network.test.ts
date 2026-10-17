@@ -25,6 +25,15 @@ const networks: Network[] = [
   },
 ];
 
+// Networks above every miss, so a lookup that walks the network index on a miss reads all of them.
+const fillerNetworks: Network[] = Array.from({ length: 1000 }, (_, i) => ({
+  start: `2c0f:${i.toString(16)}::`,
+  end: `2c0f:${i.toString(16)}:ffff:ffff:ffff:ffff:ffff:ffff`,
+  geonameId: US,
+}));
+
+let networkRowsRead = 0;
+
 function sqliteD1(db: DatabaseSync): D1Database {
   return {
     prepare: (sql: string) => ({
@@ -40,6 +49,31 @@ let d1: D1Database;
 beforeAll(() => {
   const db = new DatabaseSync(":memory:");
   db.exec(readFileSync(join(process.cwd(), "schema.sql"), "utf8"));
+
+  // `geoip2_network` is a view counting every row whose `network_start` gets checked, so tests can assert how many network rows a lookup reads.
+  // `network_end` is left bare so lookups still use `idx_network_end` on the underlying table.
+  db.function("count_network_read", (start: SQLInputValue) => {
+    networkRowsRead++;
+    return start;
+  });
+  db.exec(`
+alter table geoip2_network rename to geoip2_network_rows;
+create view geoip2_network as
+select
+  count_network_read(network_start) as network_start,
+  network_end,
+  geoname_id,
+  registered_country_geoname_id,
+  represented_country_geoname_id,
+  is_anonymous_proxy,
+  is_satellite_provider,
+  postal_code,
+  latitude,
+  longitude,
+  accuracy_radius,
+  is_anycast
+from geoip2_network_rows;
+`);
 
   const insertLocation = db.prepare(
     "insert into geoip2_location (geoname_id, locale_code, continent_code, continent_name, country_iso_code, country_name, time_zone, is_in_european_union) values (?, 'en', ?, ?, ?, ?, ?, 0)",
@@ -62,9 +96,9 @@ beforeAll(() => {
   );
 
   const insertNetwork = db.prepare(
-    "insert into geoip2_network (network_start, network_end, geoname_id, registered_country_geoname_id) values (?, ?, ?, ?)",
+    "insert into geoip2_network_rows (network_start, network_end, geoname_id, registered_country_geoname_id) values (?, ?, ?, ?)",
   );
-  for (const { start, end, geonameId } of networks) {
+  for (const { start, end, geonameId } of [...networks, ...fillerNetworks]) {
     insertNetwork.run(ipToBinary(start), ipToBinary(end), geonameId, geonameId);
   }
 
@@ -112,4 +146,19 @@ describe("ipToGeoLocation", () => {
   it.each(misses)("returns null for $ip ($where)", async ({ ip }) => {
     expect(await ipToGeoLocation(d1, ip)).toBeNull();
   });
+});
+
+describe.each([
+  { name: "ipToTimezone", lookup: ipToTimezone },
+  { name: "ipToGeoLocation", lookup: ipToGeoLocation },
+])("$name cost", ({ lookup }) => {
+  it.each([...hits, ...misses])(
+    "reads at most one network row for $ip",
+    async ({ ip }) => {
+      networkRowsRead = 0;
+      await lookup(d1, ip);
+
+      expect(networkRowsRead).toBeLessThanOrEqual(1);
+    },
+  );
 });
