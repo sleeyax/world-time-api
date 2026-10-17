@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-10-17
+
+### [Report Data Freshness](https://github.com/sleeyax/world-time-api/pull/53)
+
+New `GET /api/status` (and `/api/status.txt`) endpoint reporting when the underlying data was last updated:
+
+- `geo_updated_at`: when MaxMind published the geolocation data in use, or `null` if none has been imported yet
+- `tzdata_version`: the IANA time zone database release in use
+
+#### Example
+
+```json
+{
+  "geo_updated_at": "2026-10-14T15:04:05.000Z",
+  "tzdata_version": "2026b"
+}
+```
+
 ## 2025-10-01
 
 ### [Show DST Transitions When DST is Inactive](https://github.com/sleeyax/world-time-api/pull/13)
