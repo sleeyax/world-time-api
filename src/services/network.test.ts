@@ -10,14 +10,22 @@ type Network = {
   start: string;
   end: string;
   geonameId: number;
+  registeredCountryGeonameId?: number;
 };
 
 const US = 6252001;
 const AU = 2077456;
+const NEW_YORK = 5128581;
 
 const networks: Network[] = [
   { start: "1.0.0.0", end: "1.0.0.255", geonameId: AU },
   { start: "8.8.8.0", end: "8.8.8.255", geonameId: US },
+  {
+    start: "93.184.216.0",
+    end: "93.184.216.255",
+    geonameId: NEW_YORK,
+    registeredCountryGeonameId: US,
+  },
   {
     start: "2001:4860::",
     end: "2001:4860:ffff:ffff:ffff:ffff:ffff:ffff",
@@ -94,12 +102,30 @@ from geoip2_network_rows;
     "Australia",
     "Australia/Brisbane",
   );
+  insertLocation.run(
+    NEW_YORK,
+    "NA",
+    "North America",
+    "US",
+    "United States",
+    "America/New_York",
+  );
 
   const insertNetwork = db.prepare(
     "insert into geoip2_network_rows (network_start, network_end, geoname_id, registered_country_geoname_id) values (?, ?, ?, ?)",
   );
-  for (const { start, end, geonameId } of [...networks, ...fillerNetworks]) {
-    insertNetwork.run(ipToBinary(start), ipToBinary(end), geonameId, geonameId);
+  for (const {
+    start,
+    end,
+    geonameId,
+    registeredCountryGeonameId = geonameId,
+  } of [...networks, ...fillerNetworks]) {
+    insertNetwork.run(
+      ipToBinary(start),
+      ipToBinary(end),
+      geonameId,
+      registeredCountryGeonameId,
+    );
   }
 
   d1 = sqliteD1(db);
@@ -110,6 +136,7 @@ const hits = [
   { ip: "8.8.8.0", country: "US", timezone: "America/Chicago" },
   { ip: "8.8.8.8", country: "US", timezone: "America/Chicago" },
   { ip: "8.8.8.255", country: "US", timezone: "America/Chicago" },
+  { ip: "93.184.216.34", country: "US", timezone: "America/New_York" },
   { ip: "2001:4860:4860::8888", country: "US", timezone: "America/Chicago" },
 ];
 

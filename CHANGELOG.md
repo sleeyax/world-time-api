@@ -2,6 +2,19 @@
 
 ## 2026-10-17
 
+### [Use the City-Level Timezone for IP Lookups](https://github.com/sleeyax/world-time-api/pull/59)
+
+`/api/ip` now resolves to the timezone of the IP's city, falling back to its country only when the city's timezone is unknown.
+It previously always used the registered country's timezone, which is wrong for IPs in countries spanning several timezones (US, CA, BR, RU, AU, ...).
+Single-timezone countries are unaffected.
+
+#### Example
+
+`/api/ip/93.184.216.34` (New York):
+
+- Before: `America/Chicago`
+- After: `America/New_York`
+
 ### [Report Data Freshness](https://github.com/sleeyax/world-time-api/pull/53)
 
 New `GET /api/status` (and `/api/status.txt`) endpoint reporting when the underlying data was last updated:
