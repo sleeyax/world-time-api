@@ -8,9 +8,11 @@ import { clientIpMiddleware } from "./middleware/client-ip";
 import { HTTPException } from "hono/http-exception";
 import { textResponseMiddleware } from "./middleware/text-response";
 import { healthRouter } from "./routes/health";
+import { statusRouter } from "./routes/status";
 import { authMiddleware } from "./middleware/auth";
 import { ipToTimezone } from "./services/ip";
 import { getTime } from "./services/timezone";
+import { getStatus } from "./services/status";
 
 const app = new Hono<HonoApp>({ strict: false });
 
@@ -62,6 +64,7 @@ app.route("/api", timezoneRouter);
 app.route("/api", ipRouter);
 app.route("/api", geoRouter);
 app.route("/api", healthRouter);
+app.route("/api", statusRouter);
 
 export default class WorldTimeApi extends WorkerEntrypoint<Bindings> {
   // Hono requests.
@@ -80,5 +83,9 @@ export default class WorldTimeApi extends WorkerEntrypoint<Bindings> {
 
     const time = getTime(timezone);
     return { ...time, client_ip: clientIp };
+  }
+
+  async getStatus() {
+    return getStatus(this.env.DB);
   }
 }

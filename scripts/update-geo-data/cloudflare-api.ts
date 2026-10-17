@@ -28,11 +28,13 @@ export async function getLastUpdated(): Promise<string | null> {
     result: [res],
   } = await cloudflare.d1.database.query(databaseId, {
     account_id: accountId,
-    sql: "SELECT last_updated FROM geoip2_metadata LIMIT 1",
+    sql: "SELECT geo_updated_at FROM geoip2_metadata WHERE id = 1",
   });
 
   if (!res.success) {
-    throw new Error("Failed to fetch last_updated from Cloudflare D1 database");
+    throw new Error(
+      "Failed to fetch geo_updated_at from Cloudflare D1 database",
+    );
   }
 
   const rows = res.results ?? [];
@@ -42,10 +44,10 @@ export async function getLastUpdated(): Promise<string | null> {
   }
 
   const row = rows[0] as Record<string, string> | null;
-  const lastUpdated = row?.["last_updated"];
+  const lastUpdated = row?.["geo_updated_at"];
 
   if (!lastUpdated) {
-    throw new Error("No last_updated column found in Cloudflare D1 database");
+    throw new Error("No geo_updated_at column found in Cloudflare D1 database");
   }
 
   return lastUpdated ?? null;
@@ -57,12 +59,14 @@ export async function updateLastUpdated(lastUpdated: string): Promise<void> {
     result: [res],
   } = await cloudflare.d1.database.query(databaseId, {
     account_id: accountId,
-    sql: "INSERT OR REPLACE INTO geoip2_metadata (last_updated) VALUES (?)",
+    sql: "INSERT INTO geoip2_metadata (id, geo_updated_at) VALUES (1, ?) ON CONFLICT (id) DO UPDATE SET geo_updated_at = excluded.geo_updated_at",
     params: [lastUpdated],
   });
 
   if (!res.success) {
-    throw new Error("Failed to update last_updated in Cloudflare D1 database");
+    throw new Error(
+      "Failed to update geo_updated_at in Cloudflare D1 database",
+    );
   }
 }
 

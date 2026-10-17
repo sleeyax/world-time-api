@@ -58,6 +58,11 @@ export interface GeoJsonResponse {
   is_anycast: boolean;
 }
 
+export interface StatusJsonResponse {
+  geo_updated_at: string | null;
+  tzdata_version: string;
+}
+
 // Request parameter types
 export interface TimezoneParams {
   area: string;

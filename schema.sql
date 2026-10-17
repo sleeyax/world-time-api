@@ -38,6 +38,6 @@ create table if not exists geoip2_location (
 );
 
 create table if not exists geoip2_metadata (
-  id integer primary key autoincrement,
-  last_updated text not null
+  id integer primary key check (id = 1),
+  geo_updated_at text not null -- MaxMind's publish date (ISO 8601)
 );

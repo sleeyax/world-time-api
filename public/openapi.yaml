@@ -579,6 +579,41 @@ paths:
         default:
           $ref: "#/components/responses/ErrorTextResponse"
 
+  /status:
+    get:
+      summary: >-
+        request when the underlying geolocation and timezone data was last updated.
+      responses:
+        "200":
+          description: >-
+            data freshness details in JSON format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusJsonResponse"
+              example:
+                geo_updated_at: "2026-10-14T15:04:05.000Z"
+                tzdata_version: "2026b"
+        default:
+          $ref: "#/components/responses/ErrorJsonResponse"
+  /status.txt:
+    get:
+      summary: >-
+        request when the underlying geolocation and timezone data was last updated.
+      responses:
+        "200":
+          description: >-
+            data freshness details in plain text
+          content:
+            text/plain:
+              schema:
+                $ref: "#/components/schemas/StatusTextResponse"
+              example: |
+                geo_updated_at: 2026-10-14T15:04:05.000Z
+                tzdata_version: 2026b
+        default:
+          $ref: "#/components/responses/ErrorTextResponse"
+
 components:
   responses:
     SuccessfulListJsonResponse:
@@ -1081,4 +1116,26 @@ components:
       type: string
       description: >-
         geolocation details, as per the GeoJsonResponse
+        response, in the format `key: value`, one item per line
+
+    StatusJsonResponse:
+      required:
+        - geo_updated_at
+        - tzdata_version
+      properties:
+        geo_updated_at:
+          type: string
+          nullable: true
+          description: >-
+            when the MaxMind GeoLite2 data in use was published, as an ISO8601-valid string.
+            null if no geolocation data has been imported yet.
+        tzdata_version:
+          type: string
+          description: >-
+            the IANA time zone database release in use, e.g. 2026b
+
+    StatusTextResponse:
+      type: string
+      description: >-
+        data freshness details, as per the StatusJsonResponse
         response, in the format `key: value`, one item per line
