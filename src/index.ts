@@ -12,6 +12,7 @@ import { statusRouter } from "./routes/status";
 import { authMiddleware } from "./middleware/auth";
 import { ipToTimezone } from "./services/ip";
 import { getTime } from "./services/timezone";
+import { getStatus } from "./services/status";
 
 const app = new Hono<HonoApp>({ strict: false });
 
@@ -82,5 +83,9 @@ export default class WorldTimeApi extends WorkerEntrypoint<Bindings> {
 
     const time = getTime(timezone);
     return { ...time, client_ip: clientIp };
+  }
+
+  async getStatus() {
+    return getStatus(this.env.DB);
   }
 }
