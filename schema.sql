@@ -16,7 +16,6 @@ create table if not exists geoip2_network (
   unique (network_start, network_end)
 );
 
-create index if not exists idx_network_start on geoip2_network(network_start);
 create index if not exists idx_network_end on geoip2_network(network_end);
 
 create table if not exists geoip2_location (
