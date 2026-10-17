@@ -8,4 +8,6 @@ if (process.env.NODE_ENV !== "test") {
   tc.TzDatabase.init(TzData);
 }
 
+export const tzdataVersion: string = TzData.version;
+
 export { tc };
