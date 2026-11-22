@@ -2,6 +2,7 @@ import csvParser from "csv-parser";
 import { existsSync, mkdirSync, createReadStream, createWriteStream } from "fs";
 import { stat, unlink } from "fs/promises";
 import { join } from "path";
+import { pipeline } from "stream/promises";
 import * as unzipper from "unzipper";
 
 export function getTempDir() {
@@ -33,20 +34,20 @@ export async function extractDatabase(filePath: string): Promise<string> {
     "README.md",
   ];
 
-  // Extract only specific files
-  await createReadStream(filePath)
-    .pipe(unzipper.Parse())
-    .on("entry", (entry) => {
-      const fileName = entry.path.split("/").pop(); // get just the filename
+  // MaxMind's archives store entry sizes in trailing data descriptors, which only the central directory reliably resolves; streaming parsers misjudge where an entry ends.
+  const archive = await unzipper.Open.file(filePath);
 
-      if (targetFiles.includes(fileName || "")) {
-        // Extract to the root of extractPath, not in subdirectories.
-        entry.pipe(createWriteStream(join(extractPath, fileName!)));
-      } else {
-        entry.autodrain();
-      }
-    })
-    .promise();
+  for (const entry of archive.files) {
+    const fileName = entry.path.split("/").pop(); // get just the filename
+
+    if (targetFiles.includes(fileName || "")) {
+      // Extract to the root of extractPath, not in subdirectories.
+      await pipeline(
+        entry.stream(),
+        createWriteStream(join(extractPath, fileName!)),
+      );
+    }
+  }
 
   return extractPath;
 }
